@@ -7,7 +7,7 @@ title: keyboard1
 - [How to build Keyboard trainer app (html/css/js/?vue)](#how-to-build-keyboard-trainer-app-htmlcssjsvue)
   - [Initial idea and features](#initial-idea-and-features)
   - [Idea for an educational project](#idea-for-an-educational-project)
-  - [Reserch on similar apps](#reserch-on-similar-apps)
+  - [Research on similar apps](#research-on-similar-apps)
   - [Tools](#tools)
   - [Basic HTML/CSS](#basic-htmlcss)
     - [Layout](#layout)
@@ -54,11 +54,11 @@ I thought after all that `vue without build` will be a good stack for newbies be
 
 You just write components in separate files in a code editor, and they work together as an app without extra steps.
 
-## Reserch on similar apps
+## Research on similar apps
 
 As a smart person (I hope I am), before coding such an app, I did a research to find something similar. And I didn’t find what I wanted. Most similar apps are:
 
-- screen keyboards — allows you to type text without phisycal keybord, by clicks/taps on the screen
+- screen keyboards — allows you to type text without physical keyboard, by clicks/taps on the screen
 - keyboard trainers — give predefined text to type, and then give you feedback — did you type right or wrong, and can stop process if you type wrong symbols
 
 Non of these shows/plays additional info about pressed letters (as I know). They are apps for using keyboard in a new way.
@@ -87,15 +87,15 @@ Let's take a close look at the physical keyboard to understand its layout.
 - have different width (some of them)
 - have the same height inside a row
 
-![picture of a keyboard](https://i.imgur.com/oMRABlK.png)
+![picture of a keyboard](./images/oMRABlK.png)
 
 ### index.html
 
-Make a folder for the project `keybord-trainer`, open it with VS code, and create a file `index.html`. Type `!` and press `Tab`, you will see a template for empty HTML5 document. Write inside `<body>` tag something like: “Hello world”, save the file (ctrl+s). And run the app with the Live server (mouse right button click on `index.html` —> Open with Live Server).
+Make a folder for the project `keyboard-trainer`, open it with VS code, and create a file `index.html`. Type `!` and press `Tab`, you will see a template for empty HTML5 document. Write inside `<body>` tag something like: “Hello world”, save the file (ctrl+s). And run the app with the Live server (mouse right button click on `index.html` —> Open with Live Server).
 
 Place the code editor on the left side of the screen, and running app on the right side, so you can see immediately how code updates affect on the app.
 
-![](https://i.imgur.com/uOhlIco.png)
+![](./images/uOhlIco.png)
 
 ### Key
 
@@ -103,8 +103,8 @@ Let’s write html code for one key:
 
 ```html
 <div class="key">
-	<div class="main">1</div>
-	<div class="shifted">!</div>
+  <div class="main">1</div>
+  <div class="shifted">!</div>
 </div>
 ```
 
@@ -112,24 +112,24 @@ And repeat it for a next four keys:
 
 ```html
 <div class="key">
-	<div class="main">`</div>
-	<div class="shifted">~</div>
+  <div class="main">`</div>
+  <div class="shifted">~</div>
 </div>
 <div class="key">
-	<div class="main">1</div>
-	<div class="shifted">!</div>
+  <div class="main">1</div>
+  <div class="shifted">!</div>
 </div>
 <div class="key">
-	<div class="main">2</div>
-	<div class="shifted">@</div>
+  <div class="main">2</div>
+  <div class="shifted">@</div>
 </div>
 <div class="key">
-	<div class="main">3</div>
-	<div class="shifted">#</div>
+  <div class="main">3</div>
+  <div class="shifted">#</div>
 </div>
 <div class="key">
-	<div class="main">4</div>
-	<div class="shifted">$</div>
+  <div class="main">4</div>
+  <div class="shifted">$</div>
 </div>
 ```
 
@@ -157,15 +157,15 @@ Write in it style for our keys:
 
 ```css
 .key {
-	min-height: 3.4375rem;
-	/*3.4375*16 = 55px (16px is default font size)*/
-	background-color: black;
-	color: white;
-	padding: 0.5rem; /*spacing inside the button*/
-	margin: 0.2rem; /*spacing outside the button*/
-	border-radius: 0.2rem; /*rounded corners*/
-	font-size: 1.5rem;
-	cursor: pointer;
+  min-height: 3.4375rem;
+  /*3.4375*16 = 55px (16px is default font size)*/
+  background-color: black;
+  color: white;
+  padding: 0.5rem; /*spacing inside the button*/
+  margin: 0.2rem; /*spacing outside the button*/
+  border-radius: 0.2rem; /*rounded corners*/
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 ```
 
@@ -177,7 +177,7 @@ In `index.html` in the end of a `<head>` tag type “link” and press `tab`. Th
 
 Save all changed files `ctrl+k s` (or with other shortcuts, or save files separately by `ctrl+s`) and you should see the result:
 
-![](https://i.imgur.com/ZomxeZM.png)
+![](./images/ZomxeZM.png)
 
 ### Row
 
@@ -191,8 +191,8 @@ We need row style to wrap our keys. Add to `styles.css`:
 
 ```css
 .row {
-	display: flex;
-	/* 
+  display: flex;
+  /* 
 flex-direction: row; - default value
 that's why or divs arranged in a row
 */
@@ -201,15 +201,14 @@ that's why or divs arranged in a row
 
 Save both files. And you will see the result:
 
-![](https://i.imgur.com/MzTcj6s.png)
+![](./images/MzTcj6s.png)
 
 Keys have a minimal width. If we want them to take all available place in the row, we should add to `styles.css`:
 
 ```css
 .key {
-	...
-	flex: 1;
-	/*
+  ... flex: 1;
+  /*
 	1 is proportion compared to other elements in a flex row
 	if we set 2 for one of keys, it will be 2 times wider than other
 	*/
@@ -218,7 +217,7 @@ Keys have a minimal width. If we want them to take all available place in the ro
 
 Now the keys look more realistic:
 
-![](https://i.imgur.com/3l4V4bx.png)
+![](./images/3l4V4bx.png)
 
 ### Row with extra wide key
 
@@ -227,32 +226,32 @@ Lets add a second row with first 5 keys: Tab, Q, W, E, R. Copy all previous code
 ```html
 ...
 <div class="row">
-	<div class="key">
-		<div class="main">Tab</div>
-		<div class="shifted"></div>
-	</div>
-	<div class="key">
-		<div class="main">Q</div>
-		<div class="shifted"></div>
-	</div>
-	<div class="key">
-		<div class="main">W</div>
-		<div class="shifted"></div>
-	</div>
-	<div class="key">
-		<div class="main">E</div>
-		<div class="shifted"></div>
-	</div>
-	<div class="key">
-		<div class="main">R</div>
-		<div class="shifted"></div>
-	</div>
+  <div class="key">
+    <div class="main">Tab</div>
+    <div class="shifted"></div>
+  </div>
+  <div class="key">
+    <div class="main">Q</div>
+    <div class="shifted"></div>
+  </div>
+  <div class="key">
+    <div class="main">W</div>
+    <div class="shifted"></div>
+  </div>
+  <div class="key">
+    <div class="main">E</div>
+    <div class="shifted"></div>
+  </div>
+  <div class="key">
+    <div class="main">R</div>
+    <div class="shifted"></div>
+  </div>
 </div>
 ```
 
 Maybe you’ve noticed, that these keys don’t have “shifted” values, and it’s ok, we leave related divs empty.
 
-![](https://i.imgur.com/G2zOhkp.png)
+![](./images/G2zOhkp.png)
 
 `Tab` key should have extra width compared to other keys in a row. We need to specify it somehow in `html` and `css`.
 
@@ -266,7 +265,7 @@ styles.css
 
 ```css
 .key.Tab {
-	flex: 1.3;
+  flex: 1.3;
 }
 ```
 
@@ -276,7 +275,7 @@ Actually in the keyboard this row is first. But it is third inside our working p
 
 Copy the first row with all code inside it, and paste it above the first row. Then rewrite content of keys to: Esc, F1, F2, F3, F4, F5.
 
-![](https://i.imgur.com/QZwiZXm.png)
+![](./images/QZwiZXm.png)
 
 1st row should have smaller keys than other rows. It means that we need to specify row number in every `<div class="row">`
 
@@ -292,13 +291,13 @@ styles.css
 
 ```css
 .row-1 .key {
-	height: 1rem;
-	min-height: 1rem;
-	font-size: 0.7rem;
+  height: 1rem;
+  min-height: 1rem;
+  font-size: 0.7rem;
 }
 ```
 
-![](https://i.imgur.com/wRpIHqo.png)
+![](./images/wRpIHqo.png)
 
 ### Language switcher
 
@@ -308,9 +307,9 @@ index.html
 
 ```html
 <div class="langSwitcher">
-	<div class="lang active">en</div>
-	<div class="lang">ru</div>
-	<div class="lang">ar</div>
+  <div class="lang active">en</div>
+  <div class="lang">ru</div>
+  <div class="lang">ar</div>
 </div>
 ```
 
@@ -320,48 +319,47 @@ styles.css
 
 ```css
 .lang {
-	width: 2rem;
-	height: 2rem;
-	border-radius: 1rem;
-	cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 1rem;
+  cursor: pointer;
 }
 
 .lang:hover {
-	opacity: 0.7;
+  opacity: 0.7;
 }
 
 .langSwitcher .active {
-	background-color: red;
-	color: white;
+  background-color: red;
+  color: white;
 }
 ```
 
-![](https://i.imgur.com/efh3mky.png)
+![](./images/efh3mky.png)
 
 To place lang code in center of the round (vertically and horizontally), add styles:
 
 ```css
 .lang {
-...
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  ... display: flex;
+  align-items: center;
+  justify-content: center;
 }
 ```
 
-![](https://i.imgur.com/PWBsIgw.png)
+![](./images/PWBsIgw.png)
 
 To display lang switcher as a row and center it on the page, add styles:
 
 ```css
 .langSwitcher {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 ```
 
-![](https://i.imgur.com/6uoiwPr.png)
+![](./images/6uoiwPr.png)
 
 Congratulations. We have made almost all html/css layout for our app. Now we know, that we need to specify:
 
