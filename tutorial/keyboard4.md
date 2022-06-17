@@ -25,6 +25,9 @@ title: keyboard4
       - [Additional keyframe (0% 30% 100%)](#additional-keyframe-0-30-100)
       - [Animated resize (transform)](#animated-resize-transform)
       - [The value of the pressed key](#the-value-of-the-pressed-key)
+  - [Play audio](#play-audio)
+    - [Prepare audio files](#prepare-audio-files)
+    - [HTML5 audio element](#html5-audio-element)
 
 ## Interactivity
 
@@ -51,7 +54,7 @@ LangSwitcher.js
 
 ```jsx
 const LangSwitcher = {
-  template: `<div class="langSwitcher">
+	template: `<div class="langSwitcher">
                         <div 
                             v-for="lang in langs" 
                             class="lang"
@@ -63,19 +66,19 @@ const LangSwitcher = {
                     <div style="text-align: center;">
                         {{currentLang}}
                     </div>`,
-  props: {
-    langs: Array
-  },
-  data () {
-    return {
-      currentLang: 'en'
-    }
-  },
-  methods: {
-    switchLang (lang) {
-      this.currentLang = lang
-    }
-  }
+	props: {
+		langs: Array
+	},
+	data() {
+		return {
+			currentLang: 'en'
+		}
+	},
+	methods: {
+		switchLang(lang) {
+			this.currentLang = lang
+		}
+	}
 }
 
 export default LangSwitcher
@@ -107,15 +110,15 @@ In `styles.css` we defined before:
 
 ```css
 .lang {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 1rem;
-  ...;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 1rem;
+	...;
 }
 
 .langSwitcher .active {
-  background-color: red;
-  color: white;
+	background-color: red;
+	color: white;
 }
 ```
 
@@ -149,7 +152,7 @@ Open `LangSwitcher.js` and remove `data()` and `methods`. Add to props: `current
 
 ```javascript
 const LangSwitcher = {
-  template: `<div class="langSwitcher">
+	template: `<div class="langSwitcher">
                         <div 
                             v-for="lang in langs" 
                             :class='["lang", {active: currentLang === lang}]'
@@ -158,13 +161,13 @@ const LangSwitcher = {
                             {{lang}}
                         </div>
                     </div>`,
-  props: {
-    langs: Array,
-    /* add: */
-    currentLang: String,
-    switchLang: Function
-  }
-  /* delete: 
+	props: {
+		langs: Array,
+		/* add: */
+		currentLang: String,
+		switchLang: Function
+	}
+	/* delete: 
 	data() {
 		return {
 			currentLang: 'en'
@@ -192,7 +195,7 @@ import Keyboard from './components/Keyboard.js'
 import LangSwitcher from './components/LangSwitcher.js'
 
 const App = {
-  template: `App-{{currentLang}}
+	template: `App-{{currentLang}}
 	<vue-lang-switcher 
 		:langs="langs" 
 		:switchLang="switchLang" 
@@ -200,30 +203,30 @@ const App = {
 	/>
 	<vue-keyboard :keyboardData="keyboardData" />
 	`,
-  components: {
-    'vue-lang-switcher': LangSwitcher,
-    'vue-keyboard': Keyboard
-  },
-  mounted () {
-    import(`./keyboardData/en.js`).then(result => {
-      const { default: keyboardData } = result
-      this.keyboardData = keyboardData
-    })
-  },
-  data () {
-    return {
-      langs: ['en', 'ru', 'ar'],
-      keyboardData: [],
-      /* add: */
-      currentLang: 'en'
-    }
-  },
-  /* add: */
-  methods: {
-    switchLang (lang) {
-      this.currentLang = lang
-    }
-  }
+	components: {
+		'vue-lang-switcher': LangSwitcher,
+		'vue-keyboard': Keyboard
+	},
+	mounted() {
+		import(`./keyboardData/en.js`).then(result => {
+			const { default: keyboardData } = result
+			this.keyboardData = keyboardData
+		})
+	},
+	data() {
+		return {
+			langs: ['en', 'ru', 'ar'],
+			keyboardData: [],
+			/* add: */
+			currentLang: 'en'
+		}
+	},
+	/* add: */
+	methods: {
+		switchLang(lang) {
+			this.currentLang = lang
+		}
+	}
 }
 
 export default App
@@ -245,75 +248,75 @@ ru.js
 
 ```javascript
 const keyboard = [
-  [
-    { code: 'Escape', label: 'Esc' },
-    { code: 'F1' },
-    { code: 'F2' },
-    { code: 'F3' },
-    { code: 'F4' },
-    { code: 'F5' },
-    { code: 'F6' }
-  ],
-  [
-    {
-      code: 'Backquote',
-      main: 'ё',
-      shifted: 'Ё'
-    },
-    {
-      code: 'Digit1',
-      main: '1',
-      shifted: '!',
-      shiftedName: 'восклицательный знак'
-    },
-    {
-      code: 'Digit2',
-      main: '2',
-      shifted: '"',
-      shiftedName: 'двойная кавычка'
-    },
-    {
-      code: 'Digit3',
-      main: '3',
-      shifted: '№',
-      shiftedName: 'знак номер'
-    },
-    {
-      code: 'Digit4',
-      main: '4',
-      shifted: ';',
-      shiftedName: 'точка с запятой'
-    },
-    {
-      code: 'Digit5',
-      main: '5',
-      shifted: '%',
-      shiftedName: 'процент'
-    }
-  ],
-  [
-    { code: 'Tab' },
-    {
-      code: 'KeyQ',
-      main: 'й',
-      shifted: 'Й'
-    },
-    {
-      code: 'KeyW',
-      main: 'ц',
-      shifted: 'Ц'
-    },
-    {
-      code: 'KeyE',
-      main: 'у',
-      shifted: 'У'
-    },
-    {
-      code: 'KeyR',
-      main: 'к',
-      shifted: 'К'
-    }
-  ]
+	[
+		{ code: 'Escape', label: 'Esc' },
+		{ code: 'F1' },
+		{ code: 'F2' },
+		{ code: 'F3' },
+		{ code: 'F4' },
+		{ code: 'F5' },
+		{ code: 'F6' }
+	],
+	[
+		{
+			code: 'Backquote',
+			main: 'ё',
+			shifted: 'Ё'
+		},
+		{
+			code: 'Digit1',
+			main: '1',
+			shifted: '!',
+			shiftedName: 'восклицательный знак'
+		},
+		{
+			code: 'Digit2',
+			main: '2',
+			shifted: '"',
+			shiftedName: 'двойная кавычка'
+		},
+		{
+			code: 'Digit3',
+			main: '3',
+			shifted: '№',
+			shiftedName: 'знак номер'
+		},
+		{
+			code: 'Digit4',
+			main: '4',
+			shifted: ';',
+			shiftedName: 'точка с запятой'
+		},
+		{
+			code: 'Digit5',
+			main: '5',
+			shifted: '%',
+			shiftedName: 'процент'
+		}
+	],
+	[
+		{ code: 'Tab' },
+		{
+			code: 'KeyQ',
+			main: 'й',
+			shifted: 'Й'
+		},
+		{
+			code: 'KeyW',
+			main: 'ц',
+			shifted: 'Ц'
+		},
+		{
+			code: 'KeyE',
+			main: 'у',
+			shifted: 'У'
+		},
+		{
+			code: 'KeyR',
+			main: 'к',
+			shifted: 'К'
+		}
+	]
 ]
 
 export default keyboard
@@ -323,86 +326,86 @@ ar.js
 
 ```javascript
 const keyboard = [
-  [
-    { code: 'Escape', label: 'Esc' },
-    { code: 'F1' },
-    { code: 'F2' },
-    { code: 'F3' },
-    { code: 'F4' },
-    { code: 'F5' },
-    { code: 'F6' }
-  ],
-  [
-    {
-      code: 'Backquote',
-      main: '٫',
-      shifted: '٬',
-      mainName: 'decimal point',
-      shiftedName: 'inverted comma'
-    },
-    {
-      code: 'Digit1',
-      main: '١',
-      shifted: '!',
-      mainName: '1',
-      shiftedName: 'exclamation mark'
-    },
-    {
-      code: 'Digit2',
-      main: '٢',
-      shifted: '@',
-      mainName: '2',
-      shiftedName: 'at sign'
-    },
-    {
-      code: 'Digit3',
-      main: '٣',
-      shifted: '#',
-      mainName: '3',
-      shiftedName: 'hash'
-    },
-    {
-      code: 'Digit4',
-      main: '٤',
-      shifted: '$',
-      mainName: '4',
-      shiftedName: 'dollar sign'
-    },
-    {
-      code: 'Digit5',
-      main: '٥',
-      shifted: '٪',
-      mainName: '5',
-      shiftedName: 'percent sign'
-    }
-  ],
-  [
-    { code: 'Tab' },
-    {
-      code: 'KeyQ',
-      main: 'ض',
-      shifted: 'َ',
-      shiftedName: 'fatha'
-    },
-    {
-      code: 'KeyW',
-      main: 'ص',
-      shifted: 'ً',
-      shiftedName: ''
-    },
-    {
-      code: 'KeyE',
-      main: 'ث',
-      shifted: 'ُ',
-      shiftedName: ''
-    },
-    {
-      code: 'KeyR',
-      main: 'ق',
-      shifted: 'ٌ',
-      shiftedName: ''
-    }
-  ]
+	[
+		{ code: 'Escape', label: 'Esc' },
+		{ code: 'F1' },
+		{ code: 'F2' },
+		{ code: 'F3' },
+		{ code: 'F4' },
+		{ code: 'F5' },
+		{ code: 'F6' }
+	],
+	[
+		{
+			code: 'Backquote',
+			main: '٫',
+			shifted: '٬',
+			mainName: 'decimal point',
+			shiftedName: 'inverted comma'
+		},
+		{
+			code: 'Digit1',
+			main: '١',
+			shifted: '!',
+			mainName: '1',
+			shiftedName: 'exclamation mark'
+		},
+		{
+			code: 'Digit2',
+			main: '٢',
+			shifted: '@',
+			mainName: '2',
+			shiftedName: 'at sign'
+		},
+		{
+			code: 'Digit3',
+			main: '٣',
+			shifted: '#',
+			mainName: '3',
+			shiftedName: 'hash'
+		},
+		{
+			code: 'Digit4',
+			main: '٤',
+			shifted: '$',
+			mainName: '4',
+			shiftedName: 'dollar sign'
+		},
+		{
+			code: 'Digit5',
+			main: '٥',
+			shifted: '٪',
+			mainName: '5',
+			shiftedName: 'percent sign'
+		}
+	],
+	[
+		{ code: 'Tab' },
+		{
+			code: 'KeyQ',
+			main: 'ض',
+			shifted: 'َ',
+			shiftedName: 'fatha'
+		},
+		{
+			code: 'KeyW',
+			main: 'ص',
+			shifted: 'ً',
+			shiftedName: ''
+		},
+		{
+			code: 'KeyE',
+			main: 'ث',
+			shifted: 'ُ',
+			shiftedName: ''
+		},
+		{
+			code: 'KeyR',
+			main: 'ق',
+			shifted: 'ٌ',
+			shiftedName: ''
+		}
+	]
 ]
 
 export default keyboard
@@ -419,7 +422,7 @@ import Keyboard from './components/Keyboard.js'
 import LangSwitcher from './components/LangSwitcher.js'
 
 const App = {
-  template: `App-{{currentLang}}
+	template: `App-{{currentLang}}
                 <vue-lang-switcher 
                     :langs="langs" 
                     :switchLang="switchLang" 
@@ -427,40 +430,40 @@ const App = {
                 />
                 <vue-keyboard :keyboardData="keyboardData" />
 	`,
-  components: {
-    'vue-lang-switcher': LangSwitcher,
-    'vue-keyboard': Keyboard
-  },
-  mounted () {
-    /* replace  
+	components: {
+		'vue-lang-switcher': LangSwitcher,
+		'vue-keyboard': Keyboard
+	},
+	mounted() {
+		/* replace  
 		import(`./keyboardData/en.js`).then(result => {
 			const { default: keyboardData } = result
 			this.keyboardData = keyboardData
 		})
 		*/
-    this.getKeyboardData(this.currentLang)
-  },
-  data () {
-    return {
-      langs: ['en', 'ru', 'ar'],
-      keyboardData: [],
-      currentLang: 'en'
-    }
-  },
-  methods: {
-    switchLang (lang) {
-      this.currentLang = lang
-      /* add: */
-      this.getKeyboardData(lang)
-    },
-    /* add: */
-    async getKeyboardData (lang) {
-      const { default: keyboardData } = await import(
-        `./keyboardData/${lang}.js`
-      )
-      this.keyboardData = keyboardData
-    }
-  }
+		this.getKeyboardData(this.currentLang)
+	},
+	data() {
+		return {
+			langs: ['en', 'ru', 'ar'],
+			keyboardData: [],
+			currentLang: 'en'
+		}
+	},
+	methods: {
+		switchLang(lang) {
+			this.currentLang = lang
+			/* add: */
+			this.getKeyboardData(lang)
+		},
+		/* add: */
+		async getKeyboardData(lang) {
+			const { default: keyboardData } = await import(
+				`./keyboardData/${lang}.js`
+			)
+			this.keyboardData = keyboardData
+		}
+	}
 }
 
 export default App
@@ -511,7 +514,7 @@ import Keyboard from './components/Keyboard.js'
 import LangSwitcher from './components/LangSwitcher.js'
 
 const App = {
-  template: `App-{{currentLang}} 
+	template: `App-{{currentLang}} 
 	<div>activeKey: {{activeKey}}</div>
 	<vue-lang-switcher 
 		:langs="langs" 
@@ -520,41 +523,41 @@ const App = {
 	/>
 	<vue-keyboard :keyboardData="keyboardData" />
 	`,
-  components: {
-    'vue-lang-switcher': LangSwitcher,
-    'vue-keyboard': Keyboard
-  },
-  mounted () {
-    this.getKeyboardData(this.currentLang)
+	components: {
+		'vue-lang-switcher': LangSwitcher,
+		'vue-keyboard': Keyboard
+	},
+	mounted() {
+		this.getKeyboardData(this.currentLang)
 
-    window.addEventListener('keydown', event => {
-      event.preventDefault()
-      /* add: */
-      const { code, key, shiftKey } = event
-      this.activeKey = { code, key, shiftKey }
-    })
-  },
-  data () {
-    return {
-      langs: ['en', 'ru', 'ar'],
-      keyboardData: [],
-      currentLang: 'en',
-      /* add: */
-      activeKey: { code: '' }
-    }
-  },
-  methods: {
-    switchLang (lang) {
-      this.currentLang = lang
-      this.getKeyboardData(lang)
-    },
-    async getKeyboardData (lang) {
-      const { default: keyboardData } = await import(
-        `./keyboardData/${lang}.js`
-      )
-      this.keyboardData = keyboardData
-    }
-  }
+		window.addEventListener('keydown', event => {
+			event.preventDefault()
+			/* add: */
+			const { code, key, shiftKey } = event
+			this.activeKey = { code, key, shiftKey }
+		})
+	},
+	data() {
+		return {
+			langs: ['en', 'ru', 'ar'],
+			keyboardData: [],
+			currentLang: 'en',
+			/* add: */
+			activeKey: { code: '' }
+		}
+	},
+	methods: {
+		switchLang(lang) {
+			this.currentLang = lang
+			this.getKeyboardData(lang)
+		},
+		async getKeyboardData(lang) {
+			const { default: keyboardData } = await import(
+				`./keyboardData/${lang}.js`
+			)
+			this.keyboardData = keyboardData
+		}
+	}
 }
 
 export default App
@@ -580,7 +583,7 @@ Open `styles.css` and add there after `.key` style:
 
 ```css
 .key.active {
-  background: red;
+	background: red;
 }
 ```
 
@@ -630,7 +633,7 @@ with:
 
 ```html
 <div
-  :class="[
+	:class="[
 				'key', 
 				{active: activeKey.code === keyContent.code}
 			]"
@@ -938,11 +941,11 @@ Key.js template
 
 ```html
 <div
-  :class="['key', {active: activeKey.code === keyContent.code}]"
-  @click="keyClick(keyContent)"
+	:class="['key', {active: activeKey.code === keyContent.code}]"
+	@click="keyClick(keyContent)"
 >
-  <div class="main">{{main}}</div>
-  <div class="shifted">{{shifted}}</div>
+	<div class="main">{{main}}</div>
+	<div class="shifted">{{shifted}}</div>
 </div>
 ```
 
@@ -960,7 +963,7 @@ styles.css
 
 ```css
 .key.shiftKeyPressed {
-  color: red;
+	color: red;
 }
 ```
 
@@ -1015,13 +1018,13 @@ Key.js template
 
 ```html
 <div
-  :class="[
+	:class="[
 				'key', 
 				keyContent.code, 
 				{ active: isActive }, 
 				{ shiftKeyPressed: isShift && shiftKey && !isActive }
 			]"
-  @click="keyClick(keyContent)"
+	@click="keyClick(keyContent)"
 ></div>
 ```
 
@@ -1045,18 +1048,18 @@ styles.css
 
 ```css
 .key.active {
-  /* background-color: red; */
-  animation: pulse 1s;
-  position: relative;
+	/* background-color: red; */
+	animation: pulse 1s;
+	position: relative;
 }
 
 @keyframes pulse {
-  0% {
-    background-color: black;
-  }
-  100% {
-    background-color: red;
-  }
+	0% {
+		background-color: black;
+	}
+	100% {
+		background-color: red;
+	}
 }
 ```
 
@@ -1070,16 +1073,16 @@ You can try to add to `@keyframes` also size change (`width`, `height`).
 
 ```css
 @keyframes pulse {
-  0% {
-    background-color: black;
-    width: 100%;
-    height: 100%;
-  }
-  100% {
-    width: 150%;
-    height: 150%;
-    background-color: red;
-  }
+	0% {
+		background-color: black;
+		width: 100%;
+		height: 100%;
+	}
+	100% {
+		width: 150%;
+		height: 150%;
+		background-color: red;
+	}
 }
 ```
 
@@ -1113,20 +1116,20 @@ Key.js template
 
 ```html
 <div
-  :class="[
+	:class="[
 					'key', 
 					keyContent.code, 
 					{ shiftKeyPressed: isShift && shiftKey && !isActive }
 				]"
-  @click="keyClick(keyContent)"
+	@click="keyClick(keyContent)"
 >
-  <!-- add: -->
-  <div v-if="isActive" :class="['key', 'active', keyContent.code]">
-    <div>{{main}}</div>
-    <div>{{shifted}}</div>
-  </div>
-  <div class="main">{{main}}</div>
-  <div class="shifted">{{shifted}}</div>
+	<!-- add: -->
+	<div v-if="isActive" :class="['key', 'active', keyContent.code]">
+		<div>{{main}}</div>
+		<div>{{shifted}}</div>
+	</div>
+	<div class="main">{{main}}</div>
+	<div class="shifted">{{shifted}}</div>
 </div>
 ```
 
@@ -1142,21 +1145,21 @@ styles.css
 
 ```css
 @keyframes pulse {
-  0% {
-    background-color: black;
-    width: 100%;
-    height: 100%;
-  }
-  /* add: */
-  30% {
-    width: 150%;
-    height: 150%;
-  }
-  100% {
-    background-color: red;
-    width: 150%;
-    height: 150%;
-  }
+	0% {
+		background-color: black;
+		width: 100%;
+		height: 100%;
+	}
+	/* add: */
+	30% {
+		width: 150%;
+		height: 150%;
+	}
+	100% {
+		background-color: red;
+		width: 150%;
+		height: 150%;
+	}
 }
 ```
 
@@ -1174,43 +1177,43 @@ styles.css
 
 ```css
 .key.active {
-  animation: pulse 1s;
-  /* position (4 lines) : */
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
+	animation: pulse 1s;
+	/* position (4 lines) : */
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
 
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 
-  /* to compensate .key style: */
-  padding: -0.5rem;
-  margin: -0.2rem;
+	/* to compensate .key style: */
+	padding: -0.5rem;
+	margin: -0.2rem;
 
-  /* to center content vertically and horizontally: */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	/* to center content vertically and horizontally: */
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-  transform-origin: center;
+	transform-origin: center;
 }
 
 @keyframes pulse {
-  0% {
-    background-color: black;
-    transform: scale(100%);
-  }
-  30% {
-    transform: scale(130%);
-  }
-  80% {
-    transform: scale(130%);
-  }
-  100% {
-    background-color: red;
-    transform: scale(100%);
-  }
+	0% {
+		background-color: black;
+		transform: scale(100%);
+	}
+	30% {
+		transform: scale(130%);
+	}
+	80% {
+		transform: scale(130%);
+	}
+	100% {
+		background-color: red;
+		transform: scale(100%);
+	}
 }
 ```
 
@@ -1244,7 +1247,7 @@ Key.js template
 
 ```html
 <div v-if="isActive" :class="['key', 'active', keyContent.code]">
-  <div>{{value}}</div>
+	<div>{{value}}</div>
 </div>
 ```
 
@@ -1253,3 +1256,21 @@ Result
 ![](./images/Peek%202022-06-16%2018-59.gif)
 
 Now we see only 1 value in the active box, which is correct. This is especially important since we want to sound all keyboard symbols.
+
+### Play audio
+
+#### Prepare audio files
+
+We will use a short files for each key/value. If you haven't them yet, and didn't split files before, I highly recommend free audio editor `Audacity`. There you can select part of the audio and attach label to it `ctrl+b`.
+
+For example you have 1 audio file with numbers from 0 to 9.
+
+![](./images/Screenshot%20from%202022-06-17%2015-31-01.png)
+
+Then in menu: `File` --> `Export` --> `Export Multiple` --> `Split based on: Label`.
+
+You will get files: `0.mp3`, `1.mp3`, ... `9.mp3`.
+
+Create in the folder `keyboardData` a new folder `sounds`, and inside it folders `en`, `ru`, `ar`. Move to the folders audio files with numbers (for 3 langs).
+
+#### HTML5 audio element
