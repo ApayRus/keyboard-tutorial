@@ -68,9 +68,14 @@ const App = {
 			this.keyboardData = keyboardData
 		},
 		setActiveKey(keyContent) {
+			const audio = new Audio(`./keyboardData/ar/وَاحِدٌ.mp3`)
+			audio.play()
 			this.activeKey = keyContent
 			clearTimeout(this.timeout)
-			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
+			this.timeout = setTimeout(
+				() => (this.activeKey = { code: '' }),
+				1000
+			)
 		},
 		toggleShiftKey() {
 			this.shiftKey = !this.shiftKey
