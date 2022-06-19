@@ -66,11 +66,13 @@ const keyboard = [
 	[
 		{
 			code: 'ShiftLeft',
-			label: 'Shift'
+			label: 'Shift',
+			mainName: 'left shift'
 		},
 		{
 			code: 'ShiftRight',
-			label: 'Shift'
+			label: 'Shift',
+			mainName: 'right shift'
 		}
 	]
 ]
