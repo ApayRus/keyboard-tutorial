@@ -3,27 +3,27 @@ title: keyboard3
 ---
 
 - [Modularity](#modularity)
-	- [JavaScript](#javascript)
-	- [Framework](#framework)
-		- [Setup](#setup)
-		- [Entry point — index.js](#entry-point--indexjs)
-		- [Root component — App.js](#root-component--appjs)
-	- [Components hierarchy](#components-hierarchy)
-		- [App](#app)
-		- [LangSwitcher](#langswitcher)
-		- [Keyboard](#keyboard)
-		- [Key](#key)
-	- [Components (real)](#components-real)
-		- [Key](#key-1)
-			- [passing prop (v-bind)](#passing-prop-v-bind)
-			- [computed (template variables)](#computed-template-variables)
-		- [Rows](#rows)
-			- [loop in template (v-for)](#loop-in-template-v-for)
-			- [1st loop — rows of the keyboard](#1st-loop--rows-of-the-keyboard)
-			- [2nd loop — keys of a row](#2nd-loop--keys-of-a-row)
-		- [LangSwitcher — refactor with props and v-for](#langswitcher--refactor-with-props-and-v-for)
-		- [App -- async state keyboardData](#app----async-state-keyboarddata)
-	- [Conclusion](#conclusion)
+  - [JavaScript](#javascript)
+  - [Framework](#framework)
+    - [Setup](#setup)
+    - [Entry point — index.js](#entry-point--indexjs)
+    - [Root component — App.js](#root-component--appjs)
+  - [Components hierarchy](#components-hierarchy)
+    - [App](#app)
+    - [LangSwitcher](#langswitcher)
+    - [Keyboard](#keyboard)
+    - [Key](#key)
+  - [Components (real)](#components-real)
+    - [Key](#key-1)
+      - [passing prop (v-bind)](#passing-prop-v-bind)
+      - [computed (template variables)](#computed-template-variables)
+    - [Rows](#rows)
+      - [loop in template (v-for)](#loop-in-template-v-for)
+      - [1st loop — rows of the keyboard](#1st-loop--rows-of-the-keyboard)
+      - [2nd loop — keys of a row](#2nd-loop--keys-of-a-row)
+    - [LangSwitcher — refactor with props and v-for](#langswitcher--refactor-with-props-and-v-for)
+    - [Dynamic import of `keyboardData`](#dynamic-import-of-keyboarddata)
+  - [Conclusion](#conclusion)
 
 ## Modularity
 
@@ -53,7 +53,7 @@ index.html
 
 ```html
 <body>
-  <!--
+	<!--
     ...
     -->
 </body>
@@ -67,15 +67,15 @@ Copy code example from: https://vuejs.org/guide/quick-start.html#without-build-t
 <div id="app">{{ message }}</div>
 
 <script>
-  const { createApp } = Vue
+	const { createApp } = Vue
 
-  createApp({
-    data () {
-      return {
-        message: 'Hello Vue!'
-      }
-    }
-  }).mount('#app')
+	createApp({
+		data() {
+			return {
+				message: 'Hello Vue!'
+			}
+		}
+	}).mount('#app')
 </script>
 ```
 
@@ -91,8 +91,8 @@ index.html
 
 ```html
 <head>
-  ...
-  <script src="https://unpkg.com/vue@3"></script>
+	...
+	<script src="https://unpkg.com/vue@3"></script>
 </head>
 ```
 
@@ -104,11 +104,11 @@ index.js
 const { createApp } = Vue
 
 createApp({
-  data () {
-    return {
-      message: 'Hello Vue!'
-    }
-  }
+	data() {
+		return {
+			message: 'Hello Vue!'
+		}
+	}
 }).mount('#app')
 ```
 
@@ -128,13 +128,13 @@ index.html (result)
 
 ```html
 <head>
-  ...
-  <script src="https://unpkg.com/vue@3"></script>
+	...
+	<script src="https://unpkg.com/vue@3"></script>
 </head>
 <body>
-  <div id="app">{{ message }}</div>
-  <!-- ... -->
-  <script src="./index.js" type="module"></script>
+	<div id="app">{{ message }}</div>
+	<!-- ... -->
+	<script src="./index.js" type="module"></script>
 </body>
 ```
 
@@ -150,11 +150,11 @@ App.js
 
 ```javascript
 const App = {
-  data () {
-    return {
-      message: 'Hello Vue!!'
-    }
-  }
+	data() {
+		return {
+			message: 'Hello Vue!!'
+		}
+	}
 }
 
 export default App
@@ -180,10 +180,10 @@ First we create all components as a colored rectangles to test how works our fra
 
 ```html
 <App>
-  <LangSwitcher />
-  <Keyboard>
-    <Key />
-  </Keyboard>
+	<LangSwitcher />
+	<Keyboard>
+		<Key />
+	</Keyboard>
 </App>
 ```
 
@@ -219,7 +219,7 @@ Create a directory `components` in the project root directory, and create there 
 
 ```javascript
 const LangSwitcher = {
-  template: `<div class="langSwitcher">LangSwitcher</div>`
+	template: `<div class="langSwitcher">LangSwitcher</div>`
 }
 
 export default LangSwitcher
@@ -246,10 +246,10 @@ App.js
 import LangSwitcher from './components/LangSwitcher.js'
 
 const App = {
-  template: `App <vue-lang-switcher />`,
-  components: {
-    'vue-lang-switcher': LangSwitcher
-  }
+	template: `App <vue-lang-switcher />`,
+	components: {
+		'vue-lang-switcher': LangSwitcher
+	}
 }
 
 export default App
@@ -269,7 +269,7 @@ Keyboard.js
 
 ```javascript
 const Keyboard = {
-  template: `<div class="keyboard">Keyboard</div>`
+	template: `<div class="keyboard">Keyboard</div>`
 }
 
 export default Keyboard
@@ -281,9 +281,9 @@ styles.css
 
 ```css
 ... .keyboard {
-  background-color: blue;
-  padding: 10px;
-  display: flex; /*to display keys in a row, on next step*/
+	background-color: blue;
+	padding: 10px;
+	display: flex; /*to display keys in a row, on next step*/
 }
 ```
 
@@ -296,14 +296,14 @@ import Keyboard from './components/Keyboard.js'
 import LangSwitcher from './components/LangSwitcher.js'
 
 const App = {
-  template: `App 
+	template: `App 
 	<vue-lang-switcher />
 	<vue-keyboard />
 	`,
-  components: {
-    'vue-lang-switcher': LangSwitcher,
-    'vue-keyboard': Keyboard
-  }
+	components: {
+		'vue-lang-switcher': LangSwitcher,
+		'vue-keyboard': Keyboard
+	}
 }
 
 export default App
@@ -321,7 +321,7 @@ Key.js
 
 ```javascript
 const Key = {
-  template: `<div class="key">Key</div>`
+	template: `<div class="key">Key</div>`
 }
 
 export default Key
@@ -333,9 +333,9 @@ styles.css
 
 ```css
 .key {
-  background-color: yellow;
-  padding: 10px;
-  color: black;
+	background-color: yellow;
+	padding: 10px;
+	color: black;
 }
 ```
 
@@ -347,15 +347,15 @@ Keyboard.js
 import Key from './Key.js'
 
 const Keyboard = {
-  template: `<div class="keyboard">
+	template: `<div class="keyboard">
                     Keyboard
                     <vue-key />
                     <vue-key />
                     <vue-key />
                 </div>`,
-  components: {
-    'vue-key': Key
-  }
+	components: {
+		'vue-key': Key
+	}
 }
 
 export default Keyboard
@@ -388,7 +388,7 @@ Key.js
 
 ```javascript
 const Key = {
-  template: `<div class="key">
+	template: `<div class="key">
                                 <div class="main">1</div>
                                 <div class="shifted">!</div>
                             </div>`
@@ -421,24 +421,24 @@ Keyboard.js
 import Key from './Key.js'
 
 const keyData = {
-  /*paste here copied data*/ code: 'Digit1',
-  main: '1',
-  shifted: '!',
-  mainName: 'one',
-  shiftedName: 'exclamation mark'
+	/*paste here copied data*/ code: 'Digit1',
+	main: '1',
+	shifted: '!',
+	mainName: 'one',
+	shiftedName: 'exclamation mark'
 }
 
 const Keyboard = {
-  template: `<div class="keyboard">
+	template: `<div class="keyboard">
                         Keyboard
                         <vue-key :keyContent="keyData" />
 		    </div>`,
-  components: {
-    'vue-key': Key
-  },
-  data () {
-    return { keyData }
-  }
+	components: {
+		'vue-key': Key
+	},
+	data() {
+		return { keyData }
+	}
 }
 
 export default Keyboard
@@ -452,7 +452,7 @@ Here we:
 
 Notice, when we pass prop, we use colon `:` before its name.
 
-```javascript
+```js
 <vue-key :keyContent="keyData" />
 ```
 
@@ -500,7 +500,7 @@ import Key from './Key.js'
 import keyboardData from '../keyboardData/en.js'
 
 const Keyboard = {
-  template: `<div class="keyboard">
+	template: `<div class="keyboard">
                         Keyboard
                         <vue-key :keyContent="keyboardData[1][0]" />
                         <vue-key :keyContent="keyboardData[1][1]" />
@@ -509,12 +509,12 @@ const Keyboard = {
                         <vue-key :keyContent="keyboardData[1][4]" />
                         <vue-key :keyContent="keyboardData[1][5]" />
                     </div>`,
-  components: {
-    'vue-key': Key
-  },
-  data () {
-    return { keyboardData }
-  }
+	components: {
+		'vue-key': Key
+	},
+	data() {
+		return { keyboardData }
+	}
 }
 
 export default Keyboard
@@ -549,12 +549,12 @@ That’s because these keys doesn’t have `main` or `shifted` values:
 
 ```javascript
 ;[
-  { code: 'Escape', label: 'Esc' },
-  { code: 'F1' },
-  { code: 'F2' },
-  { code: 'F3' },
-  { code: 'F4' },
-  { code: 'F5' }
+	{ code: 'Escape', label: 'Esc' },
+	{ code: 'F1' },
+	{ code: 'F2' },
+	{ code: 'F3' },
+	{ code: 'F4' },
+	{ code: 'F5' }
 ]
 ```
 
@@ -564,7 +564,7 @@ Key.js
 
 ```javascript
 const Key = {
-  template: `<div class="key">
+	template: `<div class="key">
                         <div class="main">
                             {{main}}
                         </div>
@@ -572,19 +572,19 @@ const Key = {
                             {{shifted}}
                         </div>
                     </div>`,
-  props: {
-    keyContent: Object
-  },
-  computed: {
-    main () {
-      const { main, label, code } = this.keyContent
-      return label || main || code
-    },
-    shifted () {
-      const { shifted } = this.keyContent
-      return shifted
-    }
-  }
+	props: {
+		keyContent: Object
+	},
+	computed: {
+		main() {
+			const { main, label, code } = this.keyContent
+			return label || main || code
+		},
+		shifted() {
+			const { shifted } = this.keyContent
+			return shifted
+		}
+	}
 }
 
 export default Key
@@ -606,25 +606,25 @@ styles.css
 
 ```css
 #app {
-  background-color: red;
-  padding: 10px;
+	background-color: red;
+	padding: 10px;
 }
 
 .langSwitcher {
-  background-color: green;
-  padding: 10px;
+	background-color: green;
+	padding: 10px;
 }
 
 .keyboard {
-  background-color: blue;
-  padding: 10px;
-  display: flex;
+	background-color: blue;
+	padding: 10px;
+	display: flex;
 }
 
 .key {
-  background-color: yellow;
-  padding: 10px;
-  color: black;
+	background-color: yellow;
+	padding: 10px;
+	color: black;
 }
 ```
 
@@ -676,35 +676,35 @@ Key.js
 
 ```javascript
 const getKeyLabels = keyContent => {
-  const { main = '', shifted = '', label, code } = keyContent
-  const isUpperCaseLang = main.toUpperCase() === shifted
-  const mainOutput = isUpperCaseLang ? shifted : main
-  const shiftedOutput = isUpperCaseLang ? '' : shifted
+	const { main = '', shifted = '', label, code } = keyContent
+	const isUpperCaseLang = main.toUpperCase() === shifted
+	const mainOutput = isUpperCaseLang ? shifted : main
+	const shiftedOutput = isUpperCaseLang ? '' : shifted
 
-  return {
-    main: label || mainOutput || code,
-    shifted: shiftedOutput
-  }
+	return {
+		main: label || mainOutput || code,
+		shifted: shiftedOutput
+	}
 }
 
 const Key = {
-  template: `<div class="key">
+	template: `<div class="key">
                         <div class="main">{{main}}</div>
                         <div class="shifted">{{shifted}}</div>
                     </div>`,
-  props: {
-    keyContent: Object
-  },
-  computed: {
-    main () {
-      const { main } = getKeyLabels(this.keyContent)
-      return main
-    },
-    shifted () {
-      const { shifted } = getKeyLabels(this.keyContent)
-      return shifted
-    }
-  }
+	props: {
+		keyContent: Object
+	},
+	computed: {
+		main() {
+			const { main } = getKeyLabels(this.keyContent)
+			return main
+		},
+		shifted() {
+			const { shifted } = getKeyLabels(this.keyContent)
+			return shifted
+		}
+	}
 }
 
 export default Key
@@ -774,7 +774,7 @@ import Key from './Key.js'
 import keyboardData from '../keyboardData/en.js'
 
 const Keyboard = {
-  template: `<div class="keyboard">
+	template: `<div class="keyboard">
                         <div 
                             v-for="(row, index) in keyboardData"
                             :class="['row', 'row-'+(index+1)]" 
@@ -782,12 +782,12 @@ const Keyboard = {
                             row {{index+1}}
                         </div>
                     </div>`,
-  components: {
-    'vue-key': Key
-  },
-  data () {
-    return { keyboardData }
-  }
+	components: {
+		'vue-key': Key
+	},
+	data() {
+		return { keyboardData }
+	}
 }
 
 export default Keyboard
@@ -827,7 +827,7 @@ import Key from './Key.js'
 import keyboardData from '../keyboardData/en.js'
 
 const Keyboard = {
-  template: `<div class="keyboard">
+	template: `<div class="keyboard">
                         <div 
                             v-for="(row, index) in keyboardData" 
                             :class="['row', 'row-'+(index+1)]"
@@ -838,12 +838,12 @@ const Keyboard = {
                         />
                         </div>
                     </div>`,
-  components: {
-    'vue-key': Key
-  },
-  data () {
-    return { keyboardData }
-  }
+	components: {
+		'vue-key': Key
+	},
+	data() {
+		return { keyboardData }
+	}
 }
 
 export default Keyboard
@@ -865,7 +865,7 @@ LangSwitcher.js
 
 ```javascript
 const LangSwitcher = {
-  template: `<div class="langSwitcher">
+	template: `<div class="langSwitcher">
                             <div class="lang active">en</div>
                             <div class="lang">ru</div>
                             <div class="lang">ar</div>
@@ -892,19 +892,19 @@ import Keyboard from './components/Keyboard.js'
 import LangSwitcher from './components/LangSwitcher.js'
 
 const App = {
-  template: `App 
+	template: `App 
 	<vue-lang-switcher :langs="langs" />
 	<vue-keyboard />
 	`,
-  components: {
-    'vue-lang-switcher': LangSwitcher,
-    'vue-keyboard': Keyboard
-  },
-  data () {
-    return {
-      langs: ['en', 'ru', 'ar']
-    }
-  }
+	components: {
+		'vue-lang-switcher': LangSwitcher,
+		'vue-keyboard': Keyboard
+	},
+	data() {
+		return {
+			langs: ['en', 'ru', 'ar']
+		}
+	}
 }
 
 export default App
@@ -916,7 +916,7 @@ LangSwitcher.js
 
 ```javascript
 const LangSwitcher = {
-  template: `<div class="langSwitcher">
+	template: `<div class="langSwitcher">
                         <div 
                             v-for="lang in langs" 
                             class="lang"
@@ -924,9 +924,9 @@ const LangSwitcher = {
                             {{lang}}
                         </div>
                     </div>`,
-  props: {
-    langs: Array
-  }
+	props: {
+		langs: Array
+	}
 }
 
 export default LangSwitcher
@@ -938,63 +938,18 @@ Result:
 
 The red round disappeared because style `active` not attached to any element.
 
-#### App -- async state keyboardData
+#### Dynamic import of `keyboardData`
 
-We need `keyboardData` on every levels of our app. So it's wrong to store it in `Keyboard` component and we should move it up to the root `App` component.
+For now we have only 1 keyboard layout -- English (en). But then we will have different layouts (langs), so we need a feature to load them from different files.
 
-For now we have only 1 keyboard layout -- English (en). But then we'll have different layouts (langs), so we need a feature to load them from different files.
+Open `Keyboard.js` and:
 
-Open `App.js` and:
-
-- add `data()` and a new state there `keyboardData`
 - add `mounted()`, and load there `keyboardData` from a file
-- update state with recieved data
-- in template pass `keyboardData` to the `<vue-keyboard>` as a prop.
-
-App.js
-
-```javascript
-import Keyboard from './components/Keyboard.js'
-import LangSwitcher from './components/LangSwitcher.js'
-
-const App = {
-  template: `App 
-	<vue-lang-switcher :langs="langs" />
-	<vue-keyboard :keyboardData="keyboardData" />
-	`,
-  components: {
-    'vue-lang-switcher': LangSwitcher,
-    'vue-keyboard': Keyboard
-  },
-  /* add: */
-  mounted () {
-    /* dynamic import from file */
-    import(`./keyboardData/en.js`).then(result => {
-      const { default: keyboardData } = result
-      /* update state with recieved data */
-      this.keyboardData = keyboardData
-    })
-  },
-  data () {
-    return {
-      /* add a new state */
-      keyboardData: []
-    }
-  }
-}
-
-export default App
-```
-
-Method `mounted()` will be called when user opens the `App` at the first time.
-
-`import('path-to-file')` -- works as `import` in the top of a page. But you can put it anywhere and call it anytime. It is a promise (works asyncronous), so it returns after a while a `result` -- object `{default: }` with code from an external module. We wait it and `.then` we use recieved code (`keyboardData`) to update our `App` state.
-
-Open `Keyboard.js` and add a new prop.
+- update state with received data
 
 Keyboard.js
 
-```javascript
+```js
 import Key from './Key.js'
 /* delete: 
 import keyboardData from '../keyboardData/en.js'
@@ -1002,40 +957,49 @@ import keyboardData from '../keyboardData/en.js'
 */
 
 const Keyboard = {
-  template: `<div class="keyboard">
-                        <div 
-                            v-for="(row, index) in keyboardData" 
-                            :class="['row', 'row-'+(index+1)]"
-                        >
-                        <vue-key 
-                            v-for="keyContent in row" 
-                            :keyContent="keyContent" 
-                        />
-                        </div>
-                </div>`,
-  components: {
-    'vue-key': Key
-  },
-  /* add a new prop  */
-  props: {
-    keyboardData: Array
-  }
-  /* delete: 
+	template: `
+  <div class="keyboard">
+      <div 
+          v-for="(row, index) in keyboardData" 
+          :class="['row', 'row-'+(index+1)]"
+      >
+          <vue-key 
+              v-for="keyContent in row" 
+              :keyContent="keyContent" 
+          />
+      </div>
+  </div>
+`,
+	components: {
+		'vue-key': Key
+	},
+	/* add: */
+	mounted() {
+		/* dynamic import from file */
+		import(`./keyboardData/en.js`).then(result => {
+			const { default: keyboardData } = result
+			/* update state with received data */
+			this.keyboardData = keyboardData
+		})
+	},
 	data() {
-		return { keyboardData }
+		return { keyboardData: [] }
 	}
-	*/
 }
 
 export default Keyboard
 ```
 
-If you have done everything right, the app will work just as before, without any visible changes. But we made our code better. Now `keyboardData` is available in `App`, and we can pass it down to any child component. And now we import `keyboardData` dynamically, that allows us on next steps to switch between different language keyboards.
+Method `mounted()` will be called when user opens the app at the first time.
+
+`import('path-to-file')` works as `import` in the top of a page. But you can put it anywhere and call it anytime. It is a promise (works asynchronous), so it returns after a while a `result` -- object `{default: }` with code from an external module. We wait it and `.then` we use received code (`keyboardData/en.js`) to update our `Keyboard` state.
+
+If you have done everything right, the app will work just as before, without any visible changes. But we made our code better. Now we import `keyboardData` dynamically, that allows us to switch between different language keyboards on a next steps.
 
 ### Conclusion
 
-What we coded until now are a static elements, that doesn’t react on user input, and doesn’t change dynamically (except dynamic import of a keyboardData, but it happens without user event).
+What we coded until now are a static elements, that doesn’t react on user input, and doesn’t change dynamically (except dynamic import of a `keyboardData`, but for now it happens without user interaction).
 
-Using components with props we made our code modular.
+By using components with props we made our code modular.
 
-Using loops in templates we made their code short, clear, extansible and maintanable. Now we can display data of any length with a small template with a loop.
+By using loops in templates we made code short, clear, extensible, and maintainable. Now we can display data of any length with a small template within a loop.

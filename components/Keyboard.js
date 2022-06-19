@@ -60,6 +60,11 @@ const Keyboard = {
 	props: {
 		currentLang: String
 	},
+	watch: {
+		currentLang: function (currentLang) {
+			this.getKeyboardData(currentLang)
+		}
+	},
 	data() {
 		return {
 			keyboardData: [],
@@ -86,11 +91,6 @@ const Keyboard = {
 				`../keyboardData/${lang}.js`
 			)
 			this.keyboardData = keyboardData
-		}
-	},
-	watch: {
-		currentLang: function (currentLang) {
-			this.getKeyboardData(currentLang)
 		}
 	}
 }
