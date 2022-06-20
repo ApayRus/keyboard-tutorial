@@ -1,23 +1,4 @@
-/**
- * For languages with upper case letters,
- * we should invert main and shifted values --
- * show in main slot shifted value (uppercase)
- * and don't show shifted at all
- *
- *
- *
- **/
-const getKeyLabels = keyContent => {
-	const { main = '', shifted = '', label, code } = keyContent
-	const isUpperCaseLang = main.toUpperCase() === shifted
-	const mainOutput = isUpperCaseLang ? shifted : main
-	const shiftedOutput = isUpperCaseLang ? '' : shifted
-
-	return {
-		main: label || mainOutput || code,
-		shifted: shiftedOutput
-	}
-}
+import { getKeyLabels } from '../utils.js'
 
 const Key = {
 	template: `<div 
@@ -39,6 +20,7 @@ const Key = {
 		keyContent: Object,
 		activeKey: Object,
 		setActiveKey: Function,
+		playKey: Function,
 		toggleShiftKey: Function,
 		shiftKey: Boolean
 	},
@@ -65,6 +47,7 @@ const Key = {
 	methods: {
 		keyClick(keyContent) {
 			this.setActiveKey(keyContent)
+			this.playKey(keyContent)
 			if (keyContent.code.includes('Shift')) {
 				this.toggleShiftKey()
 			}

@@ -1,23 +1,10 @@
 import Key from './Key.js'
-
-const getAudioFileName = (keyContent, shiftKey) => {
-	const { main, mainName, shifted, shiftedName, code } = keyContent
-
-	let fileName
-
-	if (shiftKey) {
-		fileName = shiftedName || shifted || code
-	} else {
-		fileName = mainName || main || code
-	}
-
-	return fileName.toLowerCase()
-}
+import { getAudioFileName } from '../utils.js'
 
 const Keyboard = {
 	template: `<div class="keyboard">
 					<div 
-						v-for="(row, index) in keyboardData" 
+						v-for="(row, index) in keyboardData[currentLang]" 
 						:class="['row', 'row-'+(index+1)]"
 					>
 						<vue-key 
@@ -25,6 +12,7 @@ const Keyboard = {
 							:keyContent="keyContent" 
 							:activeKey="activeKey" 
 							:setActiveKey="setActiveKey"
+							:playKey="playKey"
 							:toggleShiftKey="toggleShiftKey" 
 							:shiftKey="shiftKey"
 						/>
@@ -39,10 +27,9 @@ const Keyboard = {
 		window.addEventListener('keydown', event => {
 			event.preventDefault()
 			const { code } = event
-			const keyContent = this.keyboardData
-				.flat()
-				.find(elem => elem.code === code)
+			const keyContent = this.getKeyContent(this.currentLang, code)
 			this.setActiveKey(keyContent)
+			this.playKey(keyContent)
 		})
 
 		window.addEventListener('keydown', event => {
@@ -74,14 +61,27 @@ const Keyboard = {
 	},
 	methods: {
 		setActiveKey(keyContent) {
-			const fileName = getAudioFileName(keyContent, this.shiftKey)
-			const audio = new Audio(
-				`../keyboardData/${this.currentLang}/${fileName}.mp3`
-			)
-			audio.play()
 			this.activeKey = keyContent
 			clearTimeout(this.timeout)
 			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
+		},
+		playKey(keyContent) {
+			const { code } = keyContent
+			const { shiftKey, currentLang } = this
+
+			const playKeyAudio = (lang, code, shiftKey) => {
+				const keyContent = this.getKeyContent(lang, code)
+				const fileName = getAudioFileName(keyContent, shiftKey)
+				const audio = new Audio(`../keyboardData/${lang}/${fileName}.mp3`)
+				return audio.play()
+			}
+
+			playKeyAudio(currentLang, code, shiftKey).catch(() => {
+				// fallback
+				if (this.currentLang !== 'en') {
+					playKeyAudio('en', code, shiftKey)
+				}
+			})
 		},
 		toggleShiftKey() {
 			this.shiftKey = !this.shiftKey
@@ -90,7 +90,10 @@ const Keyboard = {
 			const { default: keyboardData } = await import(
 				`../keyboardData/${lang}.js`
 			)
-			this.keyboardData = keyboardData
+			this.keyboardData[lang] = keyboardData
+		},
+		getKeyContent(lang, code) {
+			return this.keyboardData[lang].flat().find(elem => elem.code === code)
 		}
 	}
 }
