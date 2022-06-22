@@ -1,376 +1,108 @@
----
-title: keyboard1
----
+# How to build a Keyboard Trainer App from the scratch with HTML/CSS/JS/?vue. Step-by-step tutorial for very beginners
 
-# How to build Keyboard trainer app (html/css/js/?vue)
-
-- [How to build Keyboard trainer app (html/css/js/?vue)](#how-to-build-keyboard-trainer-app-htmlcssjsvue)
-  - [Initial idea and features](#initial-idea-and-features)
-  - [Idea for an educational project](#idea-for-an-educational-project)
-  - [Research on similar apps](#research-on-similar-apps)
+- [Initial idea and features](#initial-idea-and-features)
+- [An idea for an educational project](#an-idea-for-an-educational-project)
+- [Research on similar apps](#research-on-similar-apps)
+- [Tutorial](#tutorial)
+  - [Entry level](#entry-level)
+  - [Manner](#manner)
+  - [Contribute](#contribute)
+  - [Contacts](#contacts)
   - [Tools](#tools)
-  - [Basic HTML/CSS](#basic-htmlcss)
-    - [Layout](#layout)
-    - [index.html](#indexhtml)
-    - [Key](#key)
-    - [styles.css](#stylescss)
-    - [Row](#row)
-    - [Row with extra wide key](#row-with-extra-wide-key)
-    - [Row with smaller keys](#row-with-smaller-keys)
-    - [Language switcher](#language-switcher)
-    - [Conclusion](#conclusion)
 
 ## Initial idea and features
 
-When my son was 1.5 y.o. I noticed that he enjoy playing with keyboard, and I thought: it would be good if he get more feedback from the laptop than password hidden symbols on Ubuntu lock screen, or text somewhere as in text editor. The idea became more relevant after a news: “[Two kids found a screensaver bypass in Linux Mint](https://securityaffairs.co/wordpress/113518/hacking/screensaver-bypass-linux-mint.html)” -- it became dangerous to leave a child with Ubuntu lock sreen (joking).
+When my son was 1.5 years old I noticed that he enjoys playing with keyboard, and I thought: it would be good if he got more feedback from the laptop than hidden password symbols on Ubuntu lock screen, or text somewhere as in text editor. The idea became more attractive after a news: “[Two kids found a screensaver bypass in Linux Mint](https://securityaffairs.co/wordpress/113518/hacking/screensaver-bypass-linux-mint.html)” -- it was too dangerous to leave a child with Ubuntu lock screen (joking).
 
 That's how I planned to code a screen keyboard with:
 
 - event handler “on key down”
-- popup-like animation highlighting the letter itself and its place on the keyboard,
-- playing sound with its name
+- popup-like animation highlighting a pressed key
+- playing its name sound
 - switching between languages (English, Arabic, Russian)
 
-## Idea for an educational project
+## An idea for an educational project
 
-After I made the app, I thought that it can be a good educational project because:
+After I made the app, I thought that it could be a good educational project because:
 
-- it emulates a real world complex looking hardware -- it is interesting to reproduce it as an app (digitalize it)
-- it is easy to layout with a couple of HTML, CSS tricks
+- it emulates a real world complex looking hardware -- and it is interesting to reproduce it as an app (digitalize it)
+- it is easy to layout it with a basic HTML, CSS, JS
 - it touches basic programming topics, like:
   - web app initialization
   - components approach (`App > SwitchLang, Keyboard > Key`)
-  - pass parent state to child (via props)
-  - change parent state from child (via methods)
+  - passing parent state to children (via props)
+  - change parent state from a child (via methods)
   - CSS flex and animation
   - user events handling (keyboard, click, tap)
-  - playing sound
+  - playing sounds
 
-I thought after all that `vue without build` will be a good stack for newbies because it hasn't:
+I thought that `vue without build`[^vuewithoutbuild] will be a good stack for newbies because it hasn't:
 
 - terminal commands (install, run, build)
 - side packages (dependencies)
-- compiler, bundler settings e.t.c.
+- compiler, bundler settings etc
 
 You just write components in separate files in a code editor, and they work together as an app without extra steps.
 
+But I insist that it is not tutorial about `vue`. We just use it a bit to organize code. This tutorial is about web programming in general, because all ideas written above are common for any web app and framework.
+
+This tutorial is also about programming thinking. How to:
+
+- design an app (data model, components)
+- make decisions
+- improve code step by step
+
+I hope that every newbie who follows this tutorial will feel the spirit of a programming. He will touch lots of concepts with depth enough to know them, but not enough to be overloaded, with immediate feedback from visible app changes after every step he makes.
+
 ## Research on similar apps
 
-As a smart person (I hope I am), before coding such an app, I did a research to find something similar. And I didn’t find what I wanted. Most similar apps are:
+As a smart person (I believe I am), before coding such an app, I did research to find something similar. And I didn’t find what I wanted. Most similar apps are:
 
 - screen keyboards — allows you to type text without physical keyboard, by clicks/taps on the screen
-- keyboard trainers — give predefined text to type, and then give you feedback — did you type right or wrong, and can stop process if you type wrong symbols
+- keyboard trainers — give predefined text to type, and then give you feedback — was your typing right or not. A process can be stopped if you type wrong.
 
-Non of these shows/plays additional info about pressed letters (as I know). They are apps for using keyboard in a new way.
+None of these show/play additional info about pressed letters (as I know). They are apps to use keyboard in a new way, not to learn it.
 
-My idea was somewhere between these apps. I want informational app, to provide a user with info about pressed keys: how it looks, sounds and what is its official name.
+My idea was somewhere between these apps. I want informational app, to provide a user with info about a pressed key: how it looks, sounds and named.
 
-## Tools
+## Tutorial
 
-1. Install code editor VS Code.
-2. Install extension to it: `Live server`. ([How to install Visual Studio Code extensions](https://code.visualstudio.com/learn/get-started/extensions))
-3. Install Google Chrome browser
+### Entry level
 
-## Basic HTML/CSS
+I'll try to explain every new thing we meet first, so even most beginner can figure out what happens in general and with details. If you feel interested about something touched in the tutorial but not covered in depth -- please google it.
 
-In this section we will code simple layout for 3 rows of 5 keys each, to understand: what parameters we should include into HTML and CSS to achieve a realistic view. We will use this test layout (3 rows, 15 keys) as a draft to design a data model and will scale it to the whole app (6 rows, 80 keys).
+Reference info for very beginners are placed in footnotes, to protect more experienced people from information that they already know.
 
-### Layout
+If you are stuck with something, feel free to open issues with questions on GitHub [^github].
 
-Let's take a close look at the physical keyboard to understand its layout.
+### Manner
 
-1. rows have different height (1st is smaller)
-2. buttons
+I write minimal possible parts of code, with description about what it does, and where to add or remove it. This is to save place on the screen, and keep your attention (to not distract you with a large old code fragments). So even if you copy/paste code [^copypaste], you should do that consciously. But if you faced some problems while working with pieces of code, you can always find the full code version of a chapter on the GitHub by a link at the end of the chapter.
 
-- are black rounded rectangles
-- have 0-2 text slots (`1!` or `Q`)
-- have different width (some of them)
-- have the same height inside a row
+### Contribute
 
-![picture of a keyboard](./images/oMRABlK.png)
+The tutorial and the app are open source[^opensource]. That means you can improve them (with me), or clone and use for your purposes.
 
-### index.html
+I am sorry for grammar and spelling mistakes. I am not a native speaker, so I would be happy to receive text improvements.
 
-Make a folder for the project `keyboard-trainer`, open it with VS code, and create a file `index.html`. Type `!` and press `Tab`, you will see a template for empty HTML5 document. Write inside `<body>` tag something like: “Hello world”, save the file (ctrl+s). And run the app with the Live server (mouse right button click on `index.html` —> Open with Live Server).
+If you are a user of the app and want to expand it with additional keyboard layouts (languages) or app features -- share your ideas.
 
-Place the code editor on the left side of the screen, and running app on the right side, so you can see immediately how code updates affect on the app.
+If you are a programmer -- pull requests are welcomed.
 
-![](./images/uOhlIco.png)
+### Contacts
 
-### Key
+The main place to communicate around the project is GitHub issues. It is a section on the code store platform for discussing questions, bug reports, new features e.t.c. Feel free to open new issues there.
 
-Let’s write html code for one key:
+Maybe I can answer questions personally on Twitter, until the tutorial isn't popular. [@ApayRus](https://twitter.com/apayrus) -- it's me. Or just let's be friends there.
 
-```html
-<div class="key">
-  <div class="main">1</div>
-  <div class="shifted">!</div>
-</div>
-```
+### Tools
 
-And repeat it for a next four keys:
+1. Install code editor [VS Code](https://code.visualstudio.com/).
+2. Install extension to it: `Live server`[^vscodeextension].
+3. Install [Google Chrome](https://www.google.com/chrome/downloads/) browser -- to have guarantee that we are in the same environment end everything what we do are looking the same.
 
-```html
-<div class="key">
-  <div class="main">`</div>
-  <div class="shifted">~</div>
-</div>
-<div class="key">
-  <div class="main">1</div>
-  <div class="shifted">!</div>
-</div>
-<div class="key">
-  <div class="main">2</div>
-  <div class="shifted">@</div>
-</div>
-<div class="key">
-  <div class="main">3</div>
-  <div class="shifted">#</div>
-</div>
-<div class="key">
-  <div class="main">4</div>
-  <div class="shifted">$</div>
-</div>
-```
-
-It becomes a plain text column:
-
-```
-`
-1
-!
-2
-@
-3
-#
-4
-$
-```
-
-It’s time to add some styling.
-
-### styles.css
-
-Create a file `styles.css` next to `index.html`.
-
-Write in it style for our keys:
-
-```css
-.key {
-  min-height: 3.4375rem;
-  /*3.4375*16 = 55px (16px is default font size)*/
-  background-color: black;
-  color: white;
-  padding: 0.5rem; /*spacing inside the button*/
-  margin: 0.2rem; /*spacing outside the button*/
-  border-radius: 0.2rem; /*rounded corners*/
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-```
-
-In `index.html` in the end of a `<head>` tag type “link” and press `tab`. There will appear import css code template. Then press `ctrl+space` and choose in the menu `styles.css`. Or, if you don’t like using shortcuts, just type this code:
-
-```jsx
-<link rel="stylesheet" href="styles.css">
-```
-
-Save all changed files `ctrl+k s` (or with other shortcuts, or save files separately by `ctrl+s`) and you should see the result:
-
-![](./images/ZomxeZM.png)
-
-### Row
-
-Wrap all keys in `index.html` with
-
-```html
-<div class="row">... here is keys code</div>
-```
-
-We need row style to wrap our keys. Add to `styles.css`:
-
-```css
-.row {
-  display: flex;
-  /* 
-flex-direction: row; - default value
-that's why or divs arranged in a row
-*/
-}
-```
-
-Save both files. And you will see the result:
-
-![](./images/MzTcj6s.png)
-
-Keys have a minimal width. If we want them to take all available place in the row, we should add to `styles.css`:
-
-```css
-.key {
-  ... flex: 1;
-  /*
-	1 is proportion compared to other elements in a flex row
-	if we set 2 for one of keys, it will be 2 times wider than other
-	*/
-}
-```
-
-Now the keys look more realistic:
-
-![](./images/3l4V4bx.png)
-
-### Row with extra wide key
-
-Lets add a second row with first 5 keys: Tab, Q, W, E, R. Copy all previous code from opening `<div class="row">` to `</div>` and paste it below. Then change text inside each `<div class="key">`:
-
-```html
-...
-<div class="row">
-  <div class="key">
-    <div class="main">Tab</div>
-    <div class="shifted"></div>
-  </div>
-  <div class="key">
-    <div class="main">Q</div>
-    <div class="shifted"></div>
-  </div>
-  <div class="key">
-    <div class="main">W</div>
-    <div class="shifted"></div>
-  </div>
-  <div class="key">
-    <div class="main">E</div>
-    <div class="shifted"></div>
-  </div>
-  <div class="key">
-    <div class="main">R</div>
-    <div class="shifted"></div>
-  </div>
-</div>
-```
-
-Maybe you’ve noticed, that these keys don’t have “shifted” values, and it’s ok, we leave related divs empty.
-
-![](./images/G2zOhkp.png)
-
-`Tab` key should have extra width compared to other keys in a row. We need to specify it somehow in `html` and `css`.
-
-index.html
-
-```html
-<div class="key Tab">...</div>
-```
-
-styles.css
-
-```css
-.key.Tab {
-  flex: 1.3;
-}
-```
-
-### Row with smaller keys
-
-Actually in the keyboard this row is first. But it is third inside our working process.
-
-Copy the first row with all code inside it, and paste it above the first row. Then rewrite content of keys to: Esc, F1, F2, F3, F4, F5.
-
-![](./images/QZwiZXm.png)
-
-1st row should have smaller keys than other rows. It means that we need to specify row number in every `<div class="row">`
-
-index.html:
-
-```html
-<div class="row row-1">...</div>
-<div class="row row-2">...</div>
-<div class="row row-3">...</div>
-```
-
-styles.css
-
-```css
-.row-1 .key {
-  height: 1rem;
-  min-height: 1rem;
-  font-size: 0.7rem;
-}
-```
-
-![](./images/wRpIHqo.png)
-
-### Language switcher
-
-It will be 3 rounds with language codes. One of them is active (red background).
-
-index.html
-
-```html
-<div class="langSwitcher">
-  <div class="lang active">en</div>
-  <div class="lang">ru</div>
-  <div class="lang">ar</div>
-</div>
-```
-
-To get round we need a div with equal width and height (square) 2rem, and border-radius with half of width/height. Cursor pointer (a hand), and opacity changing on hover invites the user to click the element.
-
-styles.css
-
-```css
-.lang {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 1rem;
-  cursor: pointer;
-}
-
-.lang:hover {
-  opacity: 0.7;
-}
-
-.langSwitcher .active {
-  background-color: red;
-  color: white;
-}
-```
-
-![](./images/efh3mky.png)
-
-To place lang code in center of the round (vertically and horizontally), add styles:
-
-```css
-.lang {
-  ... display: flex;
-  align-items: center;
-  justify-content: center;
-}
-```
-
-![](./images/PWBsIgw.png)
-
-To display lang switcher as a row and center it on the page, add styles:
-
-```css
-.langSwitcher {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-```
-
-![](./images/6uoiwPr.png)
-
-Congratulations. We have made almost all html/css layout for our app. Now we know, that we need to specify:
-
-- row number, to style row keys
-- key name, to style key extra width
-- active language in a lang switcher
-
-### Conclusion
-
-Now we have 3 rows and 16 buttons, and it is already a 90 line HTML file. If we add all 6 rows and 80 buttons, it will be about a 500 line HTML file for 1 language. Our code becomes messy and not understandable. Also we want to add another languages.
-
-To make code clear, modular, and maintainable, we should split our app into **data** and **view**.
-
-What we have now is an unorganized `view` and `data` mixed together.
+[^github]: [GitHub](https://GitHub.com) is a web platform, where programmers publish their code with instructions how to use it, and work on projects together.
+[^copypaste]: Copy/paste of code is not recommended by coding teachers. They say: it is good to type code, to understand it better.
+[^opensource]: `Open source` means that: 1) a project has permissive license -- so you can use its content for free, share it, change it etc. 2) It is published on GitHub like platforms, and you can be a part of a community around the project: contribute to it, add improvements, open issues with questions, bug reports etc.
+[^vuewithoutbuild]: I wrote an article about how I decided to use Vue for this project: [How I discovered an ideal stack for mastering HTML and CSS - Vue without build](https://dev.to/apayrus/how-i-discovered-an-ideal-stack-for-small-funny-web-projects-vue-without-build-3i46)
+[^vscodeextension]: [How to install Visual Studio Code extensions](https://code.visualstudio.com/learn/get-started/extensions)

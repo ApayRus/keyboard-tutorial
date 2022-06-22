@@ -1,0 +1,383 @@
+- [Modularity](#modularity)
+  - [JavaScript](#javascript)
+  - [Framework](#framework)
+    - [Setup](#setup)
+    - [Entry point — `index.js`](#entry-point--indexjs)
+    - [Root component — App.js](#root-component--appjs)
+  - [Components hierarchy](#components-hierarchy)
+    - [App](#app)
+    - [LangSwitcher](#langswitcher)
+    - [Keyboard](#keyboard)
+    - [Key](#key)
+
+## Modularity
+
+Modularity is when we use one piece of code (module) for all similar parts of our app.
+
+What we have written until now are markup with repeating parts, and styles. E.g. there is a lot of similar blocks for each key (hundreds of them, and can be thousands):
+
+```html
+<div class="key">
+	<div class="main">2</div>
+	<div class="shifted">@</div>
+</div>
+```
+
+Now, if we decide to change something in such elements, we should change them all manually.
+
+If we had only 1 template for each key, changing code in one place will automatically change every key in the app.
+
+### JavaScript
+
+I am sorry to say, but: HTML and CSS aren't programming languages.
+
+Modularity can be achieved only by programming.
+
+Browser apps are coded in JavaScript (JS).
+
+JS was made in 1995 and DOM (document object model in the browser) — in 1998. Writing code in plain (vanilla) JS and direct manipulations with DOM is kinda hard (and old-fashioned).
+
+But there is no alternative to JS.
+
+### Framework
+
+So programmers invented modern frameworks, that make coding web apps easier, clearer and faster. We will use the simplest of them: Vue. Frameworks also allow us to write JS in a component way. Component is a module with a template and all its logic.
+
+#### Setup
+
+In index.html comment all code inside tag `<body>`. We need later, but not now.
+
+index.html
+
+```html
+<body>
+	<!--
+    ...
+    -->
+</body>
+```
+
+Copy code example from: https://vuejs.org/guide/quick-start.html#without-build-tools (or from here):
+
+```html
+<script src="https://unpkg.com/vue@3"></script>
+
+<div id="app">{{ message }}</div>
+
+<script>
+	const { createApp } = Vue
+
+	createApp({
+		data() {
+			return {
+				message: 'Hello Vue!'
+			}
+		}
+	}).mount('#app')
+</script>
+```
+
+and paste it to index.html after `<body>` tag. Save file and look at the app in the browser. If “Hello Vue!” appeared on top of the page it means that setup works.
+
+Even though it works, we need to organize code better.
+
+#### Entry point — `index.js`
+
+Put first `<script>` tag into the `<head>` tag.
+
+index.html
+
+```html
+<head>
+	...
+	<script src="https://unpkg.com/vue@3"></script>
+</head>
+```
+
+Cut second `<script>` tag content (`ctrl+x`) and remove remained wrapper. Create in the project root directory a file `index.js` and paste there what you've copied before.
+
+index.js
+
+```js
+const { createApp } = Vue
+
+createApp({
+	data() {
+		return {
+			message: 'Hello Vue!'
+		}
+	}
+}).mount('#app')
+```
+
+In index.html, add string just before closing `</body>` tag:
+
+index.html
+
+```html
+    ...
+    <script src="./index.js" type="module"></script>
+</body>
+```
+
+Attribute `type="module"` allows us to use ES6 feature `import/export`. We need it on the next step.
+
+index.html (result)
+
+```html
+<head>
+	...
+	<script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+	<div id="app">{{ message }}</div>
+	<!-- ... -->
+	<script src="./index.js" type="module"></script>
+</body>
+```
+
+If you did everything right, you should see "Hello Vue!" at the top of the page as before.
+
+index.js is called the `entry point`. It mounts all our app code into `index.html` document.
+
+We put `<script src="https://unpkg.com/vue@3">` on the top of the document because we need to load framework code as soon as possible.
+
+And we put the `<script src="./index.js" type="module">` on the bottom, because written by us code needs everything above loaded before it can work.
+
+#### Root component — App.js
+
+Open index.js. The code inside `createApp(...)` is a vue component called the root component — cut it (`ctrl+x` or copy and delete). We will move it to separate file. Create in the project root directory a file `App.js`. Paste there a code you copied before (`ctrl+v`) to `const App`. Then export it.
+
+App.js
+
+```js
+const App = {
+	data() {
+		return {
+			message: 'Hello Vue!!'
+		}
+	}
+}
+
+export default App
+```
+
+Then import it in `index.js` and put into `createApp(...)`
+
+index.js
+
+```javascript
+import App from './App.js'
+
+const { createApp } = Vue
+
+createApp(App).mount('#app')
+```
+
+If you did everything right, you should see "Hello Vue!" in the browser as before.
+
+### Components hierarchy
+
+First we create all components as colored rectangles to test how works our framework, and to build component hierarchy:
+
+```html
+<App>
+	<LangSwitcher />
+	<Keyboard>
+		<Key />
+	</Keyboard>
+</App>
+```
+
+`<App>` is parent for `<LangSwitcher>` and `<Keyboard>`.
+
+`<Keyboard>` is parent for `<Key>`.
+
+`<App>` is grandpa for `<Key>`.
+
+We can also say, that `<Key>` is a child of `<Keyboard>` etc.
+
+#### App
+
+We already have `App` component. Just add to
+
+styles.css
+
+```CSS
+...
+#app {
+	background-color: red;
+	padding: 10px;
+}
+```
+
+All styles in this section are temporary, we need them to see component nesting. Then we'll delete them.
+
+Now App is a red rectangle.
+
+![](./images/vqKCjka.png)
+
+#### LangSwitcher
+
+Create a directory `components` in the project root directory, and create there a file `LangSwitcher.js`
+
+```js
+const LangSwitcher = {
+	template: `<div class="langSwitcher">LangSwitcher</div>`
+}
+
+export default LangSwitcher
+```
+
+Vue component is a JS object with predefined properties. One of them is `template`. We assigned to property `template` a string value with a plain html.
+
+Write styles for it.
+
+styles.css
+
+```CSS
+.langSwitcher {
+	background-color: green;
+	padding: 10px;
+}
+```
+
+Add a newly created component to the root component
+
+App.js
+
+```js
+import LangSwitcher from './components/LangSwitcher.js'
+
+const App = {
+	template: `App <vue-lang-switcher />`,
+	components: {
+		'vue-lang-switcher': LangSwitcher
+	}
+}
+
+export default App
+```
+
+If we use one component inside another, we should fill `components` property with an object. A property `'vue-lang-switcher'` is a valid custom html tag name. Its value is imported `LangSwitcher` module. After that we can use imported (child) component inside `template`.
+
+Result:
+
+![](./images/0IH6k8h.png)
+
+We see here that `App` contains `LangSwitcher` which is correct.
+
+#### Keyboard
+
+Create a file `Keyboard.js` in the `components` folder
+
+Keyboard.js
+
+```js
+const Keyboard = {
+	template: `<div class="keyboard">Keyboard</div>`
+}
+
+export default Keyboard
+```
+
+Add to
+
+styles.css
+
+```css
+.keyboard {
+	background-color: blue;
+	padding: 10px;
+	display: flex; /* to display keys in a row, on the next step */
+}
+```
+
+Add a new component Keyboard to
+
+App.js
+
+```js
+import LangSwitcher from './components/LangSwitcher.js'
+import Keyboard from './components/Keyboard.js'
+
+const App = {
+	template: `App 
+	<vue-lang-switcher />
+	<vue-keyboard />
+	`,
+	components: {
+		'vue-lang-switcher': LangSwitcher,
+		'vue-keyboard': Keyboard
+	}
+}
+
+export default App
+```
+
+Now the app looks like:
+
+![](./images/dstRG1x.png)
+
+#### Key
+
+Create file `Key.js` in `components` directory
+
+Key.js
+
+```javascript
+const Key = {
+	template: `<div class="key">Key</div>`
+}
+
+export default Key
+```
+
+Add to
+
+styles.css
+
+```css
+.key {
+	background-color: yellow;
+	padding: 10px;
+	color: black;
+}
+```
+
+As you remember `Key` is the child of `Keyboard`, so it should be imported in `Keyboard`, not in `App.js`.
+
+Keyboard.js
+
+```js
+import Key from './Key.js'
+
+const Keyboard = {
+	template: `<div class="keyboard">
+                    Keyboard
+                    <vue-key />
+                    <vue-key />
+                    <vue-key />
+                </div>`,
+	components: {
+		'vue-key': Key
+	}
+}
+
+export default Keyboard
+```
+
+Save all files.
+
+Result
+
+![](./images/TTPpN1C.png)
+
+Our component hierarchy works well. All components have correct nesting. How we said it the beginning of the chapter:
+
+> `<App>` is parent for `<LangSwitcher>` and `<Keyboard>`.
+> `<Keyboard>` is parent for `<Key>`.
+
+### Entire code after the chapter
+
+[ 4. Modularity. Install framework. Components hierarchy](https://github.com/ApayRus/keyboard/tree/4.-Modularity.-Install-framework.-Components-hierarchy-)
