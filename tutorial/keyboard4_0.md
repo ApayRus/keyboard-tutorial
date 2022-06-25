@@ -1,4 +1,4 @@
-- [Modularity](#modularity)
+- [Modularity 1. Install a framework. Components hierarchy](#modularity-1-install-a-framework-components-hierarchy)
   - [JavaScript](#javascript)
   - [Framework](#framework)
     - [Setup](#setup)
@@ -9,8 +9,9 @@
     - [LangSwitcher](#langswitcher)
     - [Keyboard](#keyboard)
     - [Key](#key)
+  - [Entire code after the chapter](#entire-code-after-the-chapter)
 
-## Modularity
+## Modularity 1. Install a framework. Components hierarchy
 
 Modularity is when we use one piece of code (module) for all similar parts of our app.
 
