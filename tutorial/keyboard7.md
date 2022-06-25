@@ -1,0 +1,454 @@
+- [Interactivity](#interactivity)
+  - [Reactive state, @click event, calling method (refactor `LangSwitcher`)](#reactive-state-click-event-calling-method-refactor-langswitcher)
+  - [Conditional styling](#conditional-styling)
+  - [Change parent state from a child](#change-parent-state-from-a-child)
+  - [Switching keyboards (languages)](#switching-keyboards-languages)
+    - [Another languages data](#another-languages-data)
+    - [Dynamic import for `keyboardData`](#dynamic-import-for-keyboarddata)
+
+## Interactivity 1. Complete LangSwitcher for multiple language keyboard layouts
+
+Interactivity it is when a user interacts with an app, and see results.
+
+Our app should handle user generated events.
+
+### Reactive state, @click event, calling method (refactor `LangSwitcher`)
+
+When we change a component variable value (state), and it causes change in a visible app (view), it is called **reactive state**. Reactivity means connection between component variables and view.
+
+- In `vue` such **reactive variables** should be placed in the method `data()`.
+- The most common approach to change them — by **methods**.
+- Methods are called from **event listeners** placed in a template (e.g. `@click`).
+
+Let’s we add to `LangSwitcher`:
+
+- a method `data()` with a returned property (state) `currentLang: 'en'` (‘en’ as default)
+- a property `methods` with a new method `switchLang(lang)`
+- in the template
+  - a new event handler @click to element `<div class="lang">`
+  - a new `div` to display reactive variable `currentLang`. It is temporary, after testing we’ll delete it.
+
+The idea is to move the red round to the lang code that we clicked. Also, we need to store selected lang in some variable.
+
+LangSwitcher.js
+
+```jsx
+const LangSwitcher = {
+	template: `
+	<div class="langSwitcher">
+		<div 
+			v-for="lang in langs" 
+			class="lang"
+			@click="switchLang(lang)"
+		>
+			{{lang}}
+		</div>
+    </div>
+	<div style="text-align: center;">
+		{{currentLang}}
+	</div>`,
+	props: {
+		langs: Array
+	},
+	data() {
+		return {
+			currentLang: 'en'
+		}
+	},
+	methods: {
+		switchLang(lang) {
+			this.currentLang = lang
+		}
+	}
+}
+
+export default LangSwitcher
+```
+
+`@click="switchLang(lang)"` -- by clicking on an element where it placed (`<div class=”lang”>`) will be called method `switchLang` with a parameter `lang` particular to each `<div>` and can be ‘en’, ‘ru’, ‘ar’.
+
+That’s how **a user input (click) on dynamic generated elements changes a reactive state**.
+
+Result:
+
+![](./images/7rwpUuG.gif)
+
+You see that after a click on a lang code, component `currentLang` state changes in the `div` below.
+
+### Conditional styling
+
+Instead of the `currentLang` text we need a red round background under the active lang.
+
+Conditional styling it is when we apply some styling to an element, only if a condition is true.
+
+`:class='["lang", {active: currentLang === lang}]'` this string will do all work for us.
+
+1-st element in the array is a string, that means that the class `lang` will be attached to `<div>` in any case (without condition).
+
+2-nd element is an object like `{styleName: booleanCondition}`. Class `active` will be attached to `<div class="lang">` only if the prop `lang` of the element is equal to the state `currentLang`.
+
+In `styles.css` we defined before:
+
+```css
+.lang {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 1rem;
+	...;
+}
+
+.langSwitcher .active {
+	background-color: red;
+	color: white;
+}
+```
+
+That’s why the red round follows our clicks on lang codes — because of attaching and detaching the class `active`.
+
+Result:
+
+![](./images/w9ZNbnz.gif)
+
+### Change parent state from a child
+
+Another important approach to share data between components — is changing parent state from a child. It is kinda opposite to passing props from parent to child.
+
+- In a parent we create a reactive state and a method to change it
+- we pass this method to child as a prop
+- we call it (with params) from the child
+
+When you call a method received from a prop, notice that actually it happens where it was defined.
+
+If the parent state was passed as a prop to multiple components, if we change this state (from any child, by method received as a prop) — then all components with this state (as prop) will be updated. That is how a little child component from hierarchy bottom can globally affect on the whole app — by calling a method, that changes parent state.
+
+In a small apps as our, it is common to have reactive state and main logic in the top level component as `<App>` and pass the state and methods to children (`<Keyboard>`, `<LangSwitcher>`) as props.
+
+For now `currentLang` is placed in `<LangSwitcher>`. But we need this value also in `<Keyboard>` and `<Key>`.
+
+`<LangSwitcher>` and `<Keyboard>` are siblings, they haven’t parent-child relations, but have common parent. So, to share the state `currentLang` between siblings, we should lift it up to the common ancestor `<App>`.
+
+Let’s we move state `currentLang` and method `switchLang` from `<LangSwitcher>` to `<App>` and then pass them as props to `<LangSwitcher>` and use them there.
+
+Open `LangSwitcher.js` and remove `data()` and `methods`. Add to props: `currentLang`, `switchLang`.
+
+```javascript
+const LangSwitcher = {
+	template: `
+	<div class="langSwitcher">
+		<div 
+			v-for="lang in langs" 
+			:class='["lang", {active: currentLang === lang}]'
+			@click="switchLang(lang)"
+		>
+			{{lang}}
+		</div>
+	</div>`,
+	props: {
+		langs: Array,
+		/* add: */
+		currentLang: String,
+		switchLang: Function
+	}
+	/* delete: 
+	data() {
+		return {
+			currentLang: 'en'
+		}
+	},
+	methods: {
+		switchLang(lang) {
+			this.currentLang = lang
+		}
+	} 
+	*/
+}
+
+export default LangSwitcher
+```
+
+Open `App.js`. Add to `data()` a new state `currentLang: 'en'`. Paste whole `methods` from old `LangSwitcher.js`.
+
+In the `template`
+
+- pass to `<vue-lang-switcher>` 2 new props: `switchLang` and `currentLang`
+- add `{{currentLang}}` to test our changes.
+
+App.js
+
+```javascript
+import Keyboard from './components/Keyboard.js'
+import LangSwitcher from './components/LangSwitcher.js'
+
+const App = {
+	template: `App-{{currentLang}}
+	<vue-lang-switcher 
+		:langs="langs" 
+		:switchLang="switchLang" 
+		:currentLang="currentLang" 
+	/>
+	<vue-keyboard />
+	`,
+	components: {
+		'vue-lang-switcher': LangSwitcher,
+		'vue-keyboard': Keyboard
+	},
+	mounted() {
+		import(`./keyboardData/en.js`).then(result => {
+			const { default: keyboardData } = result
+			this.keyboardData = keyboardData
+		})
+	},
+	data() {
+		return {
+			langs: ['en', 'ru', 'ar'],
+			/* add: */
+			currentLang: 'en'
+		}
+	},
+	/* add: */
+	methods: {
+		switchLang(lang) {
+			this.currentLang = lang
+		}
+	}
+}
+
+export default App
+```
+
+Result:
+
+![](./images/JJw7bBO.gif)
+
+Notice, when we do something in `LangSwitcher` it changes `App` state. We change the parent state from the child with the method that we passed from the parent to the child as a prop.
+
+### Switching keyboards (languages)
+
+#### Another languages data
+
+Open a folder `keyboardData`. Copy and paste there a file `en.js` twice. Rename clones to `ru.js` and `ar.js`. Change a content (copy from here or type).
+
+ru.js
+
+```javascript
+const keyboard = [
+	[
+		{ code: 'Escape', label: 'Esc' },
+		{ code: 'F1' },
+		{ code: 'F2' },
+		{ code: 'F3' },
+		{ code: 'F4' },
+		{ code: 'F5' },
+		{ code: 'F6' }
+	],
+	[
+		{
+			code: 'Backquote',
+			main: 'ё',
+			shifted: 'Ё'
+		},
+		{
+			code: 'Digit1',
+			main: '1',
+			shifted: '!'
+		},
+		{
+			code: 'Digit2',
+			main: '2',
+			shifted: '"'
+		},
+		{
+			code: 'Digit3',
+			main: '3',
+			shifted: '№'
+		},
+		{
+			code: 'Digit4',
+			main: '4',
+			shifted: ';'
+		},
+		{
+			code: 'Digit5',
+			main: '5',
+			shifted: '%'
+		}
+	],
+	[
+		{ code: 'Tab' },
+		{
+			code: 'KeyQ',
+			main: 'й',
+			shifted: 'Й'
+		},
+		{
+			code: 'KeyW',
+			main: 'ц',
+			shifted: 'Ц'
+		},
+		{
+			code: 'KeyE',
+			main: 'у',
+			shifted: 'У'
+		},
+		{
+			code: 'KeyR',
+			main: 'к',
+			shifted: 'К'
+		}
+	]
+]
+
+export default keyboard
+```
+
+ar.js
+
+```javascript
+const keyboard = [
+	[
+		{ code: 'Escape', label: 'Esc' },
+		{ code: 'F1' },
+		{ code: 'F2' },
+		{ code: 'F3' },
+		{ code: 'F4' },
+		{ code: 'F5' },
+		{ code: 'F6' }
+	],
+	[
+		{
+			code: 'Backquote',
+			main: '٫',
+			shifted: '٬'
+		},
+		{
+			code: 'Digit1',
+			main: '١',
+			shifted: '!'
+		},
+		{
+			code: 'Digit2',
+			main: '٢',
+			shifted: '@'
+		},
+		{
+			code: 'Digit3',
+			main: '٣',
+			shifted: '#'
+		},
+		{
+			code: 'Digit4',
+			main: '٤',
+			shifted: '$'
+		},
+		{
+			code: 'Digit5',
+			main: '٥',
+			shifted: '٪'
+		}
+	],
+	[
+		{ code: 'Tab' },
+		{
+			code: 'KeyQ',
+			main: 'ض',
+			shifted: 'َ'
+		},
+		{
+			code: 'KeyW',
+			main: 'ص',
+			shifted: 'ً'
+		},
+		{
+			code: 'KeyE',
+			main: 'ث',
+			shifted: 'ُ'
+		},
+		{
+			code: 'KeyR',
+			main: 'ق',
+			shifted: 'ٌ'
+		}
+	]
+]
+
+export default keyboard
+```
+
+Arabic diacritic symbols aren't looking good in the code. But don't worry about it. It will work well for our purposes.
+
+#### Dynamic import for `keyboardData`
+
+In App.js pass `currentLang` to `Keyboard`.
+
+App.js template
+
+```html
+<vue-keyboard :currentLang="currentLang" />
+```
+
+In `Keyboard.js`:
+
+- receive the new prop
+- watch its changes
+- add a new method `getKeyboardData`
+- call `getKeyboardData` on `mounted()` and if prop `currentLang` changed
+
+Keyboard.js
+
+```js
+import Key from './Key.js'
+
+const Keyboard = {
+	template: `
+  <div class="keyboard">
+		<div
+			v-for="(row, index) in keyboardData"
+			:class="['row', 'row-'+(index+1)]"
+		>
+			<vue-key
+				v-for="keyContent in row"
+				:keyContent="keyContent"
+			/>
+		</div>
+  </div>
+`,
+	components: {
+		'vue-key': Key
+	},
+	data() {
+		return { keyboardData: [] }
+	},
+	/* receive a new prop  */
+	props: {
+		currentLang: String
+	},
+	watch: {
+		/* add function, that will be called when prop changes */
+		currentLang: function (currentLang) {
+			this.getKeyboardData(currentLang)
+		}
+	},
+	/* happens when app opened for the first time */
+	mounted() {
+		this.getKeyboardData(currentLang)
+	},
+	methods: {
+		async getKeyboardData(lang) {
+			const { default: keyboardData } = await import(
+				`../keyboardData/${lang}.js`
+			)
+			this.keyboardData = keyboardData
+		}
+	}
+}
+
+export default Keyboard
+```
+
+If you noticed `async/await` in the method `getKeyboardData` -- that is an alternative syntax for promises. This code is asynchronous, because reading of a file takes time and we should wait for result to move further through our scenario.
+
+Result:
+
+![](./images/4q6JLOq.gif)
+
+With a few lines of code we achieved a big improvement of functionality. That is because we organized code well: in a modular way, with an intuitive props, methods, and structure.
