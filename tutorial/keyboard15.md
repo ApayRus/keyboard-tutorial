@@ -57,6 +57,8 @@ Let’s we add to `LangSwitcher`:
   - a new event handler @click to element `<div class="lang">`
   - a new `div` to display reactive variable `currentLang`. It is temporary, after testing we’ll delete it.
 
+The idea is to move the red round to the lang code that we clicked. Also, we need to store selected lang in some variable.
+
 LangSwitcher.js
 
 ```jsx
