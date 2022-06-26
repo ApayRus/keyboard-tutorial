@@ -1,4 +1,4 @@
-- [Interactivity](#interactivity)
+- [Interactivity 1. Complete LangSwitcher for multiple language keyboard layouts](#interactivity-1-complete-langswitcher-for-multiple-language-keyboard-layouts)
   - [Reactive state, @click event, calling method (refactor `LangSwitcher`)](#reactive-state-click-event-calling-method-refactor-langswitcher)
   - [Conditional styling](#conditional-styling)
   - [Change parent state from a child](#change-parent-state-from-a-child)
@@ -8,19 +8,19 @@
 
 ## Interactivity 1. Complete LangSwitcher for multiple language keyboard layouts
 
-Interactivity it is when a user interacts with an app, and see results.
+Interactivity is when a user interacts with an app, and see results (almost immediately).
 
-Our app should handle user generated events.
+Our app should handle user generated events: mouse clicks, phone screen taps, keyboard key presses.
 
-### Reactive state, @click event, calling method (refactor `LangSwitcher`)
+### Reactive state, @click event, method call (refactor `LangSwitcher`)
 
-When we change a component variable value (state), and it causes change in a visible app (view), it is called **reactive state**. Reactivity means connection between component variables and view.
+When we change a component variable value (state), and it causes change in a visible app (view), it is called **reactive state**. Reactivity means connection between component variables and a view.
 
 - In `vue` such **reactive variables** should be placed in the method `data()`.
 - The most common approach to change them — by **methods**.
-- Methods are called from **event listeners** placed in a template (e.g. `@click`).
+- Methods are called from **event listeners**, described in `methods`, and placed in a template (e.g. `@click="keyClick(keyContent)"`).
 
-Let’s we add to `LangSwitcher`:
+Let’s add to `LangSwitcher`:
 
 - a method `data()` with a returned property (state) `currentLang: 'en'` (‘en’ as default)
 - a property `methods` with a new method `switchLang(lang)`
@@ -28,7 +28,7 @@ Let’s we add to `LangSwitcher`:
   - a new event handler @click to element `<div class="lang">`
   - a new `div` to display reactive variable `currentLang`. It is temporary, after testing we’ll delete it.
 
-The idea is to move the red round to the lang code that we clicked. Also, we need to store selected lang in some variable.
+The idea is to move the red circle to the lang code that we clicked. Also, we need to store selected lang in some variable.
 
 LangSwitcher.js
 
@@ -50,11 +50,13 @@ const LangSwitcher = {
 	props: {
 		langs: Array
 	},
+	/* add: */
 	data() {
 		return {
 			currentLang: 'en'
 		}
 	},
+	/* add: */
 	methods: {
 		switchLang(lang) {
 			this.currentLang = lang
@@ -65,7 +67,7 @@ const LangSwitcher = {
 export default LangSwitcher
 ```
 
-`@click="switchLang(lang)"` -- by clicking on an element where it placed (`<div class=”lang”>`) will be called method `switchLang` with a parameter `lang` particular to each `<div>` and can be ‘en’, ‘ru’, ‘ar’.
+In the template `@click="switchLang(lang)"` -- by clicking on the element where it placed (`<div class=”lang”>`) the method `switchLang` will be called with a parameter `lang` wich is particular to each `<div>` and can be ‘en’, ‘ru’, ‘ar’.
 
 That’s how **a user input (click) on dynamic generated elements changes a reactive state**.
 
@@ -73,17 +75,29 @@ Result:
 
 ![](./images/7rwpUuG.gif)
 
-You see that after a click on a lang code, component `currentLang` state changes in the `div` below.
+You see that after a click on a lang code, component state `currentLang` is changed in the `div` below.
 
 ### Conditional styling
 
-Instead of the `currentLang` text we need a red round background under the active lang.
+Instead of the `currentLang` text, we need a red round background under the active lang.
 
-Conditional styling it is when we apply some styling to an element, only if a condition is true.
+Conditional styling is when we apply some styling to an element, only if a condition is true.
 
-`:class='["lang", {active: currentLang === lang}]'` this string will do all work for us.
+`:class='["lang", {active: currentLang === lang}]'` this string in a template will do all work for us.
 
-1-st element in the array is a string, that means that the class `lang` will be attached to `<div>` in any case (without condition).
+LangSwitcher.js template
+
+```html
+<div
+	v-for="lang in langs"
+	:class='["lang", {active: currentLang === lang}]'
+	@click="switchLang(lang)"
+>
+	{{lang}}
+</div>
+```
+
+1-st element in the array is a string (because of quotes), that means that the class `lang` will be attached to `<div>` in any case (without condition).
 
 2-nd element is an object like `{styleName: booleanCondition}`. Class `active` will be attached to `<div class="lang">` only if the prop `lang` of the element is equal to the state `currentLang`.
 
@@ -111,25 +125,31 @@ Result:
 
 ### Change parent state from a child
 
-Another important approach to share data between components — is changing parent state from a child. It is kinda opposite to passing props from parent to child.
+Changing parent state from a child is kinda opposite to passing props from parent to child (what we made a lot before). It is another important approach to share data between components
 
 - In a parent we create a reactive state and a method to change it
 - we pass this method to child as a prop
 - we call it (with params) from the child
 
-When you call a method received from a prop, notice that actually it happens where it was defined.
+When you call a method received from a prop, notice that actually it happens where it was defined, not where it was called from.
 
 If the parent state was passed as a prop to multiple components, if we change this state (from any child, by method received as a prop) — then all components with this state (as prop) will be updated. That is how a little child component from hierarchy bottom can globally affect on the whole app — by calling a method, that changes parent state.
 
-In a small apps as our, it is common to have reactive state and main logic in the top level component as `<App>` and pass the state and methods to children (`<Keyboard>`, `<LangSwitcher>`) as props.
+In small apps like our, it is common to have reactive state and main logic in the top level component as `<App>` and pass the state and methods to children (`<Keyboard>`, `<LangSwitcher>`) as props.
 
 For now `currentLang` is placed in `<LangSwitcher>`. But we need this value also in `<Keyboard>` and `<Key>`.
 
 `<LangSwitcher>` and `<Keyboard>` are siblings, they haven’t parent-child relations, but have common parent. So, to share the state `currentLang` between siblings, we should lift it up to the common ancestor `<App>`.
 
-Let’s we move state `currentLang` and method `switchLang` from `<LangSwitcher>` to `<App>` and then pass them as props to `<LangSwitcher>` and use them there.
+![](./images/TTPpN1C.png)
+
+(image from chapter 4)
+
+Let’s move state `currentLang` and method `switchLang` from `<LangSwitcher>` to `<App>` and then pass them as props to `<LangSwitcher>` and use them there.
 
 Open `LangSwitcher.js` and remove `data()` and `methods`. Add to props: `currentLang`, `switchLang`.
+
+LangSwitcher.js
 
 ```javascript
 const LangSwitcher = {
@@ -220,7 +240,7 @@ Result:
 
 ![](./images/JJw7bBO.gif)
 
-Notice, when we do something in `LangSwitcher` it changes `App` state. We change the parent state from the child with the method that we passed from the parent to the child as a prop.
+Notice, when we do something in `LangSwitcher` it changes `App` state. We change the parent state from the child with the method that we passed from the parent to the child as a prop. Before these changes `currentLang` was available only in `<LangSwitcher>`, and `<App>` hasn't access to it. Now `<App>` and `<LangSwitcher>` have access to `currentLang`. And we can pass it also to `<Keyboard>` and `<Key>`.
 
 ### Switching keyboards (languages)
 
@@ -391,7 +411,7 @@ In `Keyboard.js`:
 - receive the new prop
 - watch its changes
 - add a new method `getKeyboardData`
-- call `getKeyboardData` on `mounted()` and if prop `currentLang` changed
+- call `getKeyboardData` on `mounted()` and on change prop `currentLang`
 
 Keyboard.js
 
@@ -400,7 +420,7 @@ import Key from './Key.js'
 
 const Keyboard = {
 	template: `
-  <div class="keyboard">
+	<div class="keyboard">
 		<div
 			v-for="(row, index) in keyboardData"
 			:class="['row', 'row-'+(index+1)]"
@@ -410,7 +430,7 @@ const Keyboard = {
 				:keyContent="keyContent"
 			/>
 		</div>
-  </div>
+	</div>
 `,
 	components: {
 		'vue-key': Key
@@ -430,7 +450,7 @@ const Keyboard = {
 	},
 	/* happens when app opened for the first time */
 	mounted() {
-		this.getKeyboardData(currentLang)
+		this.getKeyboardData(this.currentLang)
 	},
 	methods: {
 		async getKeyboardData(lang) {
@@ -445,10 +465,12 @@ const Keyboard = {
 export default Keyboard
 ```
 
-If you noticed `async/await` in the method `getKeyboardData` -- that is an alternative syntax for promises. This code is asynchronous, because reading of a file takes time and we should wait for result to move further through our scenario.
+If you noticed `async/await` in the method `getKeyboardData` -- that is an alternative syntax for promises. This code is asynchronous, because reading a file takes time, and we should wait for result to move further through our scenario.
 
 Result:
 
 ![](./images/4q6JLOq.gif)
 
-With a few lines of code we achieved a big improvement of functionality. That is because we organized code well: in a modular way, with an intuitive props, methods, and structure.
+We shared `currentLang` state between siblings `LangSwitcher` and `Keyboard` through their common ancestor `App`.
+
+With a few lines of code we achieved a big improvement of functionality. That is because we organized code well: in a modular way, with intuitive props, methods, and structure.
