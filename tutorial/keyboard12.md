@@ -1,24 +1,30 @@
-#### Keyboard layout: global and local parts
+- [Keyboard layout: global and local parts](#keyboard-layout-global-and-local-parts)
+  - [Fallback `keyboardData.en`](#fallback-keyboarddataen)
+  - [Method `playKey`](#method-playkey)
+
+## 12. Playing audio 2. Keyboard layout: global and local parts
 
 Any keyboard has local specific keys, and common keys for all languages (they are without titles on the picture below):
 
 ![](./images/XEoC735.png)
 
-Most of common keys don’t have specific names in different languages. E.g. Escape, Tab, Caps Lock, Shift, Ctrl, Alt, Enter, Delete -- they all sound in 90% cases in English. Space, Arrows, F1-F12 usually have local names.
+Most common keys don’t have specific names in different languages. E.g. Escape, Tab, Caps Lock, Shift, Ctrl, Alt, Enter, Delete -- they all sound in 90% cases in English. Space, Arrows, F1-F12 usually have local names.
 
-For now, to play audio of a key, we should put a sound file into `keyboardData/langCode/` folder. So it will be good, if we can use sounds from `keyboardData/en/` like `escape.mp3` for any language. But we will also leave the option to use local sounds for any of keys. `en/` sounds will be played only if other were not specified.
+For now, to play audio of a key, we must put a sound file into `keyboardData/langCode/` folder. It would be good, if we can use sounds from `keyboardData/en/` like `escape.mp3` for any language. But we will also leave the option to use local sounds for any of keys. Sounds from the folder `en/` will be played only if others were not specified.
 
-In programming such approach is called `fallback` -- when something doesn't work, and me make it works in another way.
+In programming such approach is called `fallback` -- when something doesn't work in one way, and me make it works in another way.
 
 Fortunately, `audio.play()` returns a promise, and we can catch error if file doesn't exist, and play another file.
 
-Add to folder `keyboardData/en/` a "global layout" sounds. In our pice of keyboard they are `escape`, `left shift`, `right shift`, `tab`, `f1`-`f6`.
+In our piece of keyboard the "global layout" sounds are `escape`, `left shift`, `right shift`, `tab`, `f1`-`f6` in the folder `keyboardData/en/`.
 
-Now, if we try to play them, they will work only for `currentLang: 'en'`. In other languages after click/keydown will be played silent (joking).
+For now, they work only for `currentLang: 'en'`.
 
-In `Keyboard.js`, `methods`, `setActiveKey`, after `audio.play()` add:
+Our goal is to make `en/escape.mp3` playing in `ru` and `ar` keyboards, if in `ru/` and `ar/` folders they are not specified.
 
-Keyboard.js
+In `Keyboard.js` method setActiveKey add after `audio.play()`:
+
+Keyboard.js methods
 
 ```js
 ...
@@ -38,15 +44,42 @@ setActiveKey(keyContent) {
 }
 ```
 
-Now new audio files that we added to folder `en/` sounds also for langs `ru` and `ar`. Except `ShiftRight` and `ShiftLeft`.
+Now audio files from the folder `en/` sounds also for langs `ru` and `ar`. Except `ShiftRight` and `ShiftLeft`.
 
-That is because of difference of `keyContent` for languages. In `en.js`, `ru.js` and `ar.js` keys `escape`, `tab`, `f1`-`f6` -- are identic and getAudioFileName returns the same name for any language. You can get these data from `keyboardData/en.js`, `ru.js`, `ar.js` and compare them, or even test the function `getAudioFileName` with each `keyContent` in the browser console.
+That is because of difference of `keyContent` for languages. Keys `escape`, `tab`, `f1`-`f6` -- are identical for `en.js`, `ru.js` and `ar.js` in `keyboardData/` folder and getAudioFileName returns the same name for any language, and it can be played.
 
-Keys `ShiftLeft`, `ShiftRight` for `en` have additional field: `mainName`. Because of it for `en` file names will be `left shift`, `right shift`. For `ru` and `ar` file names will be generated from `code`: `shiftleft`, `shiftright`. We can add `mainName` as in `en` for each `global` key in every language keyboard data, end audios will sound. But it is a lot of work if we have lots of keyboards. It is better to improve our code.
+Keys `ShiftLeft`, `ShiftRight` for `en` have additional field: `mainName`. Compare:
 
-##### Fallback `keyboardData.en`
+keyboardData/en.js
 
-That is how we get `keyContent` on `keydown` event.
+```js
+{
+	code: 'ShiftLeft',
+	label: 'Shift',
+	mainName: 'left shift'
+}
+```
+
+keyboardData/ru.js and ar.js
+
+```js
+{
+	code: 'ShiftLeft',
+	label: 'Shift',
+}
+```
+
+Because of this difference in keyboards data, file names for `en` will be `left shift`, `right shift`. File names for `ru` and `ar` will be: `shiftleft`, `shiftright` (as `code`).
+
+We could add `mainName` for each `global` key for every language keyboard data as in `en`, end audios will sound. But it is a lot of work if we'll have lots of keyboards. And it is better to improve our code once instead of continuous synchronization and data duplication.
+
+### Fallback `keyboardData.en` state
+
+Perhaps you already guessed, that we need `keyContent` of `keyboardData/en.js` from any language keyboard to get right file name to play audio fallback.
+
+The problem is that for now we don't have access to different `keyboardData` at the same time. When we switch languages, `keyboardData` state are completely replaced by new data.
+
+That is how we get `keyContent` from `keyboardData` on `keydown` event.
 
 Keyboard.js
 
@@ -66,31 +99,31 @@ mounted() {
 }
 ```
 
-We load `keyboardData` asynchronously from the file `/keyboardData/langCode.js`. Then we get from it `keyContent` by key `code`.
+We loaded `keyboardData` asynchronously from the file `/keyboardData/langCode.js` before. Then we get `keyContent` from it by key `code`.
 
 For `currentLang` we always have `keyboardData` -- it is loaded to component state on `mounted()` or when user clicked on `langCode` in `LanguageSwitcher`.
 
-It would be good if `keyboardData` for `en` loaded by default at first time, will be always available as a fallback, when we haven't enough `keyContent` in a local `keyboardData`.
+It would be good if `keyboardData` for `en` loaded by default at first time, will be always available as a fallback, when we need `keyContent` of a global layout `keyboardData/en.js`.
 
-Let's refactor `Keyboard` state, to store there all loaded `keyboardData` for all langs. We find all `this.keyboardData` in code, and add to it `[lang]`. In template `this.` is'nt written, so we find there `keyboardData` and to it `currentLang`.
+Let's refactor `Keyboard` state, to store there all loaded `keyboardData` for all langs. Find all `this.keyboardData` in code, and add to it `[lang]`. In template `this.` isn't written, so we find there `keyboardData` and add to it `currentLang`.
 
 Keyboard.js methods
 
 ```js
-	async getKeyboardData(lang) {
-		const { default: keyboardData } = await import(
-			`../keyboardData/${lang}.js`
-		)
-		/* add [lang]: */
-		this.keyboardData[lang] = keyboardData
-	}
+async getKeyboardData(lang) {
+	const { default: keyboardData } = await import(
+		`../keyboardData/${lang}.js`
+	)
+	/* add [lang]: */>
+	this.keyboardData[lang] = keyboardData
+}
 ```
 
 Keyboard.js mounted
 
 ```js
-/* add [currentLang] */
-const keyContent = this.keyboardData[currentLang]
+/* add [this.currentLang] */
+const keyContent = this.keyboardData[this.currentLang]
 	.flat()
 	.find(elem => elem.code === code)
 ```
@@ -107,9 +140,11 @@ Keyboard.js template
 
 Open the app. It should work as before.
 
-##### Method `playKey`
+### Method `getKeyContent`
 
-Now we have immediate access to keyboards, that we opened before, without loading them every time. For now we need only `en` keyboardData as a fallback, which is loaded by default at first app opening. Let's made our code more universal by creating a new method:
+Now we have immediate access to keyboards, that we opened before, without need to load them every time.
+
+Let's make our code more universal by creating a new method:
 
 Keyboard.js methods:
 
@@ -119,7 +154,33 @@ getKeyContent(lang, code) {
 }
 ```
 
-Rewrite code responsible for audio playing with this method:
+Rewrite old code using this method.
+
+Keyboard.js mounted:
+
+```js
+mounted() {
+		this.getKeyboardData(this.currentLang)
+
+		window.addEventListener('keydown', event => {
+			event.preventDefault()
+			const { code, shiftKey } = event
+			/* replace :
+
+			const keyContent = this.keyboardData[this.currentLang]
+				.flat()
+				.find(elem => elem.code === code)
+
+			with : */
+			const keyContent = this.getKeyContent(this.currentLang, code)
+
+			this.setActiveKey(keyContent)
+		})
+		...
+		}
+```
+
+Use new method to play audio fallback:
 
 Keyboard.js methods
 
@@ -151,7 +212,11 @@ setActiveKey(keyContent) {
 
 Check how app works. `Shift` should sound with any language layout.
 
-But in such a code there is something wrong. Playing audio happens inside `setActiveKey` which is ok now. But what if we want to play audio without activating key, or activate key without playing audio?
+GITHUB COMMIT
+
+### Method `playKey`
+
+There is something wrong in our code. Playing audio happens inside `setActiveKey`. But what if we want to play audio without activating key, or activate key without playing audio?
 
 Let's create a new method `playKey` and remove playing logic from `setActiveKey`.
 
@@ -211,7 +276,7 @@ Key.js props
 ```js
 props: {
 	...
-	setActiveKey: Function,
+	playKey: Function,
 	},
 ```
 

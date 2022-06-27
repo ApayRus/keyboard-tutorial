@@ -1,3 +1,12 @@
+## 8. Interactivity 2. Keydown event handling. Active key state
+
+- [8. Interactivity 2.](#8-interactivity-2)
+  - [`Keydown` event handling](#keydown-event-handling)
+    - [`activeKey` state](#activekey-state)
+    - [Operational System (OS) language](#operational-system-os-language)
+    - [Active key styling](#active-key-styling)
+    - [Fade active key after a while](#fade-active-key-after-a-while)
+
 ### `Keydown` event handling
 
 In the file `Keyboard.js` add to `mounted()` an event listener on `keydown`:
@@ -14,19 +23,19 @@ In the file `Keyboard.js` add to `mounted()` an event listener on `keydown`:
 	},
 ```
 
-Save the file. Click with mouse on the app to make the window active to catch events from it.
+Save the file.
 
-Open Chrome dev tools tab `console`, and look at events. They will appear in a console when you press buttons on a keyboard.
+Open Chrome dev tools tab `console`. Click with mouse on the app to make the window active to catch events from it. Press random keys on the (physical) keyboard. Events will appear in a console.
 
 ![events in a console when pressed a, b, c](./images/TSBDyeI.gif)
 
-Experiment with different keys and see result. Expand `KeyboardEvent` and look at its properties. We need only 3 of them: `code`, `key`, and `shiftKey`.
+Experiment with different keys and see results. Expand `KeyboardEvent` and look at its properties. We need only 3 of them: `code`, `key`, and `shiftKey`.
 
 Close console (Dev tools).
 
 #### `activeKey` state
 
-In `Keyboard.js`, add a new state `activeKey`. It will be filled by `event` with `{ code, key, shiftKey }`. Add to template `activeKey` to see how it changes.
+In `Keyboard.js` `data()` add a new state `activeKey`. It will be filled with `{ code, key, shiftKey }` from the `event`. Add `activeKey` to template to see how it will be changed.
 
 Keyboard.js
 
@@ -98,21 +107,13 @@ Result:
 
 #### Operational System (OS) language
 
-You see, that the same events happen with any `currentLang`. That's because our web app state is not connected with OS language (for keyboard). And there is no technical ability to do that.
+You see, that the same events happen with any `currentLang`. That's because our web app state is not connected with OS language (for keyboard). And there is no technical ability to do this.
 
-If a user switches a language in OS (alt+shift, ctrl+shift), an event property `key` will be different, but our app will not know what language is set in OS.
+If a user switches a language in OS (alt+shift, ctrl+shift), an event property `key` will be different, but our app wont know what language is set in OS.
 
 Anyway `code` is always the same. That's why we made it the required identifier in the `data model`.
 
 #### Active key styling
-
-Open `styles.css` and add after `.key` style:
-
-```css
-.key.active {
-	background: red;
-}
-```
 
 In `Keyboard.js` pass state `activeKey` as a prop to `Key`. And warn the `Key` about the new prop.
 
@@ -131,14 +132,17 @@ props: {
 }
 ```
 
-Now we can use `activeKey` inside the `Key` component to apply conditional styling to one of the keys (active one).
+Now we can use `activeKey` inside the `Key` component to apply conditional styling to one of the keys (the active one).
 
 Key.js template:
 
 replace
 
 ```html
-<div class="key">...</div>
+<div class="key">
+	<div class="main">{{main}}</div>
+	<div class="shifted">{{shifted}}</div>
+</div>
 ```
 
 with:
@@ -146,25 +150,26 @@ with:
 ```html
 <div
 	:class="[
-				'key', 
-				{active: activeKey.code === keyContent.code}
+			'key', 
+			{active: activeKey.code === keyContent.code}
 			]"
 >
-	...
+	<div class="main">{{main}}</div>
+	<div class="shifted">{{shifted}}</div>
 </div>
 ```
 
 Now `:class` is dynamic (calculated, variable).
 
-Style `key` applied to a button in any case.
+Style `key` will be applied to a button (key) in any case.
 
-Style `active` applied only if button's `code` is the same as the code of the `activeKey`.
+Style `active` will be applied only if key `code` is the same as the code of the `activeKey`. If you remember, we added `.key.active` style to `styles.css` in chapter 2.
 
 Result:
 
 ![](./images/Peek%202022-06-15%2015-16.gif)
 
-It works with any language.
+It works with any language, and doesn't depend on a system language for the keyboard.
 
 #### Fade active key after a while
 
@@ -192,11 +197,11 @@ Result:
 
 Looking good, the active key automatically disappears after 1 sec.
 
-But there is another problem. When we type fast several keys in 1 sec, only one timer works, that started after pressing the first button. If we type `1, 2, 3, 4, 5` in 900 milliseconds , `5` will disappear after 100 milliseconds, which is incorrect.
+But there is another problem. When we type fast several keys in 1 sec, only one timer works, that started after pressing the first button. If we type `1, 2, 3, 4, 5` in 900 milliseconds, `5` will disappear after 100 milliseconds, which is incorrect.
 
 ![](./images/Peek%202022-06-15%2015-44.gif)
 
-We respect `5` and will give to it the whole 1 second. To do that we need to store a particular `timeout` when key pressed, and if another key is pressed before timeout ended, we'll clear old `timeout` and create a new one. That will guarantee 1 sec for any key.
+We respect `5` (as any other key) and will give to it the whole 1 second. To do that we need to store a particular `timeout` when key pressed, and if another key is pressed before timeout ended, we'll clear old `timeout` and create a new one. That will guarantee 1 sec for any key.
 
 App.js
 

@@ -1,12 +1,12 @@
-- [Interactivity 1. Complete LangSwitcher for multiple language keyboard layouts](#interactivity-1-complete-langswitcher-for-multiple-language-keyboard-layouts)
-  - [Reactive state, @click event, calling method (refactor `LangSwitcher`)](#reactive-state-click-event-calling-method-refactor-langswitcher)
+- [Interactivity 1. Switching keyboards](#interactivity-1-switching-keyboards)
+  - [Reactive state, @click event, method call (refactor `LangSwitcher`)](#reactive-state-click-event-method-call-refactor-langswitcher)
   - [Conditional styling](#conditional-styling)
   - [Change parent state from a child](#change-parent-state-from-a-child)
   - [Switching keyboards (languages)](#switching-keyboards-languages)
     - [Another languages data](#another-languages-data)
     - [Dynamic import for `keyboardData`](#dynamic-import-for-keyboarddata)
 
-## Interactivity 1. Complete LangSwitcher for multiple language keyboard layouts
+## Interactivity 1. Switching keyboards
 
 Interactivity is when a user interacts with an app, and see results (almost immediately).
 

@@ -5,13 +5,17 @@
   - [Move `shiftKey` to state](#move-shiftkey-to-state)
   - [Holding `shift` style](#holding-shift-style)
 
+## Interactivity 3. Set `activeKey` by click. `shiftKey` app state
+
 ### Set activeKey by click
 
-Some people doesn't have a physical keyboard, but only a screen one. And they also want to learn letters with our cool app.
+Some people don't have a physical keyboard, but only a screen one. And they also want to learn letters with our cool app.
 
-To add `@click` event to `Key` we need to encapsulate activating of a key into a method.
+To add `@click` event to `Key` we need first to encapsulate key activation into a method.
 
 #### Method
+
+Add a new method to `Keyboard.js`.
 
 Keyboard.js methods:
 
@@ -49,6 +53,8 @@ Keyboard.js template:
 <vue-keyboard ... :setActiveKey="setActiveKey" />
 ```
 
+In Key.js receive this method (add it to props), and add its call to the template.
+
 Key.js props:
 
 ```js
@@ -58,27 +64,41 @@ props: {
 }
 ```
 
+Key.js template
+
+```html
+<div
+	:class="['key', {active: activeKey.code === keyContent.code}]"
+	@click="setActiveKey(keyContent)"
+>
+	<div class="main">{{main}}</div>
+	<div class="shifted">{{shifted}}</div>
+</div>
+```
+
 Now we see, that key became active also by mouse click (or tap from phone).
 
 ![](./images/Peek%202022-06-15%2020-15.gif)
 
+COMMIT 9.1
+
 #### The key full info
 
-On the previous gif animation you can notice, that `activeKey` is different for `keydown` and `@click`. E.g. for russian Й:
+On the previous gif animation you can notice, that `activeKey` is different for `keydown` and `@click`. E.g. for q:
 
 activeKey on keydown: `{ code: KeyQ, shiftKey: false }`
 
-activeKey on @click: `{ code: KeyQ, main: "й", shifted:"Й" }`
+activeKey on @click: `{ code: KeyQ, main: "q", shifted:"Q" }`
 
-That's because on `keydown` we assign to the `activeKey` an object `{code, shiftKey}` that we get from event.
+That's because on `keydown` we assign to the `activeKey` an object `{code, shiftKey}` that we get from keyboard event.
 
-And on `@click` we set `activeKey` from our data `keyboardData/lang.js` -- which we filled with useful data before.
+And on `@click` we set `activeKey` from our data `keyboardData/en.js` -- which we filled with useful data before.
 
-In `Key` component it is easy to get this data by `@click` -- it is a prop `keyContent`. But `keydown` event doesn't contain these data.
+It is easy to get this data by `@click` in `Key` component -- because it is a prop `keyContent`. But `keydown` event doesn't contain these data.
 
-In `Keyboard` component we can extract key full info from `keyboardData` by event `code`.
+We should add some code to extract `keyContent` from `keyboardData` by `keydown` event `code`.
 
-Keyboard.js mounted()
+Keyboard.js mounted
 
 ```js
 ...
@@ -93,20 +113,21 @@ window.addEventListener('keydown', event => {
 ...
 ```
 
-`keyboardData` is 2D array (array with arrays). So we did it flat -- 1D, and find key full info by `code`. Then pass it to the method `setActiveKey`.
+`keyboardData` is 2D array (array with arrays). So we did it flat -- 1D, and find full key info by `code`. Then pass it to the method `setActiveKey`.
 
 You can test it out: `keydown` and `@click` now returns almost the same value.
 
 #### Move `shiftKey` to state
 
-For now we get `shiftKey` only with `keydown`. And there is no way to get `shiftKey` on `@click`. To make `keydown` and `@click` events equivalent, lets create a new keyboard state: `shiftKey`. So we'll have the ability to get and change it on mouse/tap events, not only with keyboard on `keydown`.
+For now, we get `shiftKey` only with `keydown`, can't get `shiftKey` on `@click`. To make `keydown` and `@click` events equivalent, let's create a new keyboard state: `shiftKey`. So we'll have the ability to manipulate `shiftKey` not only from keyboard `keydown`, but also from mouse/tap screen events.
 
 Add to the end of each `keyboardData/lang.js` a new row with 2 buttons:
 
 en.js, ru.js, ar.js
 
 ```js
-, [
+	...,
+ [
 	{
 		code: 'ShiftLeft',
 		label: 'Shift'
@@ -133,7 +154,7 @@ Keyboard.js data()
 }
 ```
 
-Add 2 keyboard event listeners, that change the app state
+Add 2 keyboard event listeners, that change the new app state
 
 Keyboard.js mounted()
 
@@ -166,9 +187,9 @@ Result
 
 ![](./images/Peek%202022-06-15%2021-29.gif)
 
-When we hold `shift` on keyboard, state `shiftKey` is `true` even when `activeKey` faded. When we `@click` `shift` by mouse, `shiftKey` is false, even when `activeKey` shows to us `shift` as active.
+When we hold `shift` on keyboard, state `shiftKey` is `true` even when `activeKey` faded. When we `@click` `shift` by mouse, `shiftKey` is false, even when `shift` is the `activeKey`.
 
-We can't hold shift on the screen as on physical keyboard. So we need to set `shiftKey` by click on the screen button, and the app will think that we hold `shift` key. On the second click the app will think, that we released the button.
+We can't hold shift on the screen as on physical keyboard. So we need to set `shiftKey` by click on the screen button, and the app will think that we hold `shift` key. On the second click on `shift` the app will think, that we released the button.
 
 For that, in Keyboard.js add a new method `toggleShiftKey` and pass it down to `Key`
 
@@ -195,7 +216,7 @@ Key.js props
 }
 ```
 
-`@click` will call multiple methods, not one like before. So we need to create an additional method calling all these methods. And call it from the template `@click`.
+Now `@click` should call multiple methods, not only one `@click="setActiveKey(keyContent)"` as before. So we need to create an additional method calling all these methods. And call it from the template `@click`.
 
 Key.js methods
 
@@ -208,10 +229,9 @@ methods: {
 		}
 	}
 }
+```
 
 In Key.js template replace `@click="setActiveKey(keyContent)"` with `@click="keyClick(keyContent)"`
-
-```
 
 Key.js template
 
@@ -229,7 +249,7 @@ Result
 
 ![](./images/Peek%202022-06-16%2001-06.gif)
 
-`shiftKey` state works fine with `keydown` and `@click`. But we don'w see it on the keyboard.
+`shiftKey` state works fine with `keydown` and `@click`. But we don't see that `shift` is holding on the keyboard.
 
 #### Holding `shift` style
 
@@ -240,6 +260,7 @@ styles.css
 ```css
 .key.shiftKeyPressed {
 	color: red;
+	font-weight: bold;
 }
 ```
 
@@ -291,10 +312,12 @@ Key.js template
 
 Style `shiftKeyPressed` will be applied to key only if:
 
-- it is `shift` key (with code: ShiftLeft or ShiftRight),
-- keyboard state `shiftKey: true` -- the key is holding,
-- key is not active
+- it is a `shift` key (with code: ShiftLeft or ShiftRight),
+- keyboard state `shiftKey` is `true` -- the key is holding,
+- key is not active (we can't see red text on red background)
 
 Result
 
 ![](./images/Peek%202022-06-16%2002-40.gif)
+
+COMMIT 9.2.

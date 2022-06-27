@@ -8,25 +8,27 @@
     - [Fallback `keyboardData.en`](#fallback-keyboarddataen)
     - [Method `playKey`](#method-playkey)
 
-### Play audio
+## 11. Playing audio
 
-#### Prepare audio files
+### Prepare audio files
 
-We will use a short files for each key/value. If you haven't them yet, and didn't split files before, I highly recommend free audio editor `Audacity`. There you can select part of the audio and attach label to it `ctrl+b`.
+We will use a short mp3 files for each key value. In the folder `keyboardData` create folders: `en`, `ru`, `ar`. Move audio files with numbers (for 3 langs) to the folders.
 
-For example you have 1 audio file with numbers from 0 to 9.
+GITHUB
+
+Note:
+
+If you need to make many files from one, I highly recommend free audio editor `Audacity`. There you can select parts of an audio and attach text labels to them (`ctrl+b`). Then in menu: `File` --> `Export` --> `Export Multiple` --> `Split based on: Label`.
+
+For example, you have 1 audio file with numbers from 0 to 9.
 
 ![](./images/Screenshot%20from%202022-06-17%2015-31-01.png)
 
-Then in menu: `File` --> `Export` --> `Export Multiple` --> `Split based on: Label`.
-
 You will get files: `0.mp3`, `1.mp3`, ... `9.mp3`.
 
-Create in the folder `keyboardData` a new folder `sounds`, and inside it folders `en`, `ru`, `ar`. Move to the folders audio files with numbers (for 3 langs).
+### HTML5 audio element
 
-#### HTML5 audio element
-
-Open `App.js`. In `methods`, at the beginning of `setActiveKey` add 2 lines:
+In `App.js` methods, at the beginning of `setActiveKey` add 2 lines:
 
 App.js methods
 
@@ -40,7 +42,7 @@ setActiveKey(keyContent) {
 
 That's how audio element works.
 
-Now when you click on any button, will be played one file `en/1.mp3`. You guess that we need to play different files. But there is a problem to identify them in our data model. If you remember, it is:
+Now when you click on any button, will be played one file `en/1.mp3`. You guess that we need to play different files. But there is a problem to identify them in our data model. If you remember, each key is represented by object:
 
 ```javascript
 const key = {
@@ -51,9 +53,10 @@ const key = {
 }
 ```
 
-#### Data model extension
+### Data model extension
 
-Our data model isn't filled evenly. The keys have such different set of props
+Key data aren't filled in the same way. Keys have such different set of props:
+file naming
 
 1. Only `code`
 
@@ -72,34 +75,38 @@ File name `F1.mp3` is good for such keys.
 	code: 'Digit1',
 	main: '1',
 	shifted: '!',
-	// should to add:
+	// should add:
 	shiftedName: 'exclamation mark'
 },
 ```
 
-Here we cannot use `code` as before. Because there is only 1 `code`, but we need 2 audio files.
+Here we cannot use `code` as before. Because there is only 1 `code`, but we need 2 audio files for `main` and `shifted` values.
 
-Furthermore `!` is forbidden symbol for file names. So it would be good to have an additional field `shiftedName: 'exclamation mark'`, that we'll use in file name.
+Furthermore, `!` is forbidden symbol for file names. So it would be good to have an additional field `shiftedName: 'exclamation mark'`, that we'll use in a file name.
 
-For such `keyContent` we want to output `1.mp3` or `exclamation mark.mp3`
+Value of `main` is good for filename `1.mp3`, but sometimes we will need an additional field `mainName`.
 
-`mainName` is also necessary sometimes.
+`1.mp3` or `exclamation mark.mp3` would be good filenames for `keyContent` above.
 
 3. lower and upper case letters
 
 ```js
 {
-	code: 'KeyH',
-	main: 'h',
-	shifted: 'H'
+	code: 'KeyQ',
+	main: 'q',
+	shifted: 'Q',
+	// add:
+	shiftedName: 'q'
 },
 ```
 
-It is enough here to have only 1 file `h.mp3` for both values `h` and `H`.
+Here it is enough to have only 1 file `q.mp3` for both values `q` and `Q`.
 
-How do we fill our data now? We add to every `main` and `shifted` values that we can't or don't want to use as a file name, an additional values `mainName` and `shiftedName`.
+How do we fill our data now? We add to every `main` and `shifted` values that we can't or don't want to use as a file name, additional values: `mainName` and/or `shiftedName`.
 
-#### Testing getAudioFileName
+The idea behind this different approach to each key type, instead of writing filename for every key value, is that we are trying to avoid overloading of our `keyboardData/lang.js` files. So we will add a minimum info do keyboard data file, and then calculate filenames from that minimum.
+
+### getAudioFileName
 
 ```js
 const getAudioFileName = (keyContent, shiftKey) => {
@@ -119,7 +126,13 @@ const getAudioFileName = (keyContent, shiftKey) => {
 }
 ```
 
-You can copy/paste the function, that you have written and not sure how it works, to console (`Chrome --> DevTools --> Console`).
+Notice, that we call any audio file by its lower case name. So we don't need to change keyboard data for values like `q-Q`. When you name files make sure they are in lowercase.
+
+### Testing
+
+When you wrote a function, and you're not sure if it works or not, you should test it.
+
+The simplest way: copy/paste the function to console (`Chrome --> DevTools --> Console`). (code above without word `const`)
 
 Also copy to the console `keyContent` examples that we wrote before. Put them to the array `input`:
 
@@ -140,7 +153,7 @@ const input = [
 ]
 ```
 
-Then call `getAudioFileName` with these data entities and different shiftKey, in the console.
+Then call `getAudioFileName` with these data entities and different `shiftKey` values, in the console.
 
 ```js
 getAudioFileName(input[0], false) // f1
@@ -157,13 +170,13 @@ That is called `testing`. Programmers save such a code with:
 - `call(input)`,
 - `correct output`
 
-to special files -- `tests`. Then, after codebase was changed, we run the `tests` to check that we haven't broken anything.
+to special files -- called `tests`. Then, after codebase has changed, we run the `tests` to check that we haven't broken anything.
 
-#### Dynamic audio playing
+### Dynamic audio playing
 
-Add that function definition at the top of `App.js`, just after imports:
+Add that function definition at the top of `Keyboard.js`, just after imports:
 
-App.js
+Keyboard.js
 
 ```js
 import Keyboard from './components/Keyboard.js'
@@ -174,9 +187,9 @@ const getAudioFileName = (keyContent, shiftKey) => {
 }
 ```
 
-And call it when we before played static audio.
+And call it where we played static audio before.
 
-App.js methods
+Keyboard.js methods
 
 ```js
 setActiveKey(keyContent) {
@@ -189,7 +202,7 @@ setActiveKey(keyContent) {
 }
 ```
 
-Now if you click on a different buttons, you'll hear a particular for a key sound, even when you switch languages. Don't forget, that for now we have files only for numbers `0, 1, ..., 9`. For playing Arabic numbers you should add their names to `keyboardData/ar.js`.
+Now when you click on different buttons, you hear a particular key sound, even when you switch languages. Don't forget, that for now we have files only for numbers `0, 1, ..., 9` -- they are correct for `en` and `ru`. But for playing Arabic numbers you should add their `mainName`s to `keyboardData/ar.js`.
 
 keyboardData/ar.js
 
@@ -205,4 +218,6 @@ keyboardData/ar.js
 
 ```
 
-Or, if you don't want to add `mainName`, you should rename files to `١.mp3`, `٢.mp3` e.t.c. So, our approach to file naming and data filling is flexible.
+Or you should rename files to `١.mp3`, `٢.mp3` e.t.c.
+
+As you can see, our approach of file naming and data filling is flexible.

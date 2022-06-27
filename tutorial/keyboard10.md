@@ -4,9 +4,11 @@
 - [Animated resize (transform)](#animated-resize-transform)
 - [The value of the pressed key](#the-value-of-the-pressed-key)
 
-### CSS animation (color)
+## CSS animation
 
-We are making the app for our children first. Let's make the active key appearance more attractive, to get better educational effect.
+### Color
+
+We are making the app for children first. Let's make the active key appearance more attractive, to get better educational effect.
 
 In `styles.css` create `pulse` animation. And replace `background-color` with it in `.key.active`.
 
@@ -33,7 +35,7 @@ Result
 
 ![](./images/Peek%202022-06-16%2014-58.gif)
 
-Now `background-color` changes smoothly. `@keyframes` shows how style properties changes over time. In our case from `black` to `red` in 1 second.
+Now `background-color` changes smoothly. `@keyframes` set how to change style property over time. In our case: from `black` to `red` in 1 second.
 
 You can try to add to `@keyframes` also size change (`width`, `height`).
 
@@ -56,9 +58,9 @@ And you will see, that it doesn't work. That's because `Key`s are displayed insi
 
 ### Conditional rendering `v-if`
 
-To achieve more freedom to animate active key size, we need a new independent element over old active `key`. We will display it only when key is active.
+To achieve more freedom with active key resize animation, we need a new independent element over the old active `key`. We will display it only when key is active.
 
-To show one element over another, the first one should be with style `position: relative` and thie second one with `position: absolute`.
+To show one element over another, the first one should have a style `position: relative` and the second `position: absolute`.
 
 styles.css
 
@@ -76,7 +78,7 @@ styles.css
 
 `z-index:2` means that element will be displayed over elements with `z-index:1` (default).
 
-Add to `Key` template conditional rendered element (active key).
+Add a conditional rendered element (active key) to `Key` template.
 
 Key.js template
 
@@ -105,7 +107,7 @@ Result
 
 ### Additional keyframe (0% 30% 100%)
 
-Now animated resizing works. But it is too slow. Let's make resizing 3 times faster, and color pulse leave as it is. We need an additional keyframe for that.
+Now animated resize works. But it is too slow. Let's make resizing 3 times faster, and color pulse leave as it is. We need an additional keyframe for that.
 
 styles.css
 
@@ -133,11 +135,11 @@ Result
 
 ![](./images/Peek%202022-06-16%2016-52.gif)
 
-Now resizing happens in 30% of 1 sec, and color pulsation in 100% of 1 sec.
+Now resize happens in 30% of 1 sec, and color pulsation in 100% of 1 sec.
 
 ### Animated resize (transform)
 
-Instead of `width/height` changing, lets we use another css prop `transform`.
+Instead of `width/height` changing, lets we use another CSS prop `transform`.
 
 styles.css
 
@@ -205,9 +207,9 @@ value() {
 
 ```
 
-If `shiftKey` is true (holding) value is `shifted`, otherwise value is `main`. If value doesn't exist we return `code`.
+If `shiftKey` is true value is `shifted`, otherwise value is `main`. If value doesn't exist we return `code`.
 
-Put this value to the template:
+Replace with this value `main` in `shifted` in the template:
 
 Key.js template
 
