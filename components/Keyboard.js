@@ -1,5 +1,5 @@
 import Key from './Key.js'
-import { getAudioFileName } from '../utils.js'
+import { playKeyAudio, loadKeyboardData } from '../utils.js'
 
 const Keyboard = {
 	template: `<div class="keyboard">
@@ -22,7 +22,7 @@ const Keyboard = {
 		'vue-key': Key
 	},
 	mounted() {
-		this.getKeyboardData(this.currentLang)
+		this.setKeyboardData(this.currentLang)
 
 		window.addEventListener('keydown', event => {
 			event.preventDefault()
@@ -49,7 +49,7 @@ const Keyboard = {
 	},
 	watch: {
 		currentLang: function (currentLang) {
-			this.getKeyboardData(currentLang)
+			this.setKeyboardData(currentLang)
 		}
 	},
 	data() {
@@ -69,28 +69,19 @@ const Keyboard = {
 			const { code } = keyContent
 			const { shiftKey, currentLang } = this
 
-			const playKeyAudio = (lang, code, shiftKey) => {
-				const keyContent = this.getKeyContent(lang, code)
-				const fileName = getAudioFileName(keyContent, shiftKey)
-				const audio = new Audio(`../keyboardData/${lang}/${fileName}.mp3`)
-				return audio.play()
-			}
-
-			playKeyAudio(currentLang, code, shiftKey).catch(() => {
+			playKeyAudio(currentLang, keyContent, shiftKey).catch(() => {
 				// fallback
 				if (this.currentLang !== 'en') {
-					playKeyAudio('en', code, shiftKey)
+					const keyContent = this.getKeyContent('en', code)
+					playKeyAudio('en', keyContent, shiftKey)
 				}
 			})
 		},
 		toggleShiftKey() {
 			this.shiftKey = !this.shiftKey
 		},
-		async getKeyboardData(lang) {
-			const { default: keyboardData } = await import(
-				`../keyboardData/${lang}.js`
-			)
-			this.keyboardData[lang] = keyboardData
+		async setKeyboardData(lang) {
+			this.keyboardData[lang] = await loadKeyboardData(lang)
 		},
 		getKeyContent(lang, code) {
 			return this.keyboardData[lang].flat().find(elem => elem.code === code)
