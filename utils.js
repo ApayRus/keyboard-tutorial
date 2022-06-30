@@ -45,6 +45,13 @@ export const getKeyLabels = keyContent => {
 	}
 }
 
+export const getKeyContent = ({ keyboardData, code = '', value = '' }) => {
+	return keyboardData.flat().find(elem => {
+		const { main, shifted } = elem
+		return elem.code === code || value === main || value === shifted
+	})
+}
+
 // FILESYSTEM (ASSETS)
 
 export const loadKeyboardData = async lang => {
