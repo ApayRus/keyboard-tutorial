@@ -97,3 +97,12 @@
 	background-color: red;
 	color: white;
 }
+
+.spell {
+	margin-top: 1rem;
+	text-align: center;
+}
+
+.spell button {
+	margin-left: 0.5rem;
+}

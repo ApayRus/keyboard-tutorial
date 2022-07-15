@@ -1,5 +1,10 @@
 import Key from './Key.js'
-import { playKeyAudio, loadKeyboardData, getKeyContent } from '../utils.js'
+import {
+	playKeyAudio,
+	loadKeyboardData,
+	getKeyContent,
+	getSpellQueue
+} from '../utils.js'
 
 const Keyboard = {
 	template: `<div class="keyboard">
@@ -17,6 +22,11 @@ const Keyboard = {
 							:shiftKey="shiftKey"
 						/>
 					</div>
+					<div class="spell">
+						<input @keydown.stop v-model="spellText" />
+						<button @click="spell">Spell</button> 
+						<div>{{spellText}}</div>
+					</div>
 				</div>`,
 	components: {
 		'vue-key': Key
@@ -27,9 +37,6 @@ const Keyboard = {
 		window.addEventListener('keydown', event => {
 			event.preventDefault()
 			const { code } = event
-			/* replace: 
-			const keyContent = this.getKeyContent(this.currentLang, code)
-			with next 2 lines */
 			const keyboardData = this.keyboardData[this.currentLang]
 			const keyContent = getKeyContent({ keyboardData, code })
 
@@ -61,20 +68,28 @@ const Keyboard = {
 		return {
 			keyboardData: [],
 			activeKey: { code: '' },
-			shiftKey: false
+			shiftKey: false,
+			spellText: ''
 		}
 	},
 	methods: {
 		setActiveKey(keyContent) {
 			this.activeKey = keyContent
 			clearTimeout(this.timeout)
-			this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
+			const promise = new Promise(resolve => {
+				this.timeout = setTimeout(() => {
+					this.activeKey = { code: '' }
+					resolve()
+				}, 1000)
+			})
+			return promise
 		},
 		playKey(keyContent) {
 			const { code } = keyContent
 			const { shiftKey, currentLang } = this
 
-			playKeyAudio(currentLang, keyContent, shiftKey).catch(() => {
+			return playKeyAudio(currentLang, keyContent, shiftKey).catch(err => {
+				console.log(err)
 				// fallback
 				if (this.currentLang !== 'en') {
 					/* replace: 
@@ -93,8 +108,26 @@ const Keyboard = {
 		async setKeyboardData(lang) {
 			this.keyboardData[lang] = await loadKeyboardData(lang)
 		},
-		getKeyContent(lang, code) {
-			return this.keyboardData[lang].flat().find(elem => elem.code === code)
+		async spell() {
+			const { spellText, currentLang } = this
+			await this.setKeyboardData(currentLang)
+			const keyboardData = this.keyboardData[currentLang]
+			const spellQueue = getSpellQueue({ keyboardData, spellText })
+			for (let spellItem of spellQueue) {
+				const { keyContent, shiftKey } = spellItem
+				const playKey = () => {
+					const playSound = this.playKey(keyContent)
+					const animateSymbol = this.setActiveKey(keyContent)
+					return Promise.all([playSound, animateSymbol])
+				}
+				if (!this.shiftKey === shiftKey) {
+					this.toggleShiftKey()
+					await playKey()
+					this.toggleShiftKey()
+				} else {
+					await playKey()
+				}
+			}
 		}
 	}
 }

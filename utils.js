@@ -62,5 +62,22 @@ export const loadKeyboardData = async lang => {
 export const playKeyAudio = (lang, keyContent, shiftKey) => {
 	const fileName = getAudioFileName(keyContent, shiftKey)
 	const audio = new Audio(`../keyboardData/sounds/${lang}/${fileName}.mp3`)
-	return audio.play()
+	const promise = new Promise((resolve, reject) => {
+		audio.onended = () => resolve()
+		audio.play().catch(err => {
+			reject(err)
+		})
+	})
+
+	return promise
+}
+
+export const getSpellQueue = ({ keyboardData, spellText }) => {
+	const spellLetters = spellText.split('')
+	const queue = spellLetters.map(letter => {
+		const keyContent = getKeyContent({ keyboardData, value: letter })
+		const shiftKey = keyContent?.shifted === letter ? true : false
+		return { keyContent, shiftKey }
+	})
+	return queue
 }
