@@ -128,7 +128,7 @@ Otherwise, (without `:`) it would be interpreted as a string:
 
 Result:
 
-![](./images/eEYGm8v.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5zyzbpcg6xtwehzdibuo.png)
 
 Return to `Keyboard.js`. We already have all keys data in `keyboardData/en.js` so let’s import and use it, instead of a single key data:
 
@@ -164,7 +164,7 @@ Now we have less code and more keys. If change `Key` component, all keys in the 
 
 Result
 
-![](./images/sqA6ZDH.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5cbp4mzn0rqr7ilfrkaz.png)
 
 ### computed (template variables)
 
@@ -186,7 +186,7 @@ If we try to display first row `keyboardData[0]` (Esc, F1, F2, …)
 
 we will get empty yellow rectangles:
 
-![](./images/xatTSkM.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/av19hz0uhfosbhg8ko41.png)
 
 That’s because these keys doesn’t have `main` or `shifted` values:
 
@@ -244,7 +244,7 @@ We added to component object a new property `computed` with 2 methods: `main()` 
 
 Result:
 
-![](./images/c0P0n5F.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3tfvypmhjqt8zjqgiuju.png)
 
 Before we output all rows, remove all temporary styles, that we added to see how component hierarchy works. Remove these lines from the end of styles.css.
 
@@ -310,7 +310,7 @@ We wrapped rows with `<div class="row row-{{index}}">...</div>`.
 
 Result:
 
-![](./images/ooZKB3x.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ggffpibv766uexlimz01.png)
 
 Last line looks not correct.
 
@@ -359,7 +359,7 @@ In `main()` and `shifted()` we use the new function `getKeyLabels`.
 
 Result is ok:
 
-![](./images/yZW0Tc2.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jysyiyjbleb5apzn8bk0.png)
 
 ### Entire code after the chapter
 
