@@ -22,7 +22,7 @@ If you need to make many files from one, I highly recommend free audio editor `A
 
 For example, you have 1 audio file with numbers from 0 to 9.
 
-![](./images/Screenshot%20from%202022-06-17%2015-31-01.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lhdk124li854p0hi63od.png)
 
 You will get files: `0.mp3`, `1.mp3`, ... `9.mp3`.
 
