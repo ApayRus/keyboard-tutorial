@@ -73,7 +73,7 @@ That’s how **a user input (click) on dynamic generated elements changes a reac
 
 Result:
 
-![](./images/7rwpUuG.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/piqth1zxtoxwgxs81yyk.gif)
 
 You see that after a click on a lang code, component state `currentLang` is changed in the `div` below.
 
@@ -121,7 +121,7 @@ That’s why the red round follows our clicks on lang codes — because of attac
 
 Result:
 
-![](./images/w9ZNbnz.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/405opwh8av337nf33nxw.gif)
 
 ### Change parent state from a child
 
@@ -141,7 +141,7 @@ For now `currentLang` is placed in `<LangSwitcher>`. But we need this value also
 
 `<LangSwitcher>` and `<Keyboard>` are siblings, they haven’t parent-child relations, but have common parent. So, to share the state `currentLang` between siblings, we should lift it up to the common ancestor `<App>`.
 
-![](./images/TTPpN1C.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vgkkjnq3rd0alrn9yvyq.png)
 
 (image from chapter 4)
 
@@ -238,7 +238,7 @@ export default App
 
 Result:
 
-![](./images/JJw7bBO.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wapw2yijb8l2h94i64q8.gif)
 
 Notice, when we do something in `LangSwitcher` it changes `App` state. We change the parent state from the child with the method that we passed from the parent to the child as a prop. Before these changes `currentLang` was available only in `<LangSwitcher>`, and `<App>` hasn't access to it. Now `<App>` and `<LangSwitcher>` have access to `currentLang`. And we can pass it also to `<Keyboard>` and `<Key>`.
 
@@ -469,7 +469,7 @@ If you noticed `async/await` in the method `getKeyboardData` -- that is an alter
 
 Result:
 
-![](./images/4q6JLOq.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5r1m2zmvkr8a6oykjzs6.gif)
 
 We shared `currentLang` state between siblings `LangSwitcher` and `Keyboard` through their common ancestor `App`.
 
