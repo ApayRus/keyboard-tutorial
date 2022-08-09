@@ -1,4 +1,4 @@
-# How to build a Keyboard Trainer App from the scratch with HTML/CSS/JS/?vue. Step-by-step tutorial for very beginners
+# Keyboard Trainer App with HTML/CSS/JS/?vue. Step-by-step tutorial for very beginners
 
 - [Initial idea and features](#initial-idea-and-features)
 - [An idea for an educational project](#an-idea-for-an-educational-project)

@@ -142,17 +142,22 @@ Despite the fact that we have changed file structure of our project, we are not 
 
 ### `getKeyContent`
 
-`getKeyContent` looks like something working outside components, universal for any `keyboardData` and key `code`. Let's move it to utils:
+`getKeyContent` looks like something working outside components, universal for any `keyboardData` and key `code`. Let's move it to utils,and extend it functionality:
 
 utils.js
 
 ```js
-export const getKeyContent = (keyboardData, code) => {
-	return keyboardData.flat().find(elem => elem.code === code)
+export const getKeyContent = ({ keyboardData, code = '', value = '' }) => {
+	return keyboardData.flat().find(elem => {
+		const { main, shifted } = elem
+		return elem.code === code || value === main || value === shifted
+	})
 }
 ```
 
 We replaced argument `lang` with `keyboardData` to take `this` out of the function. We should rewrite code using `lang` and `this` to calculate `keyboardData` before every call of `getKeyContent`.
+
+And we replaced set of arguments `(lang, code)` with the object `{ keyboardData, code='', value='' }`, and added a new argument `value`. Now we can find `keyContent` not only by its code, but also by its value.
 
 Import `getKeyContent` to `Keyboard`.
 
@@ -172,7 +177,7 @@ Keyboard.js mounted
 const keyContent = this.getKeyContent(this.currentLang, code)
 with next 2 lines */
 const keyboardData = this.keyboardData[this.currentLang]
-const keyContent = getKeyContent(keyboardData, code)
+const keyContent = getKeyContent({ keyboardData, code })
 ```
 
 Keyboard.js methods `playKey`
@@ -182,8 +187,10 @@ Keyboard.js methods `playKey`
 const keyContent = this.getKeyContent('en', code)
 with next 2 lines */
 const keyboardData = this.keyboardData['en']
-const keyContent = getKeyContent(keyboardData, code)
+const keyContent = getKeyContent({ keyboardData, code })
 ```
+
+These changes make the function more universal for the future app updates (I now that we'll need find key by `value` on the text step, and I don't want to return to this refactoring again).
 
 Open the app. It should work as before.
 
