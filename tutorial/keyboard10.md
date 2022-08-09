@@ -33,7 +33,7 @@ styles.css
 
 Result
 
-![](./images/Peek%202022-06-16%2014-58.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gkov9uxfhpant4ucquz0.gif)
 
 Now `background-color` changes smoothly. `@keyframes` set how to change style property over time. In our case: from `black` to `red` in 1 second.
 
@@ -103,7 +103,7 @@ Key.js template
 
 Result
 
-![](./images/Peek%202022-06-16%2016-46.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/boyck2tt587pe70gu3dc.gif)
 
 ### Additional keyframe (0% 30% 100%)
 
@@ -133,7 +133,7 @@ styles.css
 
 Result
 
-![](./images/Peek%202022-06-16%2016-52.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wnokt2yefr2v2szmx0gr.gif)
 
 Now resize happens in 30% of 1 sec, and color pulsation in 100% of 1 sec.
 
@@ -187,7 +187,7 @@ styles.css
 
 Result
 
-![](./images/Peek%202022-06-16%2018-27.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xsw6spr0jnn2gy66mwj8.gif)
 
 Now it looks better, isn't it?
 
@@ -221,6 +221,6 @@ Key.js template
 
 Result
 
-![](./images/Peek%202022-06-16%2018-59.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lw4jqxb3gu4syyyy9h8n.gif)
 
 Now we see only 1 value in the active box, which is correct. This is especially important since we want to sound all keyboard symbols.
