@@ -78,7 +78,7 @@ Key.js template
 
 Now we see, that key became active also by mouse click (or tap from phone).
 
-![](./images/Peek%202022-06-15%2020-15.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z6owotlfmtnp0c3j0pj1.gif)
 
 COMMIT 9.1
 
@@ -141,7 +141,7 @@ en.js, ru.js, ar.js
 
 Result
 
-![](./images/Peek%202022-06-15%2021-09.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sco39taier5pbggu3sjm.gif)
 
 Add a new state to
 
@@ -185,7 +185,7 @@ Keyboard.js template
 
 Result
 
-![](./images/Peek%202022-06-15%2021-29.gif)
+  ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tjpja6f6rdhtqu4rnjf5.gif)
 
 When we hold `shift` on keyboard, state `shiftKey` is `true` even when `activeKey` faded. When we `@click` `shift` by mouse, `shiftKey` is false, even when `shift` is the `activeKey`.
 
@@ -247,7 +247,7 @@ Key.js template
 
 Result
 
-![](./images/Peek%202022-06-16%2001-06.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/co2tf2et3gmcflw6ftdr.gif)
 
 `shiftKey` state works fine with `keydown` and `@click`. But we don't see that `shift` is holding on the keyboard.
 
@@ -318,6 +318,6 @@ Style `shiftKeyPressed` will be applied to key only if:
 
 Result
 
-![](./images/Peek%202022-06-16%2002-40.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rr7vepwhnvb033meai9x.gif)
 
 COMMIT 9.2.
