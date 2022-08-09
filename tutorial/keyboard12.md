@@ -6,7 +6,7 @@
 
 Any keyboard has local specific keys, and common keys for all languages (they are without titles on the picture below):
 
-![](./images/XEoC735.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/egt4uwrarcrwqo18lb1a.png)
 
 Most common keys don’t have specific names in different languages. E.g. Escape, Tab, Caps Lock, Shift, Ctrl, Alt, Enter, Delete -- they all sound in 90% cases in English. Space, Arrows, F1-F12 usually have local names.
 
