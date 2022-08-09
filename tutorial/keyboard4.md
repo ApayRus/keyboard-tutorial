@@ -216,7 +216,7 @@ All styles in this section are temporary, we need them to see component nesting.
 
 Now App is a red rectangle.
 
-![](./images/vqKCjka.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ft352m8te8p3hlphrr4s.png)
 
 #### LangSwitcher
 
@@ -264,7 +264,9 @@ If we use one component inside another, we should fill `components` property wit
 
 Result:
 
-![](./images/0IH6k8h.png)
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a1rz11g3q7575m3nvme8.png)
+
 
 We see here that `App` contains `LangSwitcher` which is correct.
 
@@ -318,7 +320,7 @@ export default App
 
 Now the app looks like:
 
-![](./images/dstRG1x.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dira4weg2btj0t9dzixt.png)
 
 #### Key
 
@@ -372,7 +374,7 @@ Save all files.
 
 Result
 
-![](./images/TTPpN1C.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vhpom10oapgjqfvwte7p.png)
 
 Our component hierarchy works well. All components have correct nesting. How we said it the beginning of the chapter:
 
