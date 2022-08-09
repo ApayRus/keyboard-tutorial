@@ -90,7 +90,7 @@ On each iteration `v-for` creates the same element (like element that contains `
 
 Result:
 
-![](./images/my0DVwH.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/yjurej3q9sgntisvbmr5.png)
 
 `:class="['row', 'row-'+(index+1)]"` generates `class="row row-1"` e.t.c. Сolon `:` tells framework that class value should be interpreted as a variable, not string. We use in class a variable `index` gotten from `v-for`.
 
@@ -140,7 +140,7 @@ export default Keyboard
 
 Result:
 
-![](./images/cFIbVIN.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3zgmv7bmaxikvc318w74.png)
 
 Add to `keyboardData/en.js` a new key F6, and you'll see the result immediately.
 
@@ -225,7 +225,7 @@ export default LangSwitcher
 
 Result:
 
-![](./images/l4oO9M4.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/irgwlmb75e57z3dawl86.png)
 
 Let's rewrite LangSwitcher with `props` and `v-for`.
 
@@ -283,7 +283,7 @@ export default LangSwitcher
 
 Result:
 
-![](./images/bDu0Mom.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1l7qnzm77ra1eyggx8kz.png)
 
 The red circle disappeared because style `active` isn't attached to any of elements.
 
