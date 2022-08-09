@@ -1,4 +1,4 @@
-# Keyboard Trainer App with HTML/CSS/JS/?vue. Step-by-step tutorial for very beginners
+# Keyboard Learning App. 1. Tutorial on HTML/CSS/JS?vue for beginners.
 
 - [Initial idea and features](#initial-idea-and-features)
 - [An idea for an educational project](#an-idea-for-an-educational-project)
@@ -12,7 +12,10 @@
 
 ## Initial idea and features
 
-When my son was 1.5 years old I noticed that he enjoys playing with keyboard, and I thought: it would be good if he got more feedback from the laptop than hidden password symbols on Ubuntu lock screen, or text somewhere as in text editor.
+![animation how app works](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/smffdg2ngsla053y1cee.gif)
+_each key symbol is sounded_
+
+When my son was 1.5 years old I noticed that he enjoys playing with keyboard, and I thought: it would be good if he got more feedback from the laptop than watching hidden password symbols on Ubuntu lock screen, or text somewhere as in text editor.
 
 The idea became more attractive after a news: “[Two kids found a screensaver bypass in Linux Mint](https://securityaffairs.co/wordpress/113518/hacking/screensaver-bypass-linux-mint.html)” -- it became dangerous to leave the child with Ubuntu lock screen (joking).
 
@@ -23,7 +26,7 @@ That's how I planned to code a screen keyboard with:
 - playing audio with its name
 - switching between languages (English, Arabic, Russian)
 
-## An idea for an educational project
+## An educational project
 
 After I made the app, I thought that it could be a good educational project because:
 

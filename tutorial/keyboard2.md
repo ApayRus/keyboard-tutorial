@@ -19,7 +19,7 @@ In this section we will code simple layout for 3 rows of 5 keys each, to underst
 
 Let's take a close look at the physical keyboard to understand its layout.
 
-![picture of a keyboard](./images/oMRABlK.png)
+![random keyboard photo from the internet](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/exdnoyo5rnr6slqycvnv.png)
 
 1. rows have different height (1st is smaller)
 2. keys
@@ -51,7 +51,7 @@ In code editor type `!` and press `Tab`, you will see a blueprint with an empty 
 
 Write inside the `<body>` tag something like: “Hello world.”, save the file (Ctrl + s). And run the app with the Live server (click by mouse right button on `index.html` —> Open with Live Server).
 
-![](./images/uOhlIco.png)
+![VS Code and Browser opened beside each other](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/58e925ezf99042xf8ewx.png)
 
 Place VS Code on the left side of the screen, and the running app -- on the right side, so you can see immediately how code updates affect the app.
 
@@ -138,7 +138,7 @@ In `index.html`, in the end of `<head>` tag type “link” and press `tab`. The
 
 Save all changed files `ctrl+k s` (or Menu --> File --> Save All, or with other shortcuts, or save files separately by `ctrl+s`) and you should see the result:
 
-![](./images/ZomxeZM.png)
+![five keys without styling placed vertically (in columnt) and takes whole screen width](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1edy5t7v0lz7594pps91.png)
 
 ### Row
 
@@ -164,7 +164,7 @@ Add to `styles.css`:
 
 Save both files. And you will see the result:
 
-![](./images/MzTcj6s.png)
+![keys in row but too narrow](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/r7cfeieyy14ot3j8cqoe.png)
 
 Keys have a minimal width. If we want them to take all available space in the row, we should add to `styles.css`:
 
@@ -181,7 +181,7 @@ Keys have a minimal width. If we want them to take all available space in the ro
 
 Now the keys look more realistic:
 
-![](./images/3l4V4bx.png)
+![Keys placed horizontally and have the same with. Looks good](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jewcjislzrbfibv4qzd9.png)
 
 ### Row with extra wide key
 
@@ -217,7 +217,7 @@ styles.css
 
 These keys don’t have “shifted” values, just as on the real keyboard.
 
-![](./images/G2zOhkp.png)
+![Two rows of keys](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3bfvrn0oiwb0vlsup6s4.png)
 
 `Tab` key should have extra width compared to other keys in a row. We need to specify it somehow in `html` and `css`.
 
@@ -239,7 +239,7 @@ Now `Tab` has 2 classes: `key` and `Tab`. It allows us to add particular style o
 
 Result
 
-![](./images/QZwiZXm.png)
+![Three rows of keys. Tab is wider that others](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/aog5f8aiw1g0vd91i3xg.png)
 
 You see that `Tab` became wider than other keys in the row.
 
@@ -295,7 +295,7 @@ styles.css
 
 Result
 
-![smaller row](./images/wRpIHqo.png)
+![Three rows of keys. First row buttons: Esc, F1, F2 etc are smaller than buttons in other rows](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/c6snk0i3oqo4m141a7gk.png)
 
 Keys of the first row became smaller.
 
@@ -322,7 +322,7 @@ styles.css
 
 Result
 
-![active key](images/Screenshot%20from%202022-06-22%2001-56-25.png)
+![Part of keyboard as before, but one of keys are red, because it is active](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zc03p52qffthp5g9wvmi.png)
 
 ### Language switcher
 
@@ -362,7 +362,7 @@ styles.css
 }
 ```
 
-![language code without flex](./images/efh3mky.png)
+![language codes without flex styling, placed in column and active lang has red background and wrong alignment](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ndbp2uzmac6rsgaqv932.png)
 
 Non-active circles haven't background color. That's why we don't see them. And it is ok.
 
@@ -380,7 +380,7 @@ Add styles to justify code vertically and horizontally in the round center:
 }
 ```
 
-![language codes with centred flex](./images/PWBsIgw.png)
+![language codes with flex centered text inside](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/o02qc81pykahtqzt8w3v.png)
 
 Add styles to display language switcher in a row and center it on the page:
 
@@ -394,7 +394,7 @@ Add styles to display language switcher in a row and center it on the page:
 
 Result
 
-![langSwitcher result](./images/Screenshot%20from%202022-06-22%2001-51-56.png)
+![Language Switcher with placed in a row lang codes, and with the part of keyboard below](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qxdkmuda4xkm1hyyqd4n.png)
 
 Congratulations. We have made almost the whole html/css layout for our app.
 
