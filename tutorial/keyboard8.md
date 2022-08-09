@@ -27,7 +27,7 @@ Save the file.
 
 Open Chrome dev tools tab `console`. Click with mouse on the app to make the window active to catch events from it. Press random keys on the (physical) keyboard. Events will appear in a console.
 
-![events in a console when pressed a, b, c](./images/TSBDyeI.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dpwd3fmyfx917t2y6vg7.gif)
 
 Experiment with different keys and see results. Expand `KeyboardEvent` and look at its properties. We need only 3 of them: `code`, `key`, and `shiftKey`.
 
@@ -103,7 +103,7 @@ Press `q, w` in all lang layouts (`en`, `ru`, `ar`).
 
 Result:
 
-![](./images/T2ju0Ig.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rhzp0eh8cjmk2wf10rw8.gif)
 
 #### Operational System (OS) language
 
@@ -167,7 +167,7 @@ Style `active` will be applied only if key `code` is the same as the code of the
 
 Result:
 
-![](./images/Peek%202022-06-15%2015-16.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mztq823b7ecmx6f9ukmf.gif)
 
 It works with any language, and doesn't depend on a system language for the keyboard.
 
@@ -193,13 +193,13 @@ That means, that after 1000 milliseconds (1 sec), `activeState` will be cleared.
 
 Result:
 
-![](./images/Peek%202022-06-15%2015-36.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pykv58hm0zjxvxfjiwgv.gif)
 
 Looking good, the active key automatically disappears after 1 sec.
 
 But there is another problem. When we type fast several keys in 1 sec, only one timer works, that started after pressing the first button. If we type `1, 2, 3, 4, 5` in 900 milliseconds, `5` will disappear after 100 milliseconds, which is incorrect.
 
-![](./images/Peek%202022-06-15%2015-44.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bzc58ahzoso2hhh8j7n2.gif)
 
 We respect `5` (as any other key) and will give to it the whole 1 second. To do that we need to store a particular `timeout` when key pressed, and if another key is pressed before timeout ended, we'll clear old `timeout` and create a new one. That will guarantee 1 sec for any key.
 
@@ -222,4 +222,4 @@ this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
 
 Now `5` also has 1 sec to show itself to the world:
 
-![](./images/Peek%202022-06-15%2015-54.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dm7r3j8jvcm34emdg3mn.gif)
