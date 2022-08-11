@@ -1,4 +1,10 @@
-# Keyboard Learning App. 1. Tutorial on HTML/CSS/JS?vue for beginners.
+---
+published: false
+title: Keyboard Learning App. 1. Tutorial on HTML/CSS/JS?vue for beginners.
+tags: html, css, javascript, vue
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
 - [Initial idea and features](#initial-idea-and-features)
 - [An idea for an educational project](#an-idea-for-an-educational-project)
