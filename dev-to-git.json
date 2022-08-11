@@ -2,7 +2,7 @@
 	{
 		"id": 1162444,
 		"relativePathToArticle": "./tutorial/keyboard1.md"
-	} /* ,
+	},
 	{
 		"id": 1162452,
 		"relativePathToArticle": "./tutorial/keyboard2.md"
@@ -50,5 +50,5 @@
 	{
 		"id": 1163330,
 		"relativePathToArticle": "./tutorial/keyboard13.md"
-	} */
+	}
 ]
