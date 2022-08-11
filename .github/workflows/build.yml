@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Install Dependencies
-        uses: npm install
+        run: npm install
 
       - name: Deploy to dev.to
         run: DEV_TO_GIT_TOKEN=${{ secrets.DEV_TO_GIT_TOKEN }} yarn run dev-to-git
