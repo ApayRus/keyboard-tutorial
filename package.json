@@ -4,16 +4,19 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev-to-git": "dev-to-git"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/ApayRus/keyboard-trainer-tutorial.git"
 	},
 	"author": "",
-	"license": "ISC",
+	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/ApayRus/keyboard-trainer-tutorial/issues"
 	},
-	"homepage": "https://github.com/ApayRus/keyboard-trainer-tutorial#readme"
+	"homepage": "https://github.com/ApayRus/keyboard-trainer-tutorial#readme",
+	"dependencies": {
+		"dev-to-git": "1.4.9"
+	}
 }
