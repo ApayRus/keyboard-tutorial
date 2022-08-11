@@ -1,19 +1,10 @@
 {
-	"name": "keyboard-learning-app-tutorial",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
 	"scripts": {
 		"dev-to-git": "dev-to-git"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/ApayRus/keyboard-trainer-tutorial.git"
-	},
-	"author": "",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/ApayRus/keyboard-trainer-tutorial/issues"
 	},
 	"homepage": "https://github.com/ApayRus/keyboard-trainer-tutorial#readme",
 	"dependencies": {
