@@ -1,13 +1,13 @@
 {
-	"scripts": {
-		"dev-to-git": "dev-to-git"
-	},
+	"name": "keyboard-learning-app-tutorial",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/ApayRus/keyboard-trainer-tutorial.git"
 	},
-	"homepage": "https://github.com/ApayRus/keyboard-trainer-tutorial#readme",
+	"scripts": {
+		"dev-to-git": "dev-to-git"
+	},
 	"dependencies": {
-		"dev-to-git": "1.4.9"
+		"dev-to-git": "latest"
 	}
 }
