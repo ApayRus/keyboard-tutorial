@@ -1,12 +1,18 @@
-- [CSS animation (color)](#css-animation-color)
+---
+published: false
+title: Keyboard Learning App 10. CSS animation
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
+
+- [Color](#color)
 - [Conditional rendering `v-if`](#conditional-rendering-v-if)
 - [Additional keyframe (0% 30% 100%)](#additional-keyframe-0-30-100)
 - [Animated resize (transform)](#animated-resize-transform)
 - [The value of the pressed key](#the-value-of-the-pressed-key)
 
-## CSS animation
-
-### Color
+## Color
 
 We are making the app for children first. Let's make the active key appearance more attractive, to get better educational effect.
 
@@ -56,7 +62,7 @@ You can try to add to `@keyframes` also size change (`width`, `height`).
 
 And you will see, that it doesn't work. That's because `Key`s are displayed inside `flex` container.
 
-### Conditional rendering `v-if`
+## Conditional rendering `v-if`
 
 To achieve more freedom with active key resize animation, we need a new independent element over the old active `key`. We will display it only when key is active.
 
@@ -105,7 +111,7 @@ Result
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/boyck2tt587pe70gu3dc.gif)
 
-### Additional keyframe (0% 30% 100%)
+## Additional keyframe (0% 30% 100%)
 
 Now animated resize works. But it is too slow. Let's make resizing 3 times faster, and color pulse leave as it is. We need an additional keyframe for that.
 
@@ -137,7 +143,7 @@ Result
 
 Now resize happens in 30% of 1 sec, and color pulsation in 100% of 1 sec.
 
-### Animated resize (transform)
+## Animated resize (transform)
 
 Instead of `width/height` changing, lets we use another CSS prop `transform`.
 
@@ -191,7 +197,7 @@ Result
 
 Now it looks better, isn't it?
 
-### The value of the pressed key
+## The value of the pressed key
 
 When key contains 2 values: `main` and `shifted` we don't want to activate both of them. Because we will sound each of them separately.
 
@@ -224,3 +230,7 @@ Result
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lw4jqxb3gu4syyyy9h8n.gif)
 
 Now we see only 1 value in the active box, which is correct. This is especially important since we want to sound all keyboard symbols.
+
+[Diffs in code 10](https://github.com/ApayRus/keyboard/commit/f468ce3ce90394bf005fe2699ad14fd442f4b672)
+
+[Entire code after the chapter](https://github.com/ApayRus/keyboard/tree/10.-Interactivity-4.-CSS-Animation.-Active-key-value)

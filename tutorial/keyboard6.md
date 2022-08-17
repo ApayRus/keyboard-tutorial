@@ -1,14 +1,19 @@
-- [Modularity 3. Loop in a template (v-for). Dynamic import](#modularity-3-loop-in-a-template-v-for-dynamic-import)
-  - [Rows](#rows)
-    - [1st loop — rows of the keyboard](#1st-loop--rows-of-the-keyboard)
-    - [2nd loop — keys of a row](#2nd-loop--keys-of-a-row)
-  - [Dynamic import of `keyboardData`](#dynamic-import-of-keyboarddata)
-  - [LangSwitcher — refactor with props and v-for](#langswitcher--refactor-with-props-and-v-for)
-  - [Conclusion](#conclusion)
+---
+published: false
+title: Keyboard Learning App 6. Modularity 3. Loop in a template (v-for). Dynamic import. LangSwitcher
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
-## Modularity 3. Loop in a template (v-for). Dynamic import
+- [Keyboard rows](#keyboard-rows)
+	- [1st loop — rows of the keyboard](#1st-loop--rows-of-the-keyboard)
+	- [2nd loop — keys of a row](#2nd-loop--keys-of-a-row)
+- [Dynamic import of `keyboardData`](#dynamic-import-of-keyboarddata)
+- [LangSwitcher — refactor with props and v-for](#langswitcher--refactor-with-props-and-v-for)
+- [Conclusion](#conclusion)
 
-### Keyboard rows
+## Keyboard rows
 
 Keyboard.js
 
@@ -53,7 +58,7 @@ We could guess by template structure, that there are 2 nested loops.
 - 1st for rows
 - 2nd for keys inside the row
 
-#### 1st loop — rows of the keyboard
+### 1st loop — rows of the keyboard
 
 First let’s output row containers.
 
@@ -98,7 +103,7 @@ On the image above there is opened Developer tools. (In browser click mouse righ
 
 In the DevTools code (tab `elements`) we see that each row are represented by a `div` with classes `row` and `row-index`. That’s important for us, because 1st row has different styles: smaller buttons and font size, if you remember.
 
-#### 2nd loop — keys of a row
+### 2nd loop — keys of a row
 
 In `Keyboard.js` let’s replace line `row {{index+1}}` with another loop with keys.
 
@@ -146,7 +151,7 @@ Add to `keyboardData/en.js` a new key F6, and you'll see the result immediately.
 
 Now we don’t care even if our keyboard data contains hundreds of rows and keys — they will be displayed automatically by the 2 loops, with these 25 lines of code. This is because **we have separated view and data**. When we extend data, view extends automatically.
 
-### Dynamic import of `keyboardData`
+## Dynamic import of `keyboardData`
 
 For now, we have only 1 keyboard layout -- English (en). But then we will have different layouts (langs), so we need a feature to load them from different files.
 
@@ -204,7 +209,9 @@ Method `mounted()` is called when user opens the app at the first time.
 
 If you have done everything right, the app will work just as before, without any visible changes. But we made our code better. Now we import `keyboardData` dynamically, that allows us to switch between different language keyboards on next steps.
 
-### LangSwitcher — refactor with props and v-for
+[Diffs in code 6.1.](https://github.com/ApayRus/keyboard/commit/19cf0c1d254493bd1ba88e03d9c64f31a414c20f)
+
+## LangSwitcher — refactor with props and v-for
 
 Open `index.html` and copy commented code for `LangSwitcher`, then paste it to `template` in
 
@@ -287,10 +294,14 @@ Result:
 
 The red circle disappeared because style `active` isn't attached to any of elements.
 
-### Conclusion
+[Diffs in code 6.2.](https://github.com/ApayRus/keyboard/commit/853cdb96ba799a516f70087c5194e39c95be1f44)
+
+## Conclusion
 
 What we coded until now are static elements, that doesn’t react on user input, and aren't changed dynamically (except dynamic import of a `keyboardData`, but for now it happens without user interaction).
 
 By using components with props we made our code modular.
 
 By using loops in templates we made code short, clear, extensible, and maintainable. Now we can display data of any length within a loop in a small template.
+
+[Entire code after the chapter](<https://github.com/ApayRus/keyboard/tree/6.-Modularity-3.-Loop-in-a-template-(v-for).-Dynamic-import>)

@@ -1,36 +1,106 @@
-## Extending app
+---
+published: false
+title: Keyboard Learning App 14. Styling
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
-How to think right when you want to extend your app with new functionality?
+### Width of keys
 
-When you organized app well, with good intuitive naming and logical separated modules -- it is easy to extend your app and use it in different ways.
+Current keyboard layout looks not realistic. E.g. `space` button is small like `alt` or `ctrl`.
 
-Imagine, that we have an idea to animate spelling of a word with our keyboard. The word will be sent by link, like: https://keyboard.apayrus.cc/?spell=Hello.
+How keyboard looks:
 
-We should reproduce all user actions with the app by a text parameter "Hello".
+![How keyboard looks](images/Screenshot%20from%202022-08-13%2007-22-48.png)
 
-First we should set task in terms of our app.
+How keyboard should look:
 
-When a user opens and clicks/presses on keyboard, there are 3 parameters necessary to activate and play a symbol:
+![How keyboard should look](./images/Screenshot%20from%202022-08-13%2007-57-49.png)
 
-- language
-- shift position
-- key code
+If we look at the second image, or on a real keyboard, carefully, we'll notice that there are the primary keys: letters and numbers, and secondary keys: Tab, Backspace, Ctrl, Alt etc.
 
-Language and key code defines particular key content, and audio folder. Shift defines particular symbol and audio file from key content.
+All primary keys have the same fixed width. But their number decreases from the top rows to the bottom. And the secondary buttons compensate for this decrease in number by increasing their width.
 
-`lang` + `key code` = `key content`
+Rows 2 and 3 contain 13 primary keys and 1 secondary each. Backspace and Tab have the same width, and it is about 1.8 of primary key width. So we can say, that each row width is 14.8 units.
 
-`key content` + `shift` + `lang` =
+Row 4 contain 11 primary keys and 2 secondary. CapsLk and Enter have the same width:
+(14.8 - 11)/2 = 1.9
 
-- a place on the keyboard and a symbol to popup
-- audio file to play
+Counting like this number of primary keys and width compensation of secondary keys in each row, and doing some approximation to achieve more realistic view, we get styling for the keyboard.
 
-We need to provide the app with all these initial data from a link with a word we want to spell.
+styles.css
 
-`key code` and `shift` can be extracted from a letter itself (`h` or `H`). For our case with 3 langs we could also get `lang` from letters, but the same alphabet can be used for different languages, with different letter names. So it is better to put language as a parameter to the link : `address.com/?spell=Hello&lang=en`.
+```css
+/* specified keys */
 
-While writing this I came up with an idea of a function, that will generate array with all data needed to activate and play letters from the link param `spell`.
+/* 1st row */
 
-```js
+.key.Backspace {
+	flex: 1.8;
+}
 
+/* 2nd row */
+.key.Tab {
+	flex: 1.8;
+}
+
+/* 3d row */
+.key.CapsLock {
+	flex: 2;
+}
+
+.key.Enter {
+	flex: 2;
+}
+
+/* 4th row  */
+.key.ShiftLeft {
+	flex: 2.5;
+}
+
+.key.ShiftRight {
+	flex: 1.5;
+}
+
+/* 5th row  */
+.key.Space {
+	flex: 8;
+}
+```
+
+With these styles our keyboard looks realistic.
+
+### Vertical alignment
+
+Now the keyboard placed at the top of the screen. It's kinda asymmetric. Let's center it vertically.
+
+Open developer tools: mouse right-click on the chrome page --> Inspect --> tab `Elements` (near the `Console`). Look at element nesting.
+
+![](./images/Screenshot%20from%202022-08-14%2002-36-51.png)
+
+In order to center `<div id="app">` we'll add to an element that wraps it (`body`) the style `display: flex` and other styles. We also add semantic tags: `header`, `footer` and `main` -- good attributes of an internet page.
+
+index.html
+
+```html
+<body>
+	<header>
+		<h1>Keyboard Learning App</h1>
+		<p>
+			Read a tutorial for beginners on
+			<a href="">how to code this app from the scratch</a>
+		</p>
+	</header>
+	<main>
+		<div id="app"></div>
+	</main>
+	<footer>
+		<div class="socialLinks">
+			<a href="https://github.com/apayrus/keyboard">Github</a>
+			<a href="https://twitter.com/ApayRus">Twitter</a>
+		</div>
+	</footer>
+	<script src="./index.js" type="module"></script>
+</body>
 ```

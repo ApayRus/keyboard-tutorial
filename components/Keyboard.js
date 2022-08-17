@@ -22,11 +22,11 @@ const Keyboard = {
 							:shiftKey="shiftKey"
 						/>
 					</div>
-					<div class="spell">
+					<!-- <div class="spell">
 						<input @keydown.stop v-model="spellText" />
 						<button @click="spell">Spell</button> 
 						<div>{{spellText}}</div>
-					</div>
+					</div> -->
 				</div>`,
 	components: {
 		'vue-key': Key
@@ -79,7 +79,7 @@ const Keyboard = {
 			const promise = new Promise(resolve => {
 				this.timeout = setTimeout(() => {
 					this.activeKey = { code: '' }
-					resolve()
+					resolve(() => {})
 				}, 1000)
 			})
 			return promise

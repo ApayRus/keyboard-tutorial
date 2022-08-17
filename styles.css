@@ -54,10 +54,6 @@
 	}
 }
 
-.key.Tab {
-	flex: 1.3;
-}
-
 .key.shiftKeyPressed {
 	color: red;
 	font-weight: bold;
@@ -105,4 +101,76 @@
 
 .spell button {
 	margin-left: 0.5rem;
+}
+
+/* specified keys */
+
+/* 1st row */
+
+.key.Backspace {
+	flex: 1.8;
+}
+
+/* 2nd row */
+.key.Tab {
+	flex: 1.8;
+}
+
+/* 3d row */
+.key.CapsLock {
+	flex: 2;
+}
+
+.key.Enter {
+	flex: 2;
+}
+
+/* 4th row  */
+.key.ShiftLeft {
+	flex: 2.5;
+}
+
+.key.ShiftRight {
+	flex: 1.5;
+}
+
+/* 5th row  */
+.key.Space {
+	flex: 8;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	min-height: 100vh;
+	margin: 0; /* by default body has margin 8px, we don't need it */
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+header {
+	text-align: center;
+}
+
+main {
+	width: 100%;
+}
+
+footer {
+	text-align: center;
+}
+
+a {
+	text-decoration: none; /* removed underline */
+}
+
+a:visited {
+	color: blue;
+}
+
+.socialLinks a {
+	display: inline-block;
+	margin: 0.5rem;
 }

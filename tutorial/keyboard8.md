@@ -1,13 +1,18 @@
-## 8. Interactivity 2. Keydown event handling. Active key state
+---
+published: false
+title: Keyboard Learning App 8. Interactivity 2. `Keydown` event handling. Active key state
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
-- [8. Interactivity 2.](#8-interactivity-2)
-  - [`Keydown` event handling](#keydown-event-handling)
-    - [`activeKey` state](#activekey-state)
-    - [Operational System (OS) language](#operational-system-os-language)
-    - [Active key styling](#active-key-styling)
-    - [Fade active key after a while](#fade-active-key-after-a-while)
+- [`Keydown` event handling](#keydown-event-handling)
+	- [`activeKey` state](#activekey-state)
+	- [Operational System (OS) language](#operational-system-os-language)
+	- [Active key styling](#active-key-styling)
+	- [Fade active key after a while](#fade-active-key-after-a-while)
 
-### `Keydown` event handling
+## `Keydown` event handling
 
 In the file `Keyboard.js` add to `mounted()` an event listener on `keydown`:
 
@@ -33,7 +38,9 @@ Experiment with different keys and see results. Expand `KeyboardEvent` and look 
 
 Close console (Dev tools).
 
-#### `activeKey` state
+[Diffs in code 8.1](https://github.com/ApayRus/keyboard/commit/3c24e6d130ac4d8ac06aecf95b9979e1f70e7166)
+
+### `activeKey` state
 
 In `Keyboard.js` `data()` add a new state `activeKey`. It will be filled with `{ code, key, shiftKey }` from the `event`. Add `activeKey` to template to see how it will be changed.
 
@@ -105,7 +112,7 @@ Result:
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rhzp0eh8cjmk2wf10rw8.gif)
 
-#### Operational System (OS) language
+### Operational System (OS) language
 
 You see, that the same events happen with any `currentLang`. That's because our web app state is not connected with OS language (for keyboard). And there is no technical ability to do this.
 
@@ -113,7 +120,7 @@ If a user switches a language in OS (alt+shift, ctrl+shift), an event property `
 
 Anyway `code` is always the same. That's why we made it the required identifier in the `data model`.
 
-#### Active key styling
+### Active key styling
 
 In `Keyboard.js` pass state `activeKey` as a prop to `Key`. And warn the `Key` about the new prop.
 
@@ -171,7 +178,7 @@ Result:
 
 It works with any language, and doesn't depend on a system language for the keyboard.
 
-#### Fade active key after a while
+### Fade active key after a while
 
 There is a problem. If we press a button, and then don't press anything, `activeKey` stays forever. But we want it to fade after a while.
 
@@ -223,3 +230,7 @@ this.timeout = setTimeout(() => (this.activeKey = { code: '' }), 1000)
 Now `5` also has 1 sec to show itself to the world:
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dm7r3j8jvcm34emdg3mn.gif)
+
+[Diffs in code 8.2](https://github.com/ApayRus/keyboard/commit/f5ab71548fd5bdc5e05d6c09af8e7bc38165c59b)
+
+[Entire code after the chapter](https://github.com/ApayRus/keyboard/tree/8.-Interactivity-2.-Keydown-event-handling.-Active-key-state)

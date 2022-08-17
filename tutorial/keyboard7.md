@@ -1,18 +1,23 @@
-- [Interactivity 1. Switching keyboards](#interactivity-1-switching-keyboards)
-  - [Reactive state, @click event, method call (refactor `LangSwitcher`)](#reactive-state-click-event-method-call-refactor-langswitcher)
-  - [Conditional styling](#conditional-styling)
-  - [Change parent state from a child](#change-parent-state-from-a-child)
-  - [Switching keyboards (languages)](#switching-keyboards-languages)
-    - [Another languages data](#another-languages-data)
-    - [Dynamic import for `keyboardData`](#dynamic-import-for-keyboarddata)
+---
+published: false
+title: Keyboard Learning App 7. Interactivity 1. Switching keyboards
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
-## Interactivity 1. Switching keyboards
+- [Reactive state, @click event, method call (refactor `LangSwitcher`)](#reactive-state-click-event-method-call-refactor-langswitcher)
+- [Conditional styling](#conditional-styling)
+- [Change parent state from a child](#change-parent-state-from-a-child)
+- [Switching keyboards (languages)](#switching-keyboards-languages)
+	- [Another languages data](#another-languages-data)
+	- [Dynamic import for `keyboardData`](#dynamic-import-for-keyboarddata)
 
 Interactivity is when a user interacts with an app, and see results (almost immediately).
 
 Our app should handle user generated events: mouse clicks, phone screen taps, keyboard key presses.
 
-### Reactive state, @click event, method call (refactor `LangSwitcher`)
+## Reactive state, @click event, method call (refactor `LangSwitcher`)
 
 When we change a component variable value (state), and it causes change in a visible app (view), it is called **reactive state**. Reactivity means connection between component variables and a view.
 
@@ -77,7 +82,7 @@ Result:
 
 You see that after a click on a lang code, component state `currentLang` is changed in the `div` below.
 
-### Conditional styling
+## Conditional styling
 
 Instead of the `currentLang` text, we need a red round background under the active lang.
 
@@ -123,7 +128,9 @@ Result:
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/405opwh8av337nf33nxw.gif)
 
-### Change parent state from a child
+[Diffs in code 7.1](https://github.com/ApayRus/keyboard/commit/294b4f38fdf38b4192458fa9bddb91a5e8583b5f)
+
+## Change parent state from a child
 
 Changing parent state from a child is kinda opposite to passing props from parent to child (what we made a lot before). It is another important approach to share data between components
 
@@ -242,9 +249,11 @@ Result:
 
 Notice, when we do something in `LangSwitcher` it changes `App` state. We change the parent state from the child with the method that we passed from the parent to the child as a prop. Before these changes `currentLang` was available only in `<LangSwitcher>`, and `<App>` hasn't access to it. Now `<App>` and `<LangSwitcher>` have access to `currentLang`. And we can pass it also to `<Keyboard>` and `<Key>`.
 
-### Switching keyboards (languages)
+[Diffs in code 7.2](https://github.com/ApayRus/keyboard/commit/ed87ff5f1af713690fa57afb4b9b2095b47c48e7)
 
-#### Another languages data
+## Switching keyboards (languages)
+
+### Another languages data
 
 Open a folder `keyboardData`. Copy and paste there a file `en.js` twice. Rename clones to `ru.js` and `ar.js`. Change a content (copy from here or type).
 
@@ -396,7 +405,7 @@ export default keyboard
 
 Arabic diacritic symbols aren't looking good in the code. But don't worry about it. It will work well for our purposes.
 
-#### Dynamic import for `keyboardData`
+### Dynamic import for `keyboardData`
 
 In App.js pass `currentLang` to `Keyboard`.
 
@@ -474,3 +483,7 @@ Result:
 We shared `currentLang` state between siblings `LangSwitcher` and `Keyboard` through their common ancestor `App`.
 
 With a few lines of code we achieved a big improvement of functionality. That is because we organized code well: in a modular way, with intuitive props, methods, and structure.
+
+[Diffs in code 7.3](https://github.com/ApayRus/keyboard/commit/a8a52c9fba43b88b6bc3a90618b91cd728576153)
+
+[Entire code after the chapter](https://github.com/ApayRus/keyboard/tree/7.-Interactivity-1.-Swithing-Keyboards-)

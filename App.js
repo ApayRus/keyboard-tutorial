@@ -2,7 +2,7 @@ import Keyboard from './components/Keyboard.js'
 import LangSwitcher from './components/LangSwitcher.js'
 
 const App = {
-	template: `App-{{currentLang}} 
+	template: `
 	<vue-lang-switcher 
 		:langs="langs" 
 		:switchLang="switchLang" 

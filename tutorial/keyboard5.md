@@ -1,11 +1,16 @@
-## Modularity 2. Passing props. Computed template variables
+---
+published: false
+title: Keyboard Learning App 5. Modularity 2. Passing props. Computed template variables
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
-### Components (real)
+## Components (real)
 
-- [Modularity 2. Passing props. Computed template variables](#modularity-2-passing-props-computed-template-variables)
-  - [Components (real)](#components-real)
-  - [passing prop (v-bind)](#passing-prop-v-bind)
-  - [computed (template variables)](#computed-template-variables)
+- [Components (real)](#components-real)
+- [Passing prop (v-bind)](#passing-prop-v-bind)
+- [Computed (template variables)](#computed-template-variables)
 
 For now our components are colored rectangles with static content (text). In real components content is dynamic, passed by `props`.
 
@@ -13,7 +18,7 @@ Props are external parameters (variables) that we pass from parent to child.
 
 The idea of a component is that we receive external data from parent (`props`), and put them into html-like template with empty slots for these props inside `{{ }}`.
 
-### passing prop (v-bind)
+## Passing prop (v-bind)
 
 Open `index.html`, copy a code of one of the keys, that we commented before, and paste it to the `Key` component template
 
@@ -166,7 +171,7 @@ Result
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5cbp4mzn0rqr7ilfrkaz.png)
 
-### computed (template variables)
+## Computed (template variables)
 
 If we try to display first row `keyboardData[0]` (Esc, F1, F2, …)
 
@@ -361,6 +366,6 @@ Result is ok:
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jysyiyjbleb5apzn8bk0.png)
 
-### Entire code after the chapter
+[Differences between old code and new code](https://github.com/ApayRus/keyboard/commit/6f7233d1a688a09914558e876c9d7b1b19e50307)
 
-[5. Modularity 2. Passing props. Computed template variables](https://github.com/ApayRus/keyboard/tree/5.-Modularity-2.-Passing-props.-Computed-template-variables)
+[Entire code after the chapter](https://github.com/ApayRus/keyboard/tree/5.-Modularity-2.-Passing-props.-Computed-template-variables)

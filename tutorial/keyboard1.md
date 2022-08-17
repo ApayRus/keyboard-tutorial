@@ -1,19 +1,19 @@
 ---
 published: false
-title: Keyboard Learning App. 1. Tutorial on HTML/CSS/JS?vue for beginners.
-tags: html, css, javascript, vue
+title: Keyboard Learning App 1. Tutorial on HTML/CSS/JS?vue for beginners.
+tags: webdev, javascript, beginners, tutorial
 cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
 series: keyboard-learning-app
 ---
 
 - [Initial idea and features](#initial-idea-and-features)
-- [An idea for an educational project](#an-idea-for-an-educational-project)
+- [An educational project](#an-educational-project)
+- [Other app use cases](#other-app-use-cases)
+- [Open source](#open-source)
 - [Research on similar apps](#research-on-similar-apps)
 - [Tutorial](#tutorial)
   - [Entry level](#entry-level)
   - [Manner](#manner)
-  - [Contribute](#contribute)
-  - [Contacts](#contacts)
   - [Tools](#tools)
 
 ## Initial idea and features
@@ -65,6 +65,15 @@ This tutorial is also about programming thinking. How to:
 
 I hope that every newbie who follows this tutorial will feel the spirit of a programming. You will touch lots of concepts with depth enough to have known them, but not much to be overloaded. You'll see immediate feedback by the app after each code changing.
 
+## Other app use cases
+
+- This app, or its ideas can be upgraded into a typing tutor for almost any language.
+- You can compare and learn foreign language keyboards/letters
+
+## Open source
+
+[The app](https://github.com/apayrus/keyboard) and [the tutorial](https://github.com/apayrus/keyboard-tutorial) both are open source. You can use their text and code: change, share, improve, give stars on GitHub.
+
 ## Research on similar apps
 
 As a smart person (I believe I am), before coding such an app, I did research to find something similar. And I didn’t find what I wanted. Most similar apps are:
@@ -91,16 +100,6 @@ If you are stuck with something, feel free to open issues with questions on GitH
 At any step I write minimal possible parts of code, with description about what it does, and where to add or remove it. This is to save place on the screen, and keep your attention (to not distract you with a large old code fragments). So even if you copy/paste code [^copypaste], you should do that consciously. But if you faced some problems while working with pieces of code, you can always find the full code version of a chapter on the GitHub by a link at the end of the chapter.
 
 Write your questions here in comments, I read them all.
-
-### Contribute to Open Source
-
-The tutorial and the app are open source [^opensource]. That means you can improve them (with me), or clone and use for your purposes. E.g. you can take this project and build upon it a real keyboard trainer for any language you are interested in.
-
-I am sorry for grammar and spelling mistakes. I am not a native English speaker, so I would be happy to receive text improvements.
-
-If you are a user of the app and want to expand it with additional keyboard layouts (languages) or app features -- share your ideas with me.
-
-If you are a programmer -- pull requests are welcomed.
 
 ### Tools
 

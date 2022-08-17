@@ -1,21 +1,25 @@
-## Basic HTML/CSS
+---
+published: false
+title: Keyboard Learning App 2. Basic HTML/CSS.
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
-- [Basic HTML/CSS](#basic-htmlcss)
-  - [Layout](#layout)
-  - [index.html](#indexhtml)
-  - [Key](#key)
-  - [styles.css](#stylescss)
-  - [Row](#row)
-  - [Row with extra wide key](#row-with-extra-wide-key)
-  - [Row with smaller keys](#row-with-smaller-keys)
-  - [Active key](#active-key)
-  - [Language switcher](#language-switcher)
-  - [Conclusion](#conclusion)
-  - [Entire code of the chapter](#entire-code-of-the-chapter)
+- [Layout](#layout)
+- [index.html](#indexhtml)
+- [Key](#key)
+- [styles.css](#stylescss)
+- [Row](#row)
+- [Row with extra wide key](#row-with-extra-wide-key)
+- [Row with smaller keys](#row-with-smaller-keys)
+- [Active key](#active-key)
+- [Language switcher](#language-switcher)
+- [Conclusion](#conclusion)
 
 In this section we will code simple layout for 3 rows of 5 keys each, to understand: what parameters we should include into HTML [^html] and CSS [^css] to achieve a realistic view. We will use this small test layout as a draft to design a data model and component templates. Then we'll scale it to the whole app (6 rows, 80 keys).
 
-### Layout
+## Layout
 
 Let's take a close look at the physical keyboard to understand its layout.
 
@@ -28,7 +32,7 @@ Let's take a close look at the physical keyboard to understand its layout.
    - have different width (some of them)
    - have the same height inside a row
 
-### index.html
+## index.html
 
 Make a folder for the project `keyboard-trainer`, open it with VS Code [^vscode].
 
@@ -55,7 +59,7 @@ Write inside the `<body>` tag something like: “Hello world.”, save the file 
 
 Place VS Code on the left side of the screen, and the running app -- on the right side, so you can see immediately how code updates affect the app.
 
-### Key
+## Key
 
 Remove "Hello world." and write HTML code [^codepronounce] for a single key instead:
 
@@ -107,7 +111,7 @@ $
 
 It’s time to add some styling.
 
-### styles.css
+## styles.css
 
 Create a file `styles.css` next to `index.html`.
 
@@ -140,7 +144,7 @@ Save all changed files `ctrl+k s` (or Menu --> File --> Save All, or with other 
 
 ![five keys without styling placed vertically (in columnt) and takes whole screen width](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1edy5t7v0lz7594pps91.png)
 
-### Row
+## Row
 
 Wrap all keys in `index.html` with
 
@@ -183,7 +187,7 @@ Now the keys look more realistic:
 
 ![Keys placed horizontally and have the same with. Looks good](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jewcjislzrbfibv4qzd9.png)
 
-### Row with extra wide key
+## Row with extra wide key
 
 Let's add a second row with first 5 keys: Tab, Q, W, E, R. Copy all previous code from opening `<div class="row">` to `</div>` and paste it below. Then change text inside each `<div class="key">`
 
@@ -243,7 +247,7 @@ Result
 
 You see that `Tab` became wider than other keys in the row.
 
-### Row with smaller keys
+## Row with smaller keys
 
 Copy the first row with all code inside it, and paste it above the first row. Then rewrite content of keys to: Esc, F1, F2, F3, F4, F5.
 
@@ -299,7 +303,7 @@ Result
 
 Keys of the first row became smaller.
 
-### Active key
+## Active key
 
 One of the keys can be active. Add to any key an additional class "active" and write style to it.
 
@@ -324,7 +328,7 @@ Result
 
 ![Part of keyboard as before, but one of keys are red, because it is active](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zc03p52qffthp5g9wvmi.png)
 
-### Language switcher
+## Language switcher
 
 It will be 3 circles with language codes. One of them is active and has red background.
 
@@ -398,7 +402,7 @@ Result
 
 Congratulations. We have made almost the whole html/css layout for our app.
 
-### Conclusion
+## Conclusion
 
 For now, we have only 3 rows and 16 buttons, and it is already a 90 line HTML file. If we add all 6 rows and 80 buttons, it will be a 500 line HTML file. Our code will become messy and unclear. And this is only for 1 language keyboard, but we want to add another languages too.
 
@@ -415,9 +419,7 @@ While we were doing stuff of this chapter we understood, that we need to specify
 
 These are the most important facts about the app `view` and its possible states.
 
-### Entire code after the chapter
-
-[2. A mockup. HTML/CSS layout of the app](https://github.com/ApayRus/keyboard/tree/2.-A-mockup--a-basic-HTML/CSS-layout)
+[Entire code after the chapter 2](https://github.com/ApayRus/keyboard/tree/2.-A-mockup--a-basic-HTML/CSS-layout)
 
 [^html]: HTML is a format of web pages -- a markup language and file extension. Any page on the internet is an `*.html` file.
 [^css]: CSS is a style system for web pages. If html markups parts of a screen, CSS adds to them size, position, color etc.

@@ -1,8 +1,17 @@
-- [Keyboard layout: global and local parts](#keyboard-layout-global-and-local-parts)
-  - [Fallback `keyboardData.en`](#fallback-keyboarddataen)
-  - [Method `playKey`](#method-playkey)
+---
+published: false
+title: Keyboard Learning App 12. Playing audio 2. Keyboard layout global and local parts
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
-## 12. Playing audio 2. Keyboard layout: global and local parts
+- [Keyboard layout: global and local parts](#keyboard-layout-global-and-local-parts)
+- [Fallback `keyboardData.en` state](#fallback-keyboarddataen-state)
+- [Method `getKeyContent`](#method-getkeycontent)
+- [Method `playKey`](#method-playkey)
+
+## Keyboard layout: global and local parts
 
 Any keyboard has local specific keys, and common keys for all languages (they are without titles on the picture below):
 
@@ -73,7 +82,7 @@ Because of this difference in keyboards data, file names for `en` will be `left 
 
 We could add `mainName` for each `global` key for every language keyboard data as in `en`, end audios will sound. But it is a lot of work if we'll have lots of keyboards. And it is better to improve our code once instead of continuous synchronization and data duplication.
 
-### Fallback `keyboardData.en` state
+## Fallback `keyboardData.en` state
 
 Perhaps you already guessed, that we need `keyContent` of `keyboardData/en.js` from any language keyboard to get right file name to play audio fallback.
 
@@ -140,7 +149,7 @@ Keyboard.js template
 
 Open the app. It should work as before.
 
-### Method `getKeyContent`
+## Method `getKeyContent`
 
 Now we have immediate access to keyboards, that we opened before, without need to load them every time.
 
@@ -212,9 +221,9 @@ setActiveKey(keyContent) {
 
 Check how app works. `Shift` should sound with any language layout.
 
-GITHUB COMMIT
+[Diffs in code 12.1](https://github.com/ApayRus/keyboard/commit/355cd8e2a6ad672b19dfbaf260b416b68887170b)
 
-### Method `playKey`
+## Method `playKey`
 
 There is something wrong in our code. Playing audio happens inside `setActiveKey`. But what if we want to play audio without activating key, or activate key without playing audio?
 
@@ -295,3 +304,7 @@ keyClick(keyContent) {
 ```
 
 Check the app. It should work as before. But now code is more flexible, we can use it in more ways.
+
+[Diffs in code 12.2](https://github.com/ApayRus/keyboard/commit/51b3c513babc3fcb5e2f7b23da71e27bdc096443)
+
+[Entire code after the chapter 12](https://github.com/ApayRus/keyboard/tree/12.-Play-audio.-Global-and-local-keyboard-layouts-)

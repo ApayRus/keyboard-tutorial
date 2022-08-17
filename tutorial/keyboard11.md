@@ -1,16 +1,19 @@
-- [Play audio](#play-audio)
-  - [Prepare audio files](#prepare-audio-files)
-  - [HTML5 audio element](#html5-audio-element)
-  - [Data model extension](#data-model-extension)
-  - [Testing getAudioFileName](#testing-getaudiofilename)
-  - [Dynamic audio playing](#dynamic-audio-playing)
-  - [Keyboard layout: global and local parts](#keyboard-layout-global-and-local-parts)
-    - [Fallback `keyboardData.en`](#fallback-keyboarddataen)
-    - [Method `playKey`](#method-playkey)
+---
+published: false
+title: Keyboard Learning App 11. Playing audio
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
-## 11. Playing audio
+- [Prepare audio files](#prepare-audio-files)
+- [HTML5 audio element](#html5-audio-element)
+- [Data model extension](#data-model-extension)
+- [getAudioFileName](#getaudiofilename)
+- [Testing](#testing)
+- [Dynamic audio playing](#dynamic-audio-playing)
 
-### Prepare audio files
+## Prepare audio files
 
 We will use a short mp3 files for each key value. In the folder `keyboardData` create folders: `en`, `ru`, `ar`. Move audio files with numbers (for 3 langs) to the folders.
 
@@ -26,7 +29,7 @@ For example, you have 1 audio file with numbers from 0 to 9.
 
 You will get files: `0.mp3`, `1.mp3`, ... `9.mp3`.
 
-### HTML5 audio element
+## HTML5 audio element
 
 In `App.js` methods, at the beginning of `setActiveKey` add 2 lines:
 
@@ -53,7 +56,7 @@ const key = {
 }
 ```
 
-### Data model extension
+## Data model extension
 
 Key data aren't filled in the same way. Keys have such different set of props:
 file naming
@@ -106,7 +109,7 @@ How do we fill our data now? We add to every `main` and `shifted` values that we
 
 The idea behind this different approach to each key type, instead of writing filename for every key value, is that we are trying to avoid overloading of our `keyboardData/lang.js` files. So we will add a minimum info do keyboard data file, and then calculate filenames from that minimum.
 
-### getAudioFileName
+## getAudioFileName
 
 ```js
 const getAudioFileName = (keyContent, shiftKey) => {
@@ -128,7 +131,7 @@ const getAudioFileName = (keyContent, shiftKey) => {
 
 Notice, that we call any audio file by its lower case name. So we don't need to change keyboard data for values like `q-Q`. When you name files make sure they are in lowercase.
 
-### Testing
+## Testing
 
 When you wrote a function, and you're not sure if it works or not, you should test it.
 
@@ -172,7 +175,7 @@ That is called `testing`. Programmers save such a code with:
 
 to special files -- called `tests`. Then, after codebase has changed, we run the `tests` to check that we haven't broken anything.
 
-### Dynamic audio playing
+## Dynamic audio playing
 
 Add that function definition at the top of `Keyboard.js`, just after imports:
 
@@ -221,3 +224,7 @@ keyboardData/ar.js
 Or you should rename files to `١.mp3`, `٢.mp3` e.t.c.
 
 As you can see, our approach of file naming and data filling is flexible.
+
+[Diffs in code 11](https://github.com/ApayRus/keyboard/commit/c9521ff9bb79f8d8c10db7066c09f1dfc9461e6f)
+
+[Entire code after the chapter 11](https://github.com/ApayRus/keyboard/tree/11.-Playing-audio-)

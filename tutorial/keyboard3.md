@@ -1,16 +1,20 @@
-- [Data model](#data-model)
-  - [Definition](#definition)
-  - [Keyboard](#keyboard)
-  - [Row](#row)
-  - [Key](#key)
-  - [`keyboardData/en.js`](#keyboarddataenjs)
-  - [Data source](#data-source)
-  - [Conclusion](#conclusion)
-  - [Entire code after the chapter](#entire-code-after-the-chapter)
+---
+published: false
+title: Keyboard Learning App 3. Data model.
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
-## Data model
+- [Definition](#definition)
+- [Keyboard](#keyboard)
+- [Row](#row)
+- [Key](#key)
+- [`keyboardData/en.js`](#keyboarddataenjs)
+- [Data source](#data-source)
+- [Conclusion](#conclusion)
 
-### Definition
+## Definition
 
 **A data model** is a set of JS objects that describes all data inside an app and covers all its logic.
 
@@ -23,7 +27,7 @@ The mockup with a clear HTML element structure is a basis to design the data mod
 
 You can see, that our mockup is build from repetitive rows. And inside each row there are repetitive keys. So we need a data structure with repetitive rows with nested repetitive keys.
 
-### Keyboard
+## Keyboard
 
 Keyboard is an array [^array] of rows.
 
@@ -31,7 +35,7 @@ Keyboard is an array [^array] of rows.
 const keyboard = [row1, row2, row3]
 ```
 
-### Row
+## Row
 
 Row is an array with keys.
 
@@ -39,7 +43,7 @@ Row is an array with keys.
 const row1 = [key1, key2, key3, ...]
 ```
 
-### Key
+## Key
 
 Key is an object [^object] with the structure:
 
@@ -64,7 +68,7 @@ Only `code` is required. Other properties are optional.
 
 We don't always specify all these props, because we don’t need them, or we can get them from other props. E.g. `Tab` has only `code`, because it doesn’t have a returned value `main` or `shifted`, and its label are the same as the code. `Escape` has `label: Esc` because we want to display on the key shorter version of the `code: 'Escape'`. And it hasn’t also `main` and `shifted`.
 
-### `keyboardData/en.js`
+## `keyboardData/en.js`
 
 Inside root project folder make a new folder `keyboardData` and create there a file [^es6module] `en.js`:
 
@@ -156,21 +160,21 @@ const key = keyboard[rowIndex][keyIndex]
 //keyIndex is 0, 1, .., 16
 ```
 
-### Data source
+## Data source
 
 Where to get the data from?
 
-`main`, `shifted` and `label` are written on keys on phisical keyabord.
+`main`, `shifted` and `label` are written on keys on physical keyboard.
 
-How to get `code` will be explained in the chapter "Event `keydown`".
+How to get `code` will be explained in the chapter 8: "`keydown` event handling".
 
-### Conclusion
+## Conclusion
 
 We need to have this data model in front of our eyes as well as HTML/CSS mockup to design the app in a modular way. We will create small components that are responsible for each logical part of the app. And before we do that, it's important to know which data will be passed to these components.
 
-### Entire code after the chapter
+[Differences between old code and new code](https://github.com/ApayRus/keyboard/commit/a1d574bf9e584c9770d3bfb5adf8e4860049b00b)
 
-[3. Data model](https://github.com/ApayRus/keyboard/tree/3.-Data-model)
+[Entire code after the chapter 3](https://github.com/ApayRus/keyboard/tree/3.-Data-model)
 
 [^es6module]: A file with extension `*.js` and keyword `export` in it is called ES6 module, or just module. You can import its code from another `*.js` file with keyword `import`.
 [^array]: Array is a collection of similar data elements.

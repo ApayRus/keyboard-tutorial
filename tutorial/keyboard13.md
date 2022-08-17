@@ -1,16 +1,35 @@
-## Refactoring
+---
+published: false
+title: Keyboard Learning App 13. Refactoring and data filling
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
+
+- [Functions that work with `assets`](#functions-that-work-with-assets)
+	- [`getAudioFileName` and `getKeyLabels`](#getaudiofilename-and-getkeylabels)
+	- [`loadKeyboardData`](#loadkeyboarddata)
+	- [`playKeyAudio`](#playkeyaudio)
+	- [Conclusion](#conclusion)
+- [Change file structure](#change-file-structure)
+- [`getKeyContent`](#getkeycontent)
+- [Remove unnecessary code](#remove-unnecessary-code)
+- [Data filling](#data-filling)
+- [Maintainable, extensible](#maintainable-extensible)
 
 When you write code initially, it is like a draft. You do it fast and your only goal is to make it working and to see how things fits to each other. After a while you do a revision of your code, and edit it, making it clearer, shorter, more reusable, split it into logical modules.
 
-Everything without `this.` in your code is better to move somewhere. Another hint for you is a length of file: a module with more than 100 lines is better to split.
+It is good to move out from components everything without `this` to some modules (utils). Another hint for you is a length of file: a module with more than 100 lines is an applicant to been split.
 
-If you look at our project file structure, you'll notice, that there are components and `assets` -- additional files that we read and use from components.
+If you look at our project file structure, you'll notice, that there are main code and `assets` -- additional files that we read and use from components, e.g. keyboard data files and audios.
 
 It is good to move functionality related to external files into separate module. Maybe we decide to change our file structure in the future, and it will be easy to rewrite paths to files in one place, instead of seeking for them in all components.
 
+## Functions that work with `assets`
+
 ### `getAudioFileName` and `getKeyLabels`
 
-If you remember, on top of `Keyboard.js` and `Key.js` we placed functions, that aren't part of components. Create in the project root directory a new file `utils.js` and move them there (remove from components, and place to utils.js).
+If you remember, on top of `Keyboard.js` and `Key.js` we placed functions, that aren't part of components. Create in the project root directory a new file `utils.js` and move them there. "Move" means cut (copy and delete `ctrl+x`) from components, and paste to `utils.js`).
 
 utils.js
 
@@ -40,15 +59,33 @@ import { getKeyLabels } from '../utils.js'
 
 Code of 2 components became clearer.
 
+Open the app. It should work as before.
+
 ### `loadKeyboardData`
+
+Look at `Keyboard` method `getKeyboardData`:
+
+Keyboard.js
+
+```js
+async getKeyboardData(lang) {
+	const { default: keyboardData } = await import(
+		`../keyboardData/${lang}.js`
+	)
+	this.keyboardData[lang] = keyboardData
+}
+```
+
+There is an operation with an asset file -- keyboard data. Let's move it to utils.
 
 Add to `utils.js` a new function:
 
 utils.js
 
-```js
+```javascript
 export const loadKeyboardData = async lang => {
 	const { default: keyboardData } = await import(`../keyboardData/${lang}.js`)
+
 	return keyboardData
 }
 ```
@@ -69,15 +106,13 @@ methods: {
 }
 ```
 
-Have you noticed, that we removed path to files from the component? It is good.
-
-Rename `getKeyboardData` to `setKeyboardData`. Find/Replace old name with the new one (`Ctrl+h`).
+Now we get keyboard data in `loadKeyboardData`, so the name `getKeyboardData` isn't intuitive as before. Let's rename it to `setKeyboardData`. In `Keyboard.js` find/replace old name with the new one (`ctrl+h`, Replace All). There were only 3 matches.
 
 Open the app, it should work as before.
 
 ### `playKeyAudio`
 
-Also in `Keyboard.js` look at function `playKeyAudio`. There is also path to external file, and only one `this.`. So it is candidate to travel to `utils.js`.
+In `Keyboard.js` method `playKey` look at function `playKeyAudio`.
 
 Keyboard.js
 
@@ -90,7 +125,11 @@ const playKeyAudio = (lang, code, shiftKey) => {
 }
 ```
 
-Move this code to `utils.js` and rewrite it without `this.`, because `this` is a component, and it is not available in `utils` module.
+It also has a link to an external file, so let's move it to `utils.js`.
+
+In `utils.js` there is no `this`, because `this` is a component itself, so we should rewrite `playKeyAudio` without `this`.
+
+utils.js
 
 ```js
 export const playKeyAudio = (lang, keyContent, shiftKey) => {
@@ -126,6 +165,19 @@ methods: {
 
 Open your app. It should work as before.
 
+### Conclusion
+
+By moving all functions working with external files (assets) we achieved:
+
+1. clarity of components -- they became shorter and clearer
+2. flexibility of the whole project.
+
+E.g. now we can change file structure of the project easily, because every link to assets are placed in one module. We can add new assets into game rapidly, develop advanced methods to work with them etc. It is easy to do, because all logic related to assets are placed in one place.
+
+[Diffs in code 13.1](https://github.com/ApayRus/keyboard/commit/7f64b04fdf035f9abc2b3b1af4f444dad32b0000)
+
+## Change file structure
+
 In the folder `keyboardData` create a folder `sounds` and move there `en`, `ru`, `ar` folders.
 
 In `utils` for path in `playKeyAudio` add `/sounds/`:
@@ -138,11 +190,13 @@ const audio = new Audio(`../keyboardData/sounds/${lang}/${fileName}.mp3`)
 
 Open the app. It should work as before.
 
-Despite the fact that we have changed file structure of our project, we are not afraid that we forget to change some path somewhere in components. Because every functions that use files are compactly placed in one module.
+Despite the fact that we have changed file structure of our project, we are not afraid that we forget to change some path somewhere in components. Because every functions that use files are placed compactly in one module.
 
-### `getKeyContent`
+[Diffs in code 13.2](https://github.com/ApayRus/keyboard/commit/21b05cef1eb3ac154c568953a1001bb26f9ebcdd)
 
-`getKeyContent` looks like something working outside components, universal for any `keyboardData` and key `code`. Let's move it to utils,and extend it functionality:
+## `getKeyContent`
+
+`getKeyContent` looks like something working outside components, even thought it doesn't work with assets. It does universal calculation for any `keyboardData` and key `code`. Let's move it to `utils`, and extend its functionality:
 
 utils.js
 
@@ -155,20 +209,24 @@ export const getKeyContent = ({ keyboardData, code = '', value = '' }) => {
 }
 ```
 
-We replaced argument `lang` with `keyboardData` to take `this` out of the function. We should rewrite code using `lang` and `this` to calculate `keyboardData` before every call of `getKeyContent`.
+We replaced argument `lang` with `keyboardData` to remove `this` from the function. Now, before every call of `getKeyContent`, we should rewrite code using `lang` and `this` to calculate `keyboardData`.
 
-And we replaced set of arguments `(lang, code)` with the object `{ keyboardData, code='', value='' }`, and added a new argument `value`. Now we can find `keyContent` not only by its code, but also by its value.
+We replaced set of arguments `(lang, code)` with the object `{ keyboardData, code, ... }` -- to not care about their ordering anymore.
 
-Import `getKeyContent` to `Keyboard`.
+We added a new argument `value` - to find `keyContent` not only by its code, but also by its value.
+
+And we specified default values for `code` and `value`: `{ code = '', value = '' }` to prevent errors when only one of them is specified.
+
+Let's rewrite `Keyboard` using new version of `getKeyContent`.
 
 Keyboard.js first lines
 
 ```js
-import { playKeyAudio, loadKeyboardData, getKeyContent } from '../utils.js'
+import { playKeyAudio, loadKeyboardData, /* add: */ getKeyContent } from '../utils.js'
 ...
 ```
 
-Find (`ctrl+f`) all `getKeyContent` matches in `Keyboard.js`, and replace it with the rewritten imported function:
+Find (`ctrl+f`) all `getKeyContent` matches in `Keyboard.js`, and replace it with the rewritten imported function, with new arguments:
 
 Keyboard.js mounted
 
@@ -190,8 +248,59 @@ const keyboardData = this.keyboardData['en']
 const keyContent = getKeyContent({ keyboardData, code })
 ```
 
-These changes make the function more universal for the future app updates (I now that we'll need find key by `value` on the text step, and I don't want to return to this refactoring again).
+Now we have the universal advanced function to work with `keyboardData`, that we can improve easily in the future. We will use it chapter 15 to add new feature to the app.
 
 Open the app. It should work as before.
 
-Now we have the universal function to work with `keyboardData`, that we can improve easily in the future.
+[Diffs in code 13.3](https://github.com/ApayRus/keyboard/commit/0f653d981f7562fa54b52583154bbd847cf54cc6)
+
+## Remove unnecessary code
+
+In `index.html` remove all commented code inside `<body>` tag. We don't need it anymore.
+
+index.html
+
+```html
+<body>
+	<div id="app">{{ message }}</div>
+	<script src="./index.js" type="module"></script>
+</body>
+```
+
+In `App.js` remove from the template first line `App-{{currentLang}}`.
+
+In `Keyboard.js` remove from the template first 2 lines:
+
+```html
+<div>activeKey: {{activeKey}}</div>
+<div>shiftKey: {{shiftKey}}</div>
+```
+
+[Diffs in code 13.4](https://github.com/ApayRus/keyboard/commit/cc3ba26ef184cf609f44aba31e0802c3df810a2a)
+
+## Data filling
+
+The joyful moment has come to see the entire keyboard.
+
+Download [the project repo archive](https://github.com/ApayRus/keyboard/archive/refs/heads/master.zip) and unzip it. Remove folder `keyboardData` from your project. Copy folder `keyboardData` from the downloaded project and put it to your project root folder. In other words -- replace your old incomplete data with the new complete data.
+
+Result
+
+![](./images/Peek%202022-08-13%2006-38.gif)
+
+3 language keyboards with 6 rows and 80 keys should work just like before our 3 test rows with 15 keys worked.
+
+## Maintainable, extensible
+
+Notice, that adding new data didn't affect on our main code base. We didn't do any extra steps to make the app working. It just works itself, because we separated main code from data.
+
+It's been said, that our app is:
+
+- maintainable
+- extensible
+
+If someone tomorrow will send to us a new keyboard data: Japanese, Hebrew, Georgian, Armenian, Hindi, Thai... We can upgrade our app in 1 minute. In other words: we can **maintain** and **extend** the app easily.
+
+[Diffs in code 13.5](https://github.com/ApayRus/keyboard/commit/47c1f8301a4b5111f84bb8aa3563d042f10cde85)
+
+[Entire code after the chapter 13](https://github.com/ApayRus/keyboard/tree/13.-Refactoring-and-data-filling)

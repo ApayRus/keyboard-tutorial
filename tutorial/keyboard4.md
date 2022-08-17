@@ -1,17 +1,21 @@
-- [Modularity 1. Install a framework. Components hierarchy](#modularity-1-install-a-framework-components-hierarchy)
-  - [JavaScript](#javascript)
-  - [Framework](#framework)
-    - [Setup](#setup)
-    - [Entry point — `index.js`](#entry-point--indexjs)
-    - [Root component — App.js](#root-component--appjs)
-  - [Components hierarchy](#components-hierarchy)
-    - [App](#app)
-    - [LangSwitcher](#langswitcher)
-    - [Keyboard](#keyboard)
-    - [Key](#key)
-  - [Entire code after the chapter](#entire-code-after-the-chapter)
+---
+published: false
+title: Keyboard Learning App 4. Modularity 1. Install a framework. Components hierarchy
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
 
-## Modularity 1. Install a framework. Components hierarchy
+- [JavaScript](#javascript)
+- [Framework](#framework)
+  - [Setup](#setup)
+  - [Entry point — `index.js`](#entry-point--indexjs)
+  - [Root component — App.js](#root-component--appjs)
+- [Components hierarchy](#components-hierarchy)
+  - [App](#app)
+  - [LangSwitcher](#langswitcher)
+  - [Keyboard](#keyboard)
+  - [Key](#key)
 
 Modularity is when we use one piece of code (module) for all similar parts of our app.
 
@@ -28,7 +32,7 @@ Now, if we decide to change something in such elements, we should change them al
 
 If we had only 1 template for each key, changing code in one place will automatically change every key in the app.
 
-### JavaScript
+## JavaScript
 
 I am sorry to say, but: HTML and CSS aren't programming languages.
 
@@ -40,11 +44,11 @@ JS was made in 1995 and DOM (document object model in the browser) — in 1998. 
 
 But there is no alternative to JS.
 
-### Framework
+## Framework
 
 So programmers invented modern frameworks, that make coding web apps easier, clearer and faster. We will use the simplest of them: Vue. Frameworks also allow us to write JS in a component way. Component is a module with a template and all its logic.
 
-#### Setup
+### Setup
 
 In index.html comment all code inside tag `<body>`. We need later, but not now.
 
@@ -82,7 +86,7 @@ and paste it to index.html after `<body>` tag. Save file and look at the app in 
 
 Even though it works, we need to organize code better.
 
-#### Entry point — `index.js`
+### Entry point — `index.js`
 
 Put first `<script>` tag into the `<head>` tag.
 
@@ -145,7 +149,7 @@ We put `<script src="https://unpkg.com/vue@3">` on the top of the document becau
 
 And we put the `<script src="./index.js" type="module">` on the bottom, because written by us code needs everything above loaded before it can work.
 
-#### Root component — App.js
+### Root component — App.js
 
 Open index.js. The code inside `createApp(...)` is a vue component called the root component — cut it (`ctrl+x` or copy and delete). We will move it to separate file. Create in the project root directory a file `App.js`. Paste there a code you copied before (`ctrl+v`) to `const App`. Then export it.
 
@@ -177,7 +181,7 @@ createApp(App).mount('#app')
 
 If you did everything right, you should see "Hello Vue!" in the browser as before.
 
-### Components hierarchy
+## Components hierarchy
 
 First we create all components as colored rectangles to test how works our framework, and to build component hierarchy:
 
@@ -198,7 +202,7 @@ First we create all components as colored rectangles to test how works our frame
 
 We can also say, that `<Key>` is a child of `<Keyboard>` etc.
 
-#### App
+### App
 
 We already have `App` component. Just add to
 
@@ -218,7 +222,7 @@ Now App is a red rectangle.
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ft352m8te8p3hlphrr4s.png)
 
-#### LangSwitcher
+### LangSwitcher
 
 Create a directory `components` in the project root directory, and create there a file `LangSwitcher.js`
 
@@ -264,13 +268,11 @@ If we use one component inside another, we should fill `components` property wit
 
 Result:
 
-
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a1rz11g3q7575m3nvme8.png)
-
 
 We see here that `App` contains `LangSwitcher` which is correct.
 
-#### Keyboard
+### Keyboard
 
 Create a file `Keyboard.js` in the `components` folder
 
@@ -322,7 +324,7 @@ Now the app looks like:
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dira4weg2btj0t9dzixt.png)
 
-#### Key
+### Key
 
 Create file `Key.js` in `components` directory
 
@@ -381,6 +383,6 @@ Our component hierarchy works well. All components have correct nesting. How we 
 > `<App>` is parent for `<LangSwitcher>` and `<Keyboard>`.
 > `<Keyboard>` is parent for `<Key>`.
 
-### Entire code after the chapter
+[Differences between old code and new code](https://github.com/ApayRus/keyboard/commit/d7d1365e7ee39e324faa8f35e2c7326d77a1b7a3)
 
-[ 4. Modularity. Install framework. Components hierarchy](https://github.com/ApayRus/keyboard/tree/4.-Modularity.-Install-framework.-Components-hierarchy-)
+[Entire code after the chapter](https://github.com/ApayRus/keyboard/tree/4.-Modularity.-Install-framework.-Components-hierarchy-)

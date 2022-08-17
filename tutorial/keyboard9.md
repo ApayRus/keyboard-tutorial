@@ -1,19 +1,25 @@
+---
+published: false
+title: Keyboard Learning App 9. Interactivity 3. Set `activeKey` by click. `shiftKey` app state
+tags: webdev, javascript, beginners, tutorial
+cover_image: https://res.cloudinary.com/practicaldev/image/fetch/s--2Ycgb9E_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t7manuew9dwi5jlrf8p5.png
+series: keyboard-learning-app
+---
+
 - [Set activeKey by click](#set-activekey-by-click)
-  - [Method](#method)
-  - [Event](#event)
-  - [The key full info](#the-key-full-info)
-  - [Move `shiftKey` to state](#move-shiftkey-to-state)
-  - [Holding `shift` style](#holding-shift-style)
+	- [Method](#method)
+	- [Event](#event)
+	- [The key full info](#the-key-full-info)
+- [Move `shiftKey` to state](#move-shiftkey-to-state)
+	- [Holding `shift` style](#holding-shift-style)
 
-## Interactivity 3. Set `activeKey` by click. `shiftKey` app state
-
-### Set activeKey by click
+## Set activeKey by click
 
 Some people don't have a physical keyboard, but only a screen one. And they also want to learn letters with our cool app.
 
 To add `@click` event to `Key` we need first to encapsulate key activation into a method.
 
-#### Method
+### Method
 
 Add a new method to `Keyboard.js`.
 
@@ -43,7 +49,7 @@ mounted() {
 },
 ```
 
-#### Event
+### Event
 
 Send a new method `setActiveKey` from the `Keyboard` to the `Key`:
 
@@ -80,9 +86,9 @@ Now we see, that key became active also by mouse click (or tap from phone).
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z6owotlfmtnp0c3j0pj1.gif)
 
-COMMIT 9.1
+[Diffs in code 9.1](https://github.com/ApayRus/keyboard/commit/47dc90e204d055cadd8025f09e8ad0223f208f62)
 
-#### The key full info
+### The key full info
 
 On the previous gif animation you can notice, that `activeKey` is different for `keydown` and `@click`. E.g. for q:
 
@@ -117,7 +123,7 @@ window.addEventListener('keydown', event => {
 
 You can test it out: `keydown` and `@click` now returns almost the same value.
 
-#### Move `shiftKey` to state
+## Move `shiftKey` to state
 
 For now, we get `shiftKey` only with `keydown`, can't get `shiftKey` on `@click`. To make `keydown` and `@click` events equivalent, let's create a new keyboard state: `shiftKey`. So we'll have the ability to manipulate `shiftKey` not only from keyboard `keydown`, but also from mouse/tap screen events.
 
@@ -185,7 +191,7 @@ Keyboard.js template
 
 Result
 
-  ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tjpja6f6rdhtqu4rnjf5.gif)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tjpja6f6rdhtqu4rnjf5.gif)
 
 When we hold `shift` on keyboard, state `shiftKey` is `true` even when `activeKey` faded. When we `@click` `shift` by mouse, `shiftKey` is false, even when `shift` is the `activeKey`.
 
@@ -251,7 +257,7 @@ Result
 
 `shiftKey` state works fine with `keydown` and `@click`. But we don't see that `shift` is holding on the keyboard.
 
-#### Holding `shift` style
+### Holding `shift` style
 
 Add to `styles.css` an especial style for pressed (not released) `shift` buttons.
 
@@ -320,4 +326,6 @@ Result
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rr7vepwhnvb033meai9x.gif)
 
-COMMIT 9.2.
+[Diffs in code 9.2](https://github.com/ApayRus/keyboard/commit/0bb616e6da0d1f4a0d4849314366c5877db3924c)
+
+[Entire code after the chapter](https://github.com/ApayRus/keyboard/tree/9.-Interactivity-3.-Set-%60activeKey%60-by-click.-%60shiftKey%60-app-state)
